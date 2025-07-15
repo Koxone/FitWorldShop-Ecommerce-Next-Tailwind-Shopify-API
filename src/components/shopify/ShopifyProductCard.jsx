@@ -40,7 +40,7 @@ export default function ShopifyProductCard() {
       className={` ${
         pathname === '/' || pathname.startsWith('/product-open')
           ? 'mx-auto flex w-full flex-nowrap gap-5 overflow-x-auto'
-          : 'grid grid-cols-[1fr_1fr] gap-2 px-2 lg:grid-cols-[1fr_1fr_1fr] xl:grid-cols-4'
+          : 'grid grid-cols-[1fr_1fr] gap-5 px-2 lg:grid-cols-[1fr_1fr_1fr] xl:grid-cols-4'
       }`}
     >
       {products.map((product) => (
