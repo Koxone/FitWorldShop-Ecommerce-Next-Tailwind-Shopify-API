@@ -5,7 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import WishlistButton from '../productCard/context/buttons/WishlistButton';
+import WishlistButton from '../productCard/buttons/WishlistButton';
+import Badges from '../productCard/badges/Badges';
 
 export default function ShopifyProductCard() {
   // Hooks
@@ -46,6 +47,7 @@ export default function ShopifyProductCard() {
           }`}
         >
           <WishlistButton productId={product.id} />
+          <Badges product={product} />
           {/* IMAGE */}
           <div className="relative aspect-square w-full overflow-hidden">
             <Link href={`/product-open/${product.handle}`}>

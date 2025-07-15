@@ -6,6 +6,7 @@ import MainHeader from '@/components/headers/MainHeader';
 import { ImageSourceProvider } from '@/context/general/ImageSourceContext';
 import Footer from '@/components/footers/Footer';
 import { WishlistProvider } from '@/components/productCard/context/WishlistContext';
+import { BadgeProvider } from '@/components/productCard/context/BadgeContext';
 
 export const metadata = {
   title: {
@@ -75,14 +76,16 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <WishlistProvider>
-          <ImageSourceProvider>
-            <I18nProvider>
-              <MainHeader />
-              <PageTransitionWrapper>{children}</PageTransitionWrapper>
-              <Footer />
-            </I18nProvider>
-            <SpeedInsights />
-          </ImageSourceProvider>
+          <BadgeProvider>
+            <ImageSourceProvider>
+              <I18nProvider>
+                <MainHeader />
+                <PageTransitionWrapper>{children}</PageTransitionWrapper>
+                <Footer />
+              </I18nProvider>
+              <SpeedInsights />
+            </ImageSourceProvider>
+          </BadgeProvider>
         </WishlistProvider>
       </body>
     </html>
