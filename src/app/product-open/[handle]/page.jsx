@@ -1,13 +1,17 @@
 // Open Product View
-
 'use client';
 
-import { useParams, usePathname } from 'next/navigation';
+// External
+import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
+import { useParams, usePathname } from 'next/navigation';
 
+// Hooks & Contexts
 import useShopifyProducts from '@/hooks/useShopifyProducts';
 import { useProductView } from '@/context/productView/ProductViewContext';
+import { useBadge } from '@/components/productCard/context/BadgeContext';
 
+// Icons & UI Components
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -16,22 +20,21 @@ import {
   PlusIcon,
   ShareIcon,
 } from '@/components/icons/Icons';
-
 import ViewAllButton from '@/components/buttons/products/ViewAllButton';
 import PromoSectionContainer from '@/components/containers/PromoSectionContainer';
-
-import { useEffect, useMemo, useState } from 'react';
+import ExpandableText from '@/components/text/ExpandableText';
+import ProductCarousel from '@/components/carousel/ProductCarousel';
+import HomeProductCardsContainer from '@/components/containers/HomeProductCardsContainer';
 
 export default function ProductOpenView() {
-  /*  estados locales  */
-  const [currentTab, setCurrentTab] = useState('Description');
-  const [randomTag, setRandomTag] = useState(null);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const randomTags = useMemo(() => ['accesories', 'sale', 'new'], []);
-
+  // 1. Routing
   const pathname = usePathname();
+  const { handle } = useParams();
 
-  /*  contexto por-producto (cant., talla, color, wishlist…)  */
+  // 2. Remote data
+  const { products, isLoading, isError } = useShopifyProducts();
+
+  // 3. Global product context
   const {
     quantity,
     setQuantity,
@@ -45,36 +48,40 @@ export default function ProductOpenView() {
     setCurrentColor,
   } = useProductView();
 
-  /*  obtención de datos del producto  */
-  const { handle } = useParams();
-  const { products, isLoading, isError } = useShopifyProducts();
+  // 4. Current product & derived data
+  const product = products.find((p) => p.handle === handle);
+  const images = product?.images?.edges || [];
 
-  /* etiqueta aleatoria para “más productos” */
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const currentImage =
+    product?.id && productImages[product.id]
+      ? productImages[product.id]
+      : images[selectedImageIndex]?.node.url || product?.featuredImage?.url;
+
+  const sizes =
+    product?.options.find((o) => o.name.toLowerCase() === 'talla')?.values ||
+    [];
+
+  // 5. Badges
+  const { getBadges } = useBadge();
+  const badges = product ? getBadges(product) : [];
+  const isNew = badges.includes('new');
+  const isDiscount = badges.includes('discount');
+
+  // 6. Local UI state
+  const [currentTab, setCurrentTab] = useState('Description');
+  const randomTags = useMemo(() => ['accesories', 'sale', 'new'], []);
+  const [randomTag, setRandomTag] = useState(null);
+
+  // 7. Effects
   useEffect(() => {
     if (pathname.startsWith('/product-open')) {
-      setRandomTag(randomTags[Math.floor(Math.random() * randomTags.length)]);
+      const tag = randomTags[Math.floor(Math.random() * randomTags.length)];
+      setRandomTag(tag);
     }
   }, [pathname, randomTags]);
 
-  /*  estados de carga / error  */
-  if (isLoading) return <p className="p-10 text-white">Cargando producto…</p>;
-  if (isError)
-    return <p className="p-10 text-red-500">Error al cargar producto.</p>;
-
-  const product = products.find((p) => p.handle === handle);
-  if (!product)
-    return <p className="p-10 text-white">Producto no encontrado.</p>;
-
-  /*  utilidades y helpers  */
-  const images = product.images.edges;
-  const currentImage =
-    productImages[product.id] ??
-    images[selectedImageIndex]?.node.url ??
-    product.featuredImage?.url;
-
-  const sizes =
-    product.options.find((o) => o.name.toLowerCase() === 'talla')?.values ?? [];
-
+  // 8. Helpers
   const toPascal = (str = '') =>
     str
       .split(' ')
@@ -97,11 +104,20 @@ export default function ProductOpenView() {
         [product.id]: variant.node.image.url,
       }));
     }
+
     setCurrentColor(toPascal(color));
   };
 
+  // 9. Loading / error states
+  if (isLoading) return <p className="p-10 text-white">Cargando producto…</p>;
+  if (isError)
+    return <p className="p-10 text-red-500">Error al cargar producto.</p>;
+  if (!product)
+    return <p className="p-10 text-white">Producto no encontrado.</p>;
+
+  // Render
   return (
-    <div className="flex w-full max-w-[1200px] grid-cols-1 flex-wrap gap-12 self-center p-8 md:grid-cols-[1fr_1fr] md:p-10">
+    <div className="flex w-full max-w-[1200px] grid-cols-1 flex-wrap gap-4 self-center p-8 md:grid-cols-[1fr_1fr] md:gap-12 md:p-10">
       {/*  Galería  */}
       <div className="animate-slide-in-left flex max-h-[750px] max-w-[550px] flex-col items-center">
         {/* Imagen principal */}
@@ -157,15 +173,44 @@ export default function ProductOpenView() {
         </div>
       </div>
 
+      {/* Color Selector Mobile */}
+      <div className="block md:hidden">
+        <div className="flex gap-2">
+          {product.options
+            .find((o) => o.name.toLowerCase() === 'color')
+            ?.values.map((color) => (
+              <span
+                key={color}
+                onClick={() => changeColor(color)}
+                className="h-10 w-10 cursor-pointer rounded-full border-2 border-white transition hover:scale-110"
+                style={{ backgroundColor: color.toLowerCase() }}
+              />
+            ))}
+        </div>
+      </div>
+
       {/*  Información y variantes  */}
       <div className="animate-slide-in-right max-w-[500px] text-white">
-        <span className="mb-4 inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
-          NEW
-        </span>
+        <div className="mb-4 flex flex-wrap gap-2">
+          {isNew && (
+            <span className="inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
+              NEW
+            </span>
+          )}
+
+          {isDiscount && (
+            <span className="inline-block rounded bg-red-500 px-3 py-1 text-xs font-semibold text-white">
+              SALE
+            </span>
+          )}
+        </div>
 
         <h1 className="font-montserrat mb-5 text-3xl font-bold md:text-4xl lg:text-5xl">
           {product.title}
         </h1>
+        <h2>
+          <ExpandableText text={`${product.description}`} />
+        </h2>
 
         {/* Precio */}
         <div className="mb-6 flex items-center gap-3">
@@ -180,19 +225,21 @@ export default function ProductOpenView() {
           )}
         </div>
 
-        {/* Colores */}
-        <h3 className="mb-2 text-sm font-semibold">Color: {currentColor}</h3>
-        <div className="mb-6 flex gap-2">
-          {product.options
-            .find((o) => o.name.toLowerCase() === 'color')
-            ?.values.map((color) => (
-              <span
-                key={color}
-                onClick={() => changeColor(color)}
-                className="h-10 w-10 cursor-pointer rounded-full border-2 border-white transition hover:scale-110"
-                style={{ backgroundColor: color.toLowerCase() }}
-              />
-            ))}
+        {/* Color Selector Desktop */}
+        <div className="hidden md:block">
+          <h3 className="mb-2 text-sm font-semibold">Color: {currentColor}</h3>
+          <div className="mb-6 flex gap-2">
+            {product.options
+              .find((o) => o.name.toLowerCase() === 'color')
+              ?.values.map((color) => (
+                <span
+                  key={color}
+                  onClick={() => changeColor(color)}
+                  className="h-10 w-10 cursor-pointer rounded-full border-2 border-white transition hover:scale-110"
+                  style={{ backgroundColor: color.toLowerCase() }}
+                />
+              ))}
+          </div>
         </div>
 
         {/* Tallas */}
@@ -250,7 +297,7 @@ export default function ProductOpenView() {
           </button>
         </div>
 
-        {/* Tabs simples (sin ExpandableText) */}
+        {/* Tabs simples */}
         <div className="border-t border-gray-700 pt-6">
           {['Description', 'Features', 'Care'].map((tab) => (
             <button
@@ -276,15 +323,16 @@ export default function ProductOpenView() {
         </div>
       </div>
 
-      {/*  Sección inferior (CTA genérica + promos)  */}
+      {/*  Sección inferior */}
       <div className="mt-10 flex w-full flex-col gap-10">
-        {/* Puedes añadir un carrusel o secciones extra aquí */}
+        <HomeProductCardsContainer title="mas productos" subtitle="podria interesarte" />
         <ViewAllButton />
         <PromoSectionContainer
           title="Categorías"
           subtitle="Podría interesarte"
           type="categories"
         />
+        <ProductCarousel />
       </div>
     </div>
   );

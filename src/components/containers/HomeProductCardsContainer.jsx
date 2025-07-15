@@ -5,10 +5,10 @@ function HomeProductCardsContainer({ title, subtitle }) {
   return (
     <div>
       <div className="animate-fade-in text-left">
-        <h2 className="text-lg font-bold tracking-wider text-neutral-400">
+        <h2 className="text-lg uppercase font-bold tracking-wider text-neutral-400">
           {subtitle}
         </h2>
-        <h2 className="mb-4 text-2xl font-bold tracking-wider text-white uppercase">
+        <h2 className="mb-4 uppercase text-2xl font-bold tracking-wider text-white ">
           {title}
         </h2>
       </div>

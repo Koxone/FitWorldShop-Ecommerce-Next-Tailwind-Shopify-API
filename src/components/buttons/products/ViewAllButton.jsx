@@ -11,9 +11,9 @@ function ViewAllButton() {
     <div className="animate-fade-in self-center text-center">
       <button
         onClick={handleClick}
-        className="hover-lift focus-ring font-poppins cursor-pointer rounded-lg bg-white px-8 py-3 font-semibold text-gray-900 transition-all duration-200 hover:bg-gray-400"
+        className="hover-lift uppercase focus-ring font-poppins cursor-pointer rounded-lg bg-white px-8 py-3 font-semibold text-gray-900 transition-all duration-200 hover:bg-gray-400"
       >
-        View All
+        ver todo
       </button>
     </div>
   );

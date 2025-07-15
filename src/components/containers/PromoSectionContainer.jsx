@@ -51,7 +51,10 @@ function PromoSectionContainer({ title, subtitle, type }) {
           }
 
           return (
-            <div
+            <a
+              href={section.url || section.href || '#'}
+              target="_blank"
+              rel="noopener noreferrer"
               key={idx}
               className="group relative aspect-square w-[400px] min-w-[80%] cursor-pointer snap-center overflow-hidden rounded-lg border border-neutral-600/40 sm:min-w-[60%] md:min-w-[40%] lg:min-w-[30%]"
             >
@@ -73,7 +76,7 @@ function PromoSectionContainer({ title, subtitle, type }) {
                   {section.buttonText || 'Shop Now'}
                 </div>
               </div>
-            </div>
+            </a>
           );
         })}
       </div>
