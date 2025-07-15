@@ -23,7 +23,7 @@ import PromoSectionContainer from '@/components/containers/PromoSectionContainer
 import { useEffect, useMemo, useState } from 'react';
 
 export default function ProductOpenView() {
-  /* ───────────────── estados locales ───────────────── */
+  /*  estados locales  */
   const [currentTab, setCurrentTab] = useState('Description');
   const [randomTag, setRandomTag] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -31,7 +31,7 @@ export default function ProductOpenView() {
 
   const pathname = usePathname();
 
-  /* ───────── contexto por-producto (cant., talla, color, wishlist…) ───────── */
+  /*  contexto por-producto (cant., talla, color, wishlist…)  */
   const {
     quantity,
     setQuantity,
@@ -45,7 +45,7 @@ export default function ProductOpenView() {
     setCurrentColor,
   } = useProductView();
 
-  /* ───────────────── obtención de datos del producto ───────────────── */
+  /*  obtención de datos del producto  */
   const { handle } = useParams();
   const { products, isLoading, isError } = useShopifyProducts();
 
@@ -56,7 +56,7 @@ export default function ProductOpenView() {
     }
   }, [pathname, randomTags]);
 
-  /* ───────────────── estados de carga / error ───────────────── */
+  /*  estados de carga / error  */
   if (isLoading) return <p className="p-10 text-white">Cargando producto…</p>;
   if (isError)
     return <p className="p-10 text-red-500">Error al cargar producto.</p>;
@@ -65,7 +65,7 @@ export default function ProductOpenView() {
   if (!product)
     return <p className="p-10 text-white">Producto no encontrado.</p>;
 
-  /* ───────────────── utilidades y helpers ───────────────── */
+  /*  utilidades y helpers  */
   const images = product.images.edges;
   const currentImage =
     productImages[product.id] ??
@@ -102,7 +102,7 @@ export default function ProductOpenView() {
 
   return (
     <div className="flex w-full max-w-[1200px] grid-cols-1 flex-wrap gap-12 self-center p-8 md:grid-cols-[1fr_1fr] md:p-10">
-      {/* ───── Galería ───── */}
+      {/*  Galería  */}
       <div className="animate-slide-in-left flex max-h-[750px] max-w-[550px] flex-col items-center">
         {/* Imagen principal */}
         <div className="relative mb-6 aspect-square w-full overflow-hidden rounded-lg bg-gray-800">
@@ -157,7 +157,7 @@ export default function ProductOpenView() {
         </div>
       </div>
 
-      {/* ───── Información y variantes ───── */}
+      {/*  Información y variantes  */}
       <div className="animate-slide-in-right max-w-[500px] text-white">
         <span className="mb-4 inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
           NEW
@@ -202,7 +202,7 @@ export default function ProductOpenView() {
             <button
               key={size}
               onClick={() => setSelectedSize(size)}
-              className={`rounded-lg border px-3 py-2 text-sm font-medium ${
+              className={`cursor-pointer rounded-lg border px-3 py-2 text-sm font-medium ${
                 selectedSize === size
                   ? 'border-white bg-white text-gray-900'
                   : 'border-gray-600 text-gray-300 hover:border-white hover:text-white'
@@ -218,18 +218,20 @@ export default function ProductOpenView() {
         <div className="mb-6 flex items-center gap-2">
           <button
             onClick={() => changeQuantity(-1)}
-            className="rounded bg-gray-700 p-2 hover:bg-gray-600"
+            className="cursor-pointer rounded bg-gray-700 p-2 hover:bg-gray-600"
           >
             <MinusIcon size={14} />
           </button>
           <span className="px-3">{quantity}</span>
           <button
             onClick={() => changeQuantity(1)}
-            className="rounded bg-gray-700 p-2 hover:bg-gray-600"
+            className="cursor-pointer rounded bg-gray-700 p-2 hover:bg-gray-600"
           >
             <PlusIcon size={14} />
           </button>
         </div>
+
+        {/* <AddToCartButton /> */}
 
         {/* CTA Wishlist / Compartir */}
         <div className="mb-8 flex gap-3">
@@ -274,7 +276,7 @@ export default function ProductOpenView() {
         </div>
       </div>
 
-      {/* ───── Sección inferior (CTA genérica + promos) ───── */}
+      {/*  Sección inferior (CTA genérica + promos)  */}
       <div className="mt-10 flex w-full flex-col gap-10">
         {/* Puedes añadir un carrusel o secciones extra aquí */}
         <ViewAllButton />
