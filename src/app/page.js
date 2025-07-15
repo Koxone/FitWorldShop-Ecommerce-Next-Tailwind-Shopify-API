@@ -1,9 +1,10 @@
 'use client';
 
 import MainBanner from '@/components/banners/MainBanner';
+import ViewAllButton from '@/components/buttons/products/ViewAllButton';
 import ImagesCarousel from '@/components/carousels/ImagesCarousel';
+import HomeProductCardsContainer from '@/components/containers/HomeProductCardsContainer';
 import PromoSectionContainer from '@/components/containers/PromoSectionContainer';
-import ShopifyProductCard from '@/components/shopify/ShopifyProductCard';
 
 export default function Home() {
   const heroItems = MainBanner();
@@ -18,7 +19,7 @@ export default function Home() {
       />
 
       <div className="flex w-full max-w-7xl flex-col gap-6 justify-self-center md:px-10">
-        <ShopifyProductCard />
+        <HomeProductCardsContainer subtitle="SHOP" title="drop #1" />
 
         {/* Categories Sections */}
         <PromoSectionContainer
@@ -34,6 +35,7 @@ export default function Home() {
           type="businesses"
         />
       </div>
+      <ViewAllButton />
     </main>
   );
 }
