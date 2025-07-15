@@ -1,0 +1,289 @@
+// Open Product View
+
+'use client';
+
+import { useParams, usePathname } from 'next/navigation';
+import Image from 'next/image';
+
+import useShopifyProducts from '@/hooks/useShopifyProducts';
+import { useProductView } from '@/context/productView/ProductViewContext';
+
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  HeartIcon,
+  MinusIcon,
+  PlusIcon,
+  ShareIcon,
+} from '@/components/icons/Icons';
+
+import ViewAllButton from '@/components/buttons/products/ViewAllButton';
+import PromoSectionContainer from '@/components/containers/PromoSectionContainer';
+
+import { useEffect, useMemo, useState } from 'react';
+
+export default function ProductOpenView() {
+  /* ───────────────── estados locales ───────────────── */
+  const [currentTab, setCurrentTab] = useState('Description');
+  const [randomTag, setRandomTag] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const randomTags = useMemo(() => ['accesories', 'sale', 'new'], []);
+
+  const pathname = usePathname();
+
+  /* ───────── contexto por-producto (cant., talla, color, wishlist…) ───────── */
+  const {
+    quantity,
+    setQuantity,
+    selectedSize,
+    setSelectedSize,
+    isWishlisted,
+    setIsWishlisted,
+    productImages,
+    setProductImages,
+    currentColor,
+    setCurrentColor,
+  } = useProductView();
+
+  /* ───────────────── obtención de datos del producto ───────────────── */
+  const { handle } = useParams();
+  const { products, isLoading, isError } = useShopifyProducts();
+
+  /* etiqueta aleatoria para “más productos” */
+  useEffect(() => {
+    if (pathname.startsWith('/product-open')) {
+      setRandomTag(randomTags[Math.floor(Math.random() * randomTags.length)]);
+    }
+  }, [pathname, randomTags]);
+
+  /* ───────────────── estados de carga / error ───────────────── */
+  if (isLoading) return <p className="p-10 text-white">Cargando producto…</p>;
+  if (isError)
+    return <p className="p-10 text-red-500">Error al cargar producto.</p>;
+
+  const product = products.find((p) => p.handle === handle);
+  if (!product)
+    return <p className="p-10 text-white">Producto no encontrado.</p>;
+
+  /* ───────────────── utilidades y helpers ───────────────── */
+  const images = product.images.edges;
+  const currentImage =
+    productImages[product.id] ??
+    images[selectedImageIndex]?.node.url ??
+    product.featuredImage?.url;
+
+  const sizes =
+    product.options.find((o) => o.name.toLowerCase() === 'talla')?.values ?? [];
+
+  const toPascal = (str = '') =>
+    str
+      .split(' ')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join('');
+
+  const changeQuantity = (delta) =>
+    setQuantity((q) => Math.min(10, Math.max(1, q + delta)));
+
+  const changeColor = (color) => {
+    const variant = product.variants.edges.find((v) =>
+      v.node.selectedOptions.some(
+        (opt) => opt.name.toLowerCase() === 'color' && opt.value === color
+      )
+    );
+
+    if (variant?.node.image?.url) {
+      setProductImages((prev) => ({
+        ...prev,
+        [product.id]: variant.node.image.url,
+      }));
+    }
+    setCurrentColor(toPascal(color));
+  };
+
+  return (
+    <div className="flex w-full max-w-[1200px] grid-cols-1 flex-wrap gap-12 self-center p-8 md:grid-cols-[1fr_1fr] md:p-10">
+      {/* ───── Galería ───── */}
+      <div className="animate-slide-in-left flex max-h-[750px] max-w-[550px] flex-col items-center">
+        {/* Imagen principal */}
+        <div className="relative mb-6 aspect-square w-full overflow-hidden rounded-lg bg-gray-800">
+          <Image
+            src={currentImage}
+            alt={product.title}
+            width={800}
+            height={800}
+            priority
+            className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+          />
+          {selectedImageIndex > 0 && (
+            <button
+              onClick={() => setSelectedImageIndex((i) => i - 1)}
+              className="absolute top-1/2 left-3 -translate-y-1/2 rounded-full bg-black/60 p-2 text-white hover:bg-black"
+            >
+              <ChevronLeftIcon />
+            </button>
+          )}
+          {selectedImageIndex < images.length - 1 && (
+            <button
+              onClick={() => setSelectedImageIndex((i) => i + 1)}
+              className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full bg-black/60 p-2 text-white hover:bg-black"
+            >
+              <ChevronRightIcon />
+            </button>
+          )}
+        </div>
+
+        {/* Miniaturas */}
+        <div className="flex gap-3 lg:flex lg:w-full lg:overflow-x-auto">
+          {images.slice(0, 5).map((img, index) => (
+            <div
+              key={index}
+              onClick={() => setSelectedImageIndex(index)}
+              className={`aspect-square overflow-hidden rounded-lg border ${
+                selectedImageIndex === index
+                  ? 'border-blue-500'
+                  : 'border-gray-600'
+              } cursor-pointer bg-gray-800 transition-all duration-200 hover:border-gray-400 lg:min-w-[190px]`}
+            >
+              <Image
+                priority
+                src={img.node.url}
+                alt={`${product.title} thumbnail ${index + 1}`}
+                width={200}
+                height={200}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ───── Información y variantes ───── */}
+      <div className="animate-slide-in-right max-w-[500px] text-white">
+        <span className="mb-4 inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
+          NEW
+        </span>
+
+        <h1 className="font-montserrat mb-5 text-3xl font-bold md:text-4xl lg:text-5xl">
+          {product.title}
+        </h1>
+
+        {/* Precio */}
+        <div className="mb-6 flex items-center gap-3">
+          <span className="text-2xl font-bold">
+            ${product.variants.edges[0].node.price.amount}{' '}
+            {product.variants.edges[0].node.price.currencyCode}
+          </span>
+          {product.compareAtPriceRange?.maxVariantPrice?.amount && (
+            <span className="text-lg text-gray-500 line-through">
+              ${product.compareAtPriceRange.maxVariantPrice.amount}
+            </span>
+          )}
+        </div>
+
+        {/* Colores */}
+        <h3 className="mb-2 text-sm font-semibold">Color: {currentColor}</h3>
+        <div className="mb-6 flex gap-2">
+          {product.options
+            .find((o) => o.name.toLowerCase() === 'color')
+            ?.values.map((color) => (
+              <span
+                key={color}
+                onClick={() => changeColor(color)}
+                className="h-10 w-10 cursor-pointer rounded-full border-2 border-white transition hover:scale-110"
+                style={{ backgroundColor: color.toLowerCase() }}
+              />
+            ))}
+        </div>
+
+        {/* Tallas */}
+        <h3 className="mb-2 text-sm font-semibold">Talla</h3>
+        <div className="mb-6 grid grid-cols-5 gap-2">
+          {sizes.map((size) => (
+            <button
+              key={size}
+              onClick={() => setSelectedSize(size)}
+              className={`rounded-lg border px-3 py-2 text-sm font-medium ${
+                selectedSize === size
+                  ? 'border-white bg-white text-gray-900'
+                  : 'border-gray-600 text-gray-300 hover:border-white hover:text-white'
+              }`}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+
+        {/* Cantidad */}
+        <h3 className="mb-2 text-sm font-semibold">Cantidad</h3>
+        <div className="mb-6 flex items-center gap-2">
+          <button
+            onClick={() => changeQuantity(-1)}
+            className="rounded bg-gray-700 p-2 hover:bg-gray-600"
+          >
+            <MinusIcon size={14} />
+          </button>
+          <span className="px-3">{quantity}</span>
+          <button
+            onClick={() => changeQuantity(1)}
+            className="rounded bg-gray-700 p-2 hover:bg-gray-600"
+          >
+            <PlusIcon size={14} />
+          </button>
+        </div>
+
+        {/* CTA Wishlist / Compartir */}
+        <div className="mb-8 flex gap-3">
+          <button
+            onClick={() => setIsWishlisted((w) => !w)}
+            className={`rounded-lg border p-3 ${
+              isWishlisted
+                ? 'border-red-500 bg-red-500 text-white'
+                : 'border-gray-600 text-gray-300 hover:border-white hover:text-white'
+            }`}
+          >
+            <HeartIcon size={18} filled={isWishlisted} />
+          </button>
+          <button className="rounded-lg border border-gray-600 p-3 text-gray-300 hover:border-white hover:text-white">
+            <ShareIcon size={18} />
+          </button>
+        </div>
+
+        {/* Tabs simples (sin ExpandableText) */}
+        <div className="border-t border-gray-700 pt-6">
+          {['Description', 'Features', 'Care'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setCurrentTab(tab)}
+              className={`mr-4 text-sm capitalize ${
+                currentTab === tab
+                  ? 'text-white'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+
+          <p className="mt-4 text-sm whitespace-pre-line text-gray-300">
+            {currentTab === 'Description'
+              ? product.description
+              : currentTab === 'Features'
+                ? product.metafield?.value || 'No features available.'
+                : 'Care instructions here.'}
+          </p>
+        </div>
+      </div>
+
+      {/* ───── Sección inferior (CTA genérica + promos) ───── */}
+      <div className="mt-10 flex w-full flex-col gap-10">
+        {/* Puedes añadir un carrusel o secciones extra aquí */}
+        <ViewAllButton />
+        <PromoSectionContainer
+          title="Categorías"
+          subtitle="Podría interesarte"
+          type="categories"
+        />
+      </div>
+    </div>
+  );
+}

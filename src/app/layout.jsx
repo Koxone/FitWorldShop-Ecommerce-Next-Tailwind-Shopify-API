@@ -8,6 +8,7 @@ import Footer from '@/components/footers/Footer';
 import { WishlistProvider } from '@/components/productCard/context/WishlistContext';
 import { BadgeProvider } from '@/components/productCard/context/BadgeContext';
 import { CategoryFilterProvider } from '@/components/shopify/context/CategoryFilterContext';
+import { ProductViewProvider } from '@/context/productView/ProductViewContext';
 
 export const metadata = {
   title: {
@@ -77,18 +78,20 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <CategoryFilterProvider>
-          <WishlistProvider>
-            <BadgeProvider>
-              <ImageSourceProvider>
-                <I18nProvider>
-                  <MainHeader />
-                  <PageTransitionWrapper>{children}</PageTransitionWrapper>
-                  <Footer />
-                </I18nProvider>
-                <SpeedInsights />
-              </ImageSourceProvider>
-            </BadgeProvider>
-          </WishlistProvider>
+          <ProductViewProvider>
+            <WishlistProvider>
+              <BadgeProvider>
+                <ImageSourceProvider>
+                  <I18nProvider>
+                    <MainHeader />
+                    <PageTransitionWrapper>{children}</PageTransitionWrapper>
+                    <Footer />
+                  </I18nProvider>
+                  <SpeedInsights />
+                </ImageSourceProvider>
+              </BadgeProvider>
+            </WishlistProvider>
+          </ProductViewProvider>
         </CategoryFilterProvider>
       </body>
     </html>
