@@ -3,14 +3,19 @@
 import useShopifyProducts from '@/hooks/useShopifyProducts';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import WishlistButton from '../productCard/context/buttons/WishlistButton';
 
 export default function ShopifyProductCard() {
+  // Hooks
+  const pathname = usePathname();
+  const router = useRouter();
+
   // States
   const [productImages, setProductImages] = useState({});
 
-  // Hooks
+  // Custom Hooks
   const { products, isLoading, isError } = useShopifyProducts();
   if (isLoading) {
     return <div className="p-4 text-center">Cargando productos...</div>;
@@ -22,9 +27,6 @@ export default function ShopifyProductCard() {
       </div>
     );
   }
-
-  // Tech Functions
-  const pathname = usePathname();
 
   return (
     <div
@@ -43,6 +45,7 @@ export default function ShopifyProductCard() {
               : 'w-full'
           }`}
         >
+          <WishlistButton productId={product.id} />
           {/* IMAGE */}
           <div className="relative aspect-square w-full overflow-hidden">
             <Link href={`/product-open/${product.handle}`}>

@@ -3,7 +3,9 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import I18nProvider from '@/components/providers/I18nProvider';
 import PageTransitionWrapper from '@/components/wrappers/PageTransitionWrapper';
 import MainHeader from '@/components/headers/MainHeader';
-import { ImageSourceProvider } from '@/context/ImageSourceContext';
+import { ImageSourceProvider } from '@/context/general/ImageSourceContext';
+import Footer from '@/components/footers/Footer';
+import { WishlistProvider } from '@/components/productCard/context/WishlistContext';
 
 export const metadata = {
   title: {
@@ -72,13 +74,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <ImageSourceProvider>
-          <I18nProvider>
-            <MainHeader />
-            <PageTransitionWrapper>{children}</PageTransitionWrapper>
-          </I18nProvider>
-          <SpeedInsights />
-        </ImageSourceProvider>
+        <WishlistProvider>
+          <ImageSourceProvider>
+            <I18nProvider>
+              <MainHeader />
+              <PageTransitionWrapper>{children}</PageTransitionWrapper>
+              <Footer />
+            </I18nProvider>
+            <SpeedInsights />
+          </ImageSourceProvider>
+        </WishlistProvider>
       </body>
     </html>
   );

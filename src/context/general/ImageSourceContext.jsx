@@ -1,0 +1,121 @@
+'use client';
+
+import { createContext, useContext, useState } from 'react';
+
+const ImageSourceContext = createContext();
+
+export function ImageSourceProvider({ children }) {
+  // MainCarousel
+  const mainCarouselData = [
+    {
+      image:
+        'https://dslv9ilpbe7p1.cloudfront.net/nnUUNyfkb8wdewfgcrg0UQ_store_banner_image.png',
+      title: '10% DE DESCUENTO',
+      description:
+        '¡Nuestra nueva línea de ropa ha llegado! ¡Descuentos en toda la tienda!',
+      button: 'COMPRA AHORA',
+    },
+    {
+      image: '/Banner/Main-Banner-2.png',
+      title: 'PRESENTAMOS PUMP',
+      description:
+        'Desarrollado para moldearse a tu cuerpo y mostrar tu mejor figura.',
+      button: 'COMPRA AHORA',
+    },
+    {
+      image:
+        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzpY5GY2RijT8oel1vk8ET14oXNhB9k6OB1kKOOJeeny_lPKb-1lhJJ41XGzWEE4xaOKq-FQzLiVgfTG7FY_gYuuRTZKtZL-396-t6WuU4NrePVysAsoxOdVhLlYj4WZHThv-i-EfTx9o/s1600/4+Reasons+to+Invest+in+Quality+Workout+Clothes.jpg',
+      title: 'ESENCIALES DE VERANO',
+      description: 'Esenciales básicos hechos para ti...',
+      button: 'COMPRA AHORA',
+    },
+    {
+      image: '/Banner/Main-Banner-4.jpg',
+      title: 'TODO PARA TUS ENTRENAMIENTOS',
+      description: 'Encuentra todo lo que necesitas para rendir al máximo.',
+      button: 'COMPRA AHORA',
+    },
+  ];
+
+  // Promo Container
+  const promoSectionData = {
+    categories: [
+      {
+        title: 'Playeras',
+        route: 'shirts',
+        href: '/collections/mens-shirts',
+        img: '/More/shirts.png',
+      },
+      {
+        title: 'Shorts',
+        route: 'shorts',
+        href: '/collections/mens-shorts',
+        img: '/More/shorts.png',
+      },
+      {
+        title: 'Pants',
+        route: 'jogger',
+        href: '/collections/mens-joggers',
+        img: '/More/pants.png',
+      },
+    ],
+    promos: [
+      {
+        title: 'PARA ELLA',
+        subtitle: 'Ropa que no solo es comoda, se ve bien!',
+        image:
+          'https://alphaleteathletics.com/cdn/shop/files/forher5x12_9c986f9b-3ebd-4427-9b66-6dbb35ccf525.jpg?v=1751560816&width=960',
+        buttonText: 'COMPRA YA',
+      },
+      {
+        title: 'PARA EL',
+        subtitle: 'Sientete seguro en cualquier momento',
+        image:
+          'https://alphaleteathletics.com/cdn/shop/files/forhim4x5_e6a226e9-6f4d-40e6-a91e-b224801b7d86.jpg?crop=center&v=1751560816&width=960',
+        buttonText: 'COMPRA YA',
+      },
+      {
+        title: 'ACCESORIOS',
+        subtitle: 'No importa la ocasion, lo tenemos!',
+        image: '/promo5.jpg',
+        buttonText: 'COMPRA YA',
+      },
+    ],
+    businesses: [
+      {
+        title: 'Etereah',
+        subtitle: 'Los mejores Perfumes Arabes',
+        image: '/etereah.webp',
+        buttonText: 'COMPRA YA',
+        url: 'https://www.etereah.com/',
+      },
+      {
+        title: 'koxland',
+        subtitle: 'Desarrollo Web a tu medida',
+        image: 'koxland.png',
+        buttonText: 'conocenos',
+        url: 'https://koxland.dev/',
+      },
+      {
+        title: 'fit world shop',
+        subtitle: 'Suplementos Deportivos',
+        image: '/fws.png',
+        buttonText: 'COMPRA YA',
+        url: 'https://www.fitworldshop.com.mx/',
+      },
+    ],
+  };
+
+  return (
+    <ImageSourceContext.Provider
+      value={{
+        mainCarouselData,
+        promoSectionData,
+      }}
+    >
+      {children}
+    </ImageSourceContext.Provider>
+  );
+}
+
+export const useImageSourceContext = () => useContext(ImageSourceContext);

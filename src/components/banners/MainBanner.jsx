@@ -1,6 +1,6 @@
 'use client';
 
-import { useImageSourceContext } from '@/context/ImageSourceContext';
+import { useImageSourceContext } from '@/context/general/ImageSourceContext';
 
 export default function MainBanner() {
   const { mainCarouselData } = useImageSourceContext();

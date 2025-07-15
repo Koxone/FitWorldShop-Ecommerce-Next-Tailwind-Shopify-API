@@ -2,6 +2,7 @@
 
 import MainBanner from '@/components/banners/MainBanner';
 import ImagesCarousel from '@/components/carousels/ImagesCarousel';
+import PromoSectionContainer from '@/components/containers/PromoSectionContainer';
 import ShopifyProductCard from '@/components/shopify/ShopifyProductCard';
 
 export default function Home() {
@@ -18,6 +19,20 @@ export default function Home() {
 
       <div className="flex w-full max-w-7xl flex-col gap-6 justify-self-center md:px-10">
         <ShopifyProductCard />
+
+        {/* Categories Sections */}
+        <PromoSectionContainer
+          title="Categorias"
+          subtitle="podria interesarte"
+          type="categories"
+        />
+
+        {/* Promotional Sections */}
+        <PromoSectionContainer
+          title="Conoce nuestras marcas"
+          subtitle="podria interesarte"
+          type="businesses"
+        />
       </div>
     </main>
   );
