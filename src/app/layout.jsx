@@ -7,6 +7,7 @@ import { ImageSourceProvider } from '@/context/general/ImageSourceContext';
 import Footer from '@/components/footers/Footer';
 import { WishlistProvider } from '@/components/productCard/context/WishlistContext';
 import { BadgeProvider } from '@/components/productCard/context/BadgeContext';
+import { CategoryFilterProvider } from '@/components/shopify/context/CategoryFilterContext';
 
 export const metadata = {
   title: {
@@ -75,18 +76,20 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <WishlistProvider>
-          <BadgeProvider>
-            <ImageSourceProvider>
-              <I18nProvider>
-                <MainHeader />
-                <PageTransitionWrapper>{children}</PageTransitionWrapper>
-                <Footer />
-              </I18nProvider>
-              <SpeedInsights />
-            </ImageSourceProvider>
-          </BadgeProvider>
-        </WishlistProvider>
+        <CategoryFilterProvider>
+          <WishlistProvider>
+            <BadgeProvider>
+              <ImageSourceProvider>
+                <I18nProvider>
+                  <MainHeader />
+                  <PageTransitionWrapper>{children}</PageTransitionWrapper>
+                  <Footer />
+                </I18nProvider>
+                <SpeedInsights />
+              </ImageSourceProvider>
+            </BadgeProvider>
+          </WishlistProvider>
+        </CategoryFilterProvider>
       </body>
     </html>
   );

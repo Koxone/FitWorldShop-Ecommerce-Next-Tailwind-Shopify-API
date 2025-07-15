@@ -14,9 +14,9 @@ function HomeProductCardsContainer({ title, subtitle }) {
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex gap-2">
-          <GenderFilterButton text="todos" />
-          <GenderFilterButton text="mujer" />
-          <GenderFilterButton text="hombre" />
+          <GenderFilterButton text="Todos" />
+          <GenderFilterButton text="Mujer" />
+          <GenderFilterButton text="Hombre" />
         </div>
         <ShopifyProductCard />
       </div>

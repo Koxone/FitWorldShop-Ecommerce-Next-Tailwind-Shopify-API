@@ -1,12 +1,13 @@
 'use client';
 
-import useShopifyProducts from '@/hooks/useShopifyProducts';
+// import useShopifyProducts from '@/hooks/useShopifyProducts';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import WishlistButton from '../productCard/buttons/WishlistButton';
 import Badges from '../productCard/badges/Badges';
+import { useCategoryFilter } from './context/CategoryFilterContext';
 
 export default function ShopifyProductCard() {
   // Hooks
@@ -17,7 +18,12 @@ export default function ShopifyProductCard() {
   const [productImages, setProductImages] = useState({});
 
   // Custom Hooks
-  const { products, isLoading, isError } = useShopifyProducts();
+  const {
+    filteredProducts: products,
+    isLoading,
+    isError,
+  } = useCategoryFilter();
+
   if (isLoading) {
     return <div className="p-4 text-center">Cargando productos...</div>;
   }
