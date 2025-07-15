@@ -5,6 +5,7 @@ import ViewAllButton from '@/components/buttons/products/ViewAllButton';
 import ImagesCarousel from '@/components/carousels/ImagesCarousel';
 import HomeProductCardsContainer from '@/components/containers/HomeProductCardsContainer';
 import PromoSectionContainer from '@/components/containers/PromoSectionContainer';
+import NewsLetter from '@/components/newsletter/Newsletter';
 
 export default function Home() {
   const heroItems = MainBanner();
@@ -36,6 +37,7 @@ export default function Home() {
           type="businesses"
         />
       </div>
+      <NewsLetter />
     </main>
   );
 }
