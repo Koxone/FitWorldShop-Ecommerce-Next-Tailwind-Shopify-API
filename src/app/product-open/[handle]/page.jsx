@@ -166,7 +166,7 @@ export default function ProductOpenView() {
                 alt={`${product.title} thumbnail ${index + 1}`}
                 width={200}
                 height={200}
-                className="h-full w-full object-cover"
+                className="aspect-square h-auto w-full object-cover"
               />
             </div>
           ))}
