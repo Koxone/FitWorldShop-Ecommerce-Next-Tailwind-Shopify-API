@@ -4,8 +4,12 @@ import generalTextData from '@/data/generalText/generalTextData';
 import LogoButton from '../buttons/header/LogoButton';
 import HeaderButton from '../buttons/header/HeaderButton';
 import { ShoppingBagIcon, UserIcon } from '../icons/Icons';
+import { useRouter } from 'next/navigation';
+import { useCategoryFilter } from '../shopify/context/CategoryFilterContext';
 
 function MainHeader() {
+  const router = useRouter();
+  const { setAllProductsCategory } = useCategoryFilter();
   return (
     <>
       {/* Top Banner */}
@@ -20,16 +24,50 @@ function MainHeader() {
           <LogoButton />
           {/* Desktop Navigation Buttons */}
           <nav className="hidden justify-center space-x-8 lg:flex">
-            {/* {categories
-              .filter((cat) => allowedValues.includes(cat.value))
-              .map(({ label, value }) => (
-                <HeaderButton
-                  key={label}
-                  text={label}
-                  onClick={() => handleClickCategorie(value)}
-                />
-              ))} */}
+            <HeaderButton
+              onClick={() => {
+                setAllProductsCategory(null);
+                router.push('/all-products');
+              }}
+              text="Todos"
+            />
+            <HeaderButton
+              onClick={() => {
+                setAllProductsCategory('Mujer');
+                router.push('/all-products');
+              }}
+              text="Mujer"
+            />
+            <HeaderButton
+              onClick={() => {
+                setAllProductsCategory('Hombre');
+                router.push('/all-products');
+              }}
+              text="hombre"
+            />
+            <HeaderButton
+              onClick={() => {
+                setAllProductsCategory('Accesorios');
+                router.push('/all-products');
+              }}
+              text="accesorios"
+            />
+            <HeaderButton
+              onClick={() => {
+                setAllProductsCategory('Novedades');
+                router.push('/all-products');
+              }}
+              text="novedades"
+            />
+            <HeaderButton
+              onClick={() => {
+                setAllProductsCategory('Ofertas');
+                router.push('/all-products');
+              }}
+              text="ofertas"
+            />
           </nav>
+
           {/* Right Icons */}
           <div className="flex items-center justify-end space-x-4">
             <button
@@ -43,13 +81,10 @@ function MainHeader() {
               className="relative cursor-pointer p-2 text-gray-300 hover:text-white"
             >
               <ShoppingBagIcon size={20} />
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-semibold text-gray-900">
-                {/* {cartItems.length} */}
-              </span>
+              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-semibold text-gray-900"></span>
             </button>
           </div>
         </div>
-        {/* <Cart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} /> */}
       </header>
     </>
   );

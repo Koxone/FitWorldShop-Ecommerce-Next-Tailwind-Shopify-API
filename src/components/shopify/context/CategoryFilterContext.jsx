@@ -75,6 +75,7 @@ export const CategoryFilterProvider = ({ children }) => {
         currentCategory,
         setCategory,
         filteredProducts,
+        setAllProductsCategory,
         isLoading,
         isError,
         mapTextToShopifyCategory,
