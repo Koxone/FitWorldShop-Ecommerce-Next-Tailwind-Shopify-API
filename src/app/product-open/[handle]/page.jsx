@@ -297,7 +297,7 @@ export default function ProductOpenView() {
           </button>
         </div>
 
-        {/* Tabs simples */}
+        {/* Tabs */}
         <div className="border-t border-gray-700 pt-6">
           {['Description', 'Features', 'Care'].map((tab) => (
             <button
@@ -313,19 +313,24 @@ export default function ProductOpenView() {
             </button>
           ))}
 
-          <p className="mt-4 text-sm whitespace-pre-line text-gray-300">
-            {currentTab === 'Description'
-              ? product.description
-              : currentTab === 'Features'
-                ? product.metafield?.value || 'No features available.'
-                : 'Care instructions here.'}
-          </p>
+          <div className="mt-4 text-sm whitespace-pre-line text-gray-300">
+            {currentTab === 'Description' ? (
+              <ExpandableText text={product.description} />
+            ) : currentTab === 'Features' ? (
+              product.metafield?.value || 'No features available.'
+            ) : (
+              'Care instructions here.'
+            )}
+          </div>
         </div>
       </div>
 
       {/*  Sección inferior */}
       <div className="mt-10 flex w-full flex-col gap-10">
-        <HomeProductCardsContainer title="mas productos" subtitle="podria interesarte" />
+        <HomeProductCardsContainer
+          title="mas productos"
+          subtitle="podria interesarte"
+        />
         <ViewAllButton />
         <PromoSectionContainer
           title="Categorías"

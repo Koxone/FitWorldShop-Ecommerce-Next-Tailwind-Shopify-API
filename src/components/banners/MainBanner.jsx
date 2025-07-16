@@ -1,9 +1,11 @@
 'use client';
 
 import { useImageSourceContext } from '@/context/general/ImageSourceContext';
+import { useRouter } from 'next/navigation';
 
 export default function MainBanner() {
   const { mainCarouselData } = useImageSourceContext();
+  const router = useRouter();
 
   return mainCarouselData.map((item, index) => (
     <div
@@ -26,7 +28,10 @@ export default function MainBanner() {
           {item.description}
         </p>
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
-          <button className="hover-lift focus-ring font-poppins cursor-pointer rounded-lg bg-white px-6 py-3 font-semibold text-gray-900 transition-all duration-200 hover:bg-gray-100 md:px-8 md:py-4">
+          <button
+            onClick={() => router.push('/all-products')}
+            className="hover-lift focus-ring font-poppins cursor-pointer rounded-lg bg-white px-6 py-3 font-semibold text-gray-900 transition-all duration-200 hover:bg-gray-100 md:px-8 md:py-4"
+          >
             {item.button}
           </button>
         </div>
