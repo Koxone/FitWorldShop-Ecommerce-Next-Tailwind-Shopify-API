@@ -71,7 +71,14 @@ export const metadata = {
     },
   },
   category: 'ecommerce',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+    shortcut: '/favicon.ico',
+  },
+  manifest: '/site.webmanifest',
 };
+
 
 export default function RootLayout({ children }) {
   return (
