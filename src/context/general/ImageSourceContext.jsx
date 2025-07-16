@@ -9,14 +9,14 @@ export function ImageSourceProvider({ children }) {
   const mainCarouselData = [
     {
       image:
-        'https://dslv9ilpbe7p1.cloudfront.net/nnUUNyfkb8wdewfgcrg0UQ_store_banner_image.png',
+        '/Banner/Main-Banner-2.png',
       title: '10% DE DESCUENTO',
       description:
         '¡Nuestra nueva línea de ropa ha llegado! ¡Descuentos en toda la tienda!',
       button: 'COMPRA AHORA',
     },
     {
-      image: '/Banner/Main-Banner-2.png',
+      image: 'https://dslv9ilpbe7p1.cloudfront.net/nnUUNyfkb8wdewfgcrg0UQ_store_banner_image.png',
       title: 'PRESENTAMOS PUMP',
       description:
         'Desarrollado para moldearse a tu cuerpo y mostrar tu mejor figura.',
