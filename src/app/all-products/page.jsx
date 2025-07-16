@@ -11,7 +11,7 @@ export default function ProductsView() {
   const toggleShowMore = () => setShowMore((prev) => !prev);
 
   return (
-    <div className="grid min-h-screen grid-cols-[auto_1fr] overflow-x-hidden bg-gray-900 py-8 text-white sm:px-6 lg:px-8">
+    <div className="grid min-h-screen grid-cols-[auto_1fr] overflow-x-hidden bg-gray-900 py-8 text-white sm:px-6 md:gap-10 lg:px-8">
       {/* Sidebar Desktop */}
       <aside className="sticky top-0 hidden h-fit w-full max-w-[220px] flex-col overflow-y-auto rounded-lg border border-neutral-600 bg-[#0b1320] p-4 pr-4 text-white md:flex">
         {/* Categoría */}
@@ -192,7 +192,7 @@ export default function ProductsView() {
       {/* Main Content */}
       <div className="mx-auto w-full max-w-7xl">
         {/* Heading */}
-        <div className="px-3 md:px-10">
+        <div className="px-3">
           <h1 className="font-montserrat mb-2 text-2xl font-bold uppercase md:text-3xl">
             todos los productos
           </h1>
