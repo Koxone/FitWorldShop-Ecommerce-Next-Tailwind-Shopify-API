@@ -117,7 +117,7 @@ export default function ProductOpenView() {
 
   // Render
   return (
-    <div className="flex w-full max-w-[1200px] grid-cols-1 flex-wrap gap-4 self-center p-8 md:grid-cols-[1fr_1fr] md:gap-12 md:p-10">
+    <div className="flex w-full max-w-[1200px] grid-cols-1 flex-wrap gap-4 self-center p-4 md:grid-cols-[1fr_1fr] md:gap-12 md:p-10">
       {/*  Galería  */}
       <div className="animate-slide-in-left flex max-h-[750px] max-w-[550px] flex-col items-center">
         {/* Imagen principal */}
