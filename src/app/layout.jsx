@@ -9,6 +9,7 @@ import { WishlistProvider } from '@/components/productCard/context/WishlistConte
 import { BadgeProvider } from '@/components/productCard/context/BadgeContext';
 import { CategoryFilterProvider } from '@/components/shopify/context/CategoryFilterContext';
 import { ProductViewProvider } from '@/context/productView/ProductViewContext';
+import SplashScreen from '@/components/PWA/Splash';
 
 export const metadata = {
   title: {
@@ -79,11 +80,11 @@ export const metadata = {
   manifest: '/site.webmanifest',
 };
 
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <SplashScreen />
         <CategoryFilterProvider>
           <ProductViewProvider>
             <WishlistProvider>
