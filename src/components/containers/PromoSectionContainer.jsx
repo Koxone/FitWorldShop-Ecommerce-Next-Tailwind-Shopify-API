@@ -22,7 +22,7 @@ function PromoSectionContainer({ title, subtitle, type }) {
             : 'px-0 md:px-10'
       }`}
     >
-      <div className="animate-fade-in mb-4 pl-5 text-left md:pl-0">
+      <div className="animate-fade-in mb-4 text-left md:pl-0">
         <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
           {subtitle}
         </h2>
