@@ -4,7 +4,7 @@ import LogoButton from '../buttons/header/LogoButton';
 
 const Footer = () => {
   return (
-    <footer className="border-t border-gray-700 bg-gray-800">
+    <footer className="border-t hidden lg:block border-gray-700 bg-gray-800">
       {/* Main Footer Content */}
       <div className="py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
