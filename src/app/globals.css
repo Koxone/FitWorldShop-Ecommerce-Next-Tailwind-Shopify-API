@@ -35,6 +35,17 @@ body {
   background: transparent;
 }
 
+/* Oculta el scrollbar en navegadores modernos */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safari, iOS y compatibilidad general */
+body {
+  -ms-overflow-style: none; /* IE y Edge antiguos */
+  scrollbar-width: none; /* Firefox */
+}
+
 /* Products Carousel */
 @keyframes scroll-x {
   0% {
