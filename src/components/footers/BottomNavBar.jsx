@@ -9,13 +9,13 @@ function BottomNavBar() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 z-50 flex w-full h-[70px] justify-between border-t border-gray-700 bg-[#101833] px-6 pt-2 pb-6 text-white lg:hidden">
+    <div className="fixed bottom-0 left-0 z-50 flex h-[70px] w-full justify-between border-t border-gray-700 bg-[#101833] px-10 pt-2 pb-8 text-white lg:hidden">
       {items.map(({ icon: Icon, label }, index) => (
         <button
           key={index}
-          className="flex cursor-pointer flex-col items-center justify-center gap-1 text-xs text-white hover:text-blue-400"
+          className="flex h-fit w-fit cursor-pointer flex-col items-center justify-center gap-1 text-xs text-white hover:text-blue-400"
         >
-          <Icon />
+          <Icon className="h-5 w-5" /> {/* Ajusta aquí el tamaño */}
           <span>{label}</span>
         </button>
       ))}
