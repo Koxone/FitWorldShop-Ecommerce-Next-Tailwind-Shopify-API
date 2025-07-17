@@ -68,13 +68,14 @@ const ImagesCarousel = ({
         <>
           <button
             onClick={goToPrevious}
-            className="bg-opacity-50 hover:bg-opacity-75 hover-scale focus-ring absolute top-1/2 left-4 z-10 -translate-y-1/2 transform cursor-pointer rounded-full bg-black p-2 text-white transition-all duration-200"
+            className="absolute top-1/2 left-4 z-10 -translate-y-1/2 transform cursor-pointer rounded-full border border-white/20 bg-white/10 p-2 text-white backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none"
           >
             <ChevronLeftIcon size={20} />
           </button>
+
           <button
             onClick={goToNext}
-            className="bg-opacity-50 hover:bg-opacity-75 hover-scale focus-ring absolute top-1/2 right-4 z-10 -translate-y-1/2 transform cursor-pointer rounded-full bg-black p-2 text-white transition-all duration-200"
+            className="absolute top-1/2 right-4 z-10 -translate-y-1/2 transform cursor-pointer rounded-full border border-white/20 bg-white/10 p-2 text-white backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none"
           >
             <ChevronRightIcon size={20} />
           </button>
