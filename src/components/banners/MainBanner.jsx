@@ -10,7 +10,7 @@ export default function MainBanner() {
   return mainCarouselData.map((item, index) => (
     <div
       key={index}
-      className="relative flex h-[60vh] items-center justify-center bg-cover bg-center text-center md:h-[70vh]"
+      className="relative flex h-[50vh] items-center justify-center bg-cover bg-center text-center lg:h-[70vh]"
     >
       <img
         src={`${item.image}`}
