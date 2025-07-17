@@ -1,15 +1,17 @@
-'use client'
-
 import { useEffect, useState } from 'react';
 
 export default function useIsPWA() {
-  const [isPWA, setIsPWA] = useState(false);
+  const [isPWA, setIsPWA] = useState(null);
 
   useEffect(() => {
-    const isStandalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      window.navigator.standalone === true;
-    setIsPWA(isStandalone);
+    const isStandaloneDisplay = window.matchMedia(
+      '(display-mode: standalone)'
+    ).matches;
+    const isIOSStandalone = window.navigator.standalone === true;
+
+    const isPWAEnv = isStandaloneDisplay || isIOSStandalone;
+
+    setIsPWA(isPWAEnv);
   }, []);
 
   return isPWA;

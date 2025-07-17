@@ -13,6 +13,8 @@ function BottomNavBar() {
     { icon: MenuIcon, label: 'Menú' },
   ];
 
+  if (isPWA === null) return null;
+
   return (
     <div
       className={`fixed bottom-0 left-0 z-50 flex h-[70px] w-full justify-between border-t border-gray-700 bg-[#101833] px-10 pt-2 ${
