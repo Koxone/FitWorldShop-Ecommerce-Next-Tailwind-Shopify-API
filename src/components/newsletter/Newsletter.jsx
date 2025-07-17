@@ -2,7 +2,7 @@ import React from 'react';
 
 function NewsLetter() {
   return (
-    <div className="bg-gray-900 pb-12">
+    <div className="bg-gray-900 pb-[100px]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="font-montserrat mb-4 text-3xl font-bold text-white">
