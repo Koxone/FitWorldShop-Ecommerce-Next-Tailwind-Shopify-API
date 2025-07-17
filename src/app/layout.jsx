@@ -10,6 +10,7 @@ import { BadgeProvider } from '@/components/productCard/context/BadgeContext';
 import { CategoryFilterProvider } from '@/components/shopify/context/CategoryFilterContext';
 import { ProductViewProvider } from '@/context/productView/ProductViewContext';
 import SplashScreen from '@/components/PWA/Splash';
+import BottomNavBar from '@/components/footers/BottomNavBar';
 
 export const metadata = {
   title: {
@@ -84,7 +85,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <SplashScreen />
+        {/* <SplashScreen /> */}
         <CategoryFilterProvider>
           <ProductViewProvider>
             <WishlistProvider>
@@ -94,6 +95,7 @@ export default function RootLayout({ children }) {
                     <MainHeader />
                     <PageTransitionWrapper>{children}</PageTransitionWrapper>
                     <Footer />
+                    <BottomNavBar />
                   </I18nProvider>
                   <SpeedInsights />
                 </ImageSourceProvider>
