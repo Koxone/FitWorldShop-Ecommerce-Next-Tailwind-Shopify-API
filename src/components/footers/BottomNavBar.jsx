@@ -9,7 +9,7 @@ function BottomNavBar() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 z-50 flex h-[70px] w-full justify-between border-t border-gray-700 bg-[#101833] px-10 pt-2 pb-18 text-white lg:hidden">
+    <div className="fixed bottom-0 left-0 z-50 flex h-[70px] w-full justify-between border-t border-gray-700 bg-[#101833] px-10 pt-2 pb-20 text-white lg:hidden">
       {items.map(({ icon: Icon, label }, index) => (
         <button
           key={index}
