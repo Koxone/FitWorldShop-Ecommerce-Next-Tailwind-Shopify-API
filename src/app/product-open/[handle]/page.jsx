@@ -326,7 +326,7 @@ export default function ProductOpenView() {
       </div>
 
       {/*  Sección inferior */}
-      <div className="mt-10 flex w-full flex-col gap-10">
+      <div className="mt-10 flex w-full flex-col gap-10 pb-[100px]">
         <HomeProductCardsContainer
           title="mas productos"
           subtitle="podria interesarte"
