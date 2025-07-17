@@ -2,18 +2,19 @@
 
 import useIsPWA from '@/hooks/useIsPWA';
 import { HomeIcon, MenuIcon, ShoppingBagIcon, UserIcon } from '../icons/Icons';
+import { useRouter } from 'next/navigation';
 
 function BottomNavBar() {
   const isPWA = useIsPWA();
+  const router = useRouter();
 
-  // ❌ Mientras se detecta el modo, no renderizamos nada
   if (isPWA === null) return null;
 
   const items = [
     { icon: HomeIcon, label: 'Home' },
     { icon: UserIcon, label: 'Cuenta' },
     { icon: ShoppingBagIcon, label: 'Carrito' },
-    { icon: MenuIcon, label: 'Menú' },
+    { icon: MenuIcon, label: 'Menu' },
   ];
 
   return (
@@ -25,6 +26,17 @@ function BottomNavBar() {
       {items.map(({ icon: Icon, label }, index) => (
         <button
           key={index}
+          onClick={() => {
+            if (label === 'Home') {
+              router.push('/');
+            } else if (label === 'Cuenta') {
+              router.push('/auth/dashboard');
+            } else if (label === 'Carrito') {
+              console.log('Carrito Abierto');
+            } else if (label === 'Menu') {
+              console.log('Menu Abierto');
+            }
+          }}
           className="flex h-fit w-fit cursor-pointer flex-col items-center justify-center gap-1 text-xs text-white hover:text-blue-400"
         >
           <Icon className="h-5 w-5" />
