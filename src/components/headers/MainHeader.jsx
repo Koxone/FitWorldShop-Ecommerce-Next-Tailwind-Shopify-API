@@ -18,7 +18,7 @@ function MainHeader() {
       </div>
 
       {/* Main Header */}
-      <header className="sticky top-0 z-50 border-b border-gray-700 bg-gray-900 px-4">
+      <header className="sticky top-0 z-50 hidden border-b border-gray-700 bg-gray-900 px-4 lg:block">
         <div className="grid h-16 w-full grid-cols-[auto_1fr_auto] items-center justify-between pl-5">
           {/* Logo */}
           <LogoButton />
