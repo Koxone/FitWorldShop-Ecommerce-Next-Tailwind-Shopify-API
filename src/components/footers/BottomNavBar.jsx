@@ -30,7 +30,7 @@ function BottomNavBar() {
             if (label === 'Home') {
               router.push('/');
             } else if (label === 'Cuenta') {
-              router.push('/auth/dashboard');
+              console.log('Cuenta Abierto');
             } else if (label === 'Carrito') {
               console.log('Carrito Abierto');
             } else if (label === 'Menu') {
