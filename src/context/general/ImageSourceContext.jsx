@@ -44,19 +44,19 @@ export function ImageSourceProvider({ children }) {
         title: 'Playeras',
         route: 'shirts',
         href: '/all-products/',
-        img: '/More/shirts.png',
+        img: '/More/shirts.webp',
       },
       {
         title: 'Shorts',
         route: 'shorts',
         href: '/all-products/',
-        img: '/More/shorts.png',
+        img: '/More/shorts.webp',
       },
       {
         title: 'Pants',
         route: 'jogger',
         href: '/all-products/',
-        img: '/More/pants.png',
+        img: '/More/pants.webp',
       },
     ],
     promos: [
