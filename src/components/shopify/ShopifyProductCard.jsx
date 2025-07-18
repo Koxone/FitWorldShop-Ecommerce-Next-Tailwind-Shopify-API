@@ -121,11 +121,11 @@ export default function ShopifyProductCard() {
               )}
             </div>
 
-            <p className="mt-1 text-xs text-gray-500 md:block">
+            <p className="mt-1 hidden text-xs text-gray-500 md:block">
               Vendedor: {product.vendor || 'Sin especificar'}
             </p>
 
-            <p className="text-xs text-gray-500">
+            <p className="hidden text-xs text-gray-500 lg:block">
               Categoría:{' '}
               {product.tags
                 ?.map((tag) =>
@@ -138,7 +138,7 @@ export default function ShopifyProductCard() {
             </p>
 
             {/* SIZE SELECTOR */}
-            <div className="mt-2 flex flex-wrap justify-start gap-1">
+            <div className="mt-2 hidden flex-wrap justify-start gap-1 lg:block">
               {product.options
                 ?.find((o) => o.name.toLowerCase() === 'talla')
                 ?.values.map((size, index) => (
