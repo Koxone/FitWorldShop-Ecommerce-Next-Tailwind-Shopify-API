@@ -92,12 +92,17 @@ const ImagesCarousel = ({
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`focus-ring h-3 w-3 cursor-pointer rounded-full transition-all duration-200 ${
-                index === currentIndex
-                  ? 'bg-white'
-                  : 'bg-opacity-50 hover:bg-opacity-75 bg-white'
-              }`}
-            />
+              aria-label={`Ir al slide ${index + 1}`}
+              className={`focus-ring relative h-12 w-12 rounded-full p-3 transition-all duration-200`}
+            >
+              <span
+                className={`block h-3 w-3 rounded-full transition-all duration-200 ${
+                  index === currentIndex
+                    ? 'bg-white'
+                    : 'bg-opacity-50 hover:bg-opacity-75 bg-white'
+                }`}
+              />
+            </button>
           ))}
         </div>
       )}
