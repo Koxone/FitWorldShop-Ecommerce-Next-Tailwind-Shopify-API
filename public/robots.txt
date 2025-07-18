@@ -1,0 +1,6 @@
+# robots.txt para FitWorld Shop
+
+User-agent: *
+Disallow:
+
+Sitemap: https://fitworldshop.koxland.dev/sitemap.xml
