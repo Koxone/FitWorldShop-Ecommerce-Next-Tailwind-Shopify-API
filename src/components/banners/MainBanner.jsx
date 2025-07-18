@@ -16,7 +16,7 @@ export default function MainBanner() {
         src={`${item.image}`}
         alt="Main Banner"
         className="absolute inset-0 h-full w-full object-cover"
-        loading="eager"
+        loading="lazy"
         fetchPriority="high"
       />
       <div className="absolute inset-0 bg-black/40"></div>
