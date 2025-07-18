@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Koxland Ecommerce
 
-## Getting Started
+A modern, responsive **Ecommerce Storefront** built with:
 
-First, run the development server:
+- **Next.js 15** (App Router)
+- **Tailwind CSS v4** for styling
+- **Framer Motion** (optional animations)
+- **Shopify Storefront Faceless API** integration
+- **Fully responsive** across desktop, tablet, and mobile
+
+🚀 **Live demo:** [https://www.fitworldshop.com/](https://www.fitworldshop.com/)
+
+## Features
+
+✅ Modern, fast, clean ecommerce frontend  
+✅ Product listing and detail views  
+✅ Dynamic shopping cart with persistent local storage  
+✅ Checkout process integration ready  
+✅ Product filtering and color/size selection  
+✅ Wishlist functionality (local persistence)  
+✅ Internationalization-ready  
+✅ Page transitions and optional animations  
+✅ Fully responsive with mobile-first design
+
+## Tech Stack
+
+- **Framework:** Next.js 15 (App Router)
+- **Styling:** Tailwind CSS v4
+- **State Management:** Context API
+- **Animations:** Framer Motion (optional)
+- **API:** Shopify Storefront Faceless API
+- **Deployment:** Vercel
+
+## Setup
+
+1️⃣ Clone the repository:
+
+```bash
+git clone https://github.com/Koxone/FitWorldShop-Next-Tailwind-Shopify-API.git
+cd Ecommerce-Next-Tailwind
+```
+
+2️⃣ Install dependencies:
+
+```bash
+npm install
+```
+
+3️⃣ Configure environment variables in `.env.local`:
+
+```env
+SHOPIFY_STORE_DOMAIN=your-shopify-store.myshopify.com
+SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_storefront_access_token
+```
+
+4️⃣ Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+5️⃣ Build for production:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Folder Structure
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app/` - Next.js App Router structure
+- `src/components/` - Reusable components
+- `src/context/` - Global state management (MainContext, PurchaseContext)
+- `src/data/` - Static product data (can be replaced by API)
+- `src/styles/` - Global styles
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+PRs and issues are welcome! Please open an issue first to discuss proposed changes.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+MIT License © 2025 [Kox](https://github.com/Koxone)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+**Enjoy building scalable ecommerce experiences with this modern Next.js stack!**
