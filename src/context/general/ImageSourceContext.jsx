@@ -8,7 +8,7 @@ export function ImageSourceProvider({ children }) {
   // MainCarousel
   const mainCarouselData = [
     {
-      image: '/Banner/Main-Banner-2.png',
+      image: '/Banner/Main-Banner-2.webp',
       title: '10% DE DESCUENTO',
       description:
         '¡Nuestra nueva línea de ropa ha llegado! ¡Descuentos en toda la tienda!',
@@ -30,7 +30,7 @@ export function ImageSourceProvider({ children }) {
       button: 'COMPRA AHORA',
     },
     {
-      image: '/Banner/Main-Banner-4.jpg',
+      image: '/Banner/Main-Banner-4.webp',
       title: 'TODO PARA TUS ENTRENAMIENTOS',
       description: 'Encuentra todo lo que necesitas para rendir al máximo.',
       button: 'COMPRA AHORA',
