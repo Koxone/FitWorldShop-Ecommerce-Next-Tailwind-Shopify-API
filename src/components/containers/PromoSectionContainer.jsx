@@ -3,14 +3,24 @@
 import { useImageSourceContext } from '@/context/general/ImageSourceContext';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
+import { useCategoryFilter } from '../shopify/context/CategoryFilterContext';
 
 function PromoSectionContainer({ title, subtitle, type }) {
-  // Hooks
   const pathname = usePathname();
   const router = useRouter();
 
-  // Context
+  const { setAllProductsCategory } = useCategoryFilter();
+
   const { promoSectionData } = useImageSourceContext();
+
+  const handleClick = (section) => {
+    if (type === 'businesses') {
+      if (section.url) window.open(section.url, '_blank');
+    } else if (type === 'categories') {
+      if (section.route) setAllProductsCategory(section.route);
+      if (section.href) router.push(section.href);
+    }
+  };
 
   return (
     <section
@@ -31,7 +41,6 @@ function PromoSectionContainer({ title, subtitle, type }) {
         </h2>
       </div>
 
-      {/* Horizontal Scroll Container */}
       <div className="flex w-full snap-x snap-mandatory justify-between gap-4 overflow-x-auto pb-4 md:px-0">
         {promoSectionData[type]?.map((section, idx) => {
           let imgClass = 'object-cover';
@@ -41,9 +50,9 @@ function PromoSectionContainer({ title, subtitle, type }) {
             section.title.toLowerCase() === 'koxland'
           ) {
             imgClass = 'object-contain p-6';
-          } else if (idx === 0) {
+          } else if (type === 'businesses' && idx === 0) {
             imgClass += ' translate-y-0';
-          } else if (idx === 1) {
+          } else if (type === 'businesses' && idx === 1) {
             imgClass += ' -translate-y-2';
           } else if (type === 'businesses' && idx === 2) {
             imgClass +=
@@ -51,10 +60,9 @@ function PromoSectionContainer({ title, subtitle, type }) {
           }
 
           return (
-            <a
-              href={section.url || section.href || '#'}
-              rel="noopener noreferrer"
+            <div
               key={idx}
+              onClick={() => handleClick(section)}
               className="group relative aspect-square w-[400px] min-w-[80%] cursor-pointer snap-center overflow-hidden rounded-lg border border-neutral-600/40 sm:min-w-[60%] md:min-w-[40%] lg:min-w-[30%]"
             >
               <div className="absolute inset-0">
@@ -75,7 +83,7 @@ function PromoSectionContainer({ title, subtitle, type }) {
                   {section.buttonText || 'Shop Now'}
                 </div>
               </div>
-            </a>
+            </div>
           );
         })}
       </div>
@@ -84,17 +92,3 @@ function PromoSectionContainer({ title, subtitle, type }) {
 }
 
 export default PromoSectionContainer;
-
-// Use Examples
-
-// <PromoSectionContainer
-//   title="Categorias"
-//   subtitle="podria interesarte"
-//   type="categories"
-// />
-
-// <PromoSectionContainer
-//   title="Conoce nuestras marcas"
-//   subtitle="podria interesarte"
-//   type="businesses"
-// />
