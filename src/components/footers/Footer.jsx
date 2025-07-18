@@ -4,7 +4,7 @@ import LogoButton from '../buttons/header/LogoButton';
 
 const Footer = () => {
   return (
-    <footer className="border-t hidden lg:block border-gray-700 bg-gray-800">
+    <footer className="hidden border-t border-gray-700 bg-gray-800 lg:block">
       {/* Main Footer Content */}
       <div className="py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -44,7 +44,7 @@ const Footer = () => {
 
             {/* Shop Links */}
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-white">Shop</h4>
+              <h2 className="text-lg font-semibold text-white">Shop</h2>
               <ul className="space-y-2">
                 {[
                   "Women's",
@@ -68,7 +68,7 @@ const Footer = () => {
 
             {/* Support Links */}
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-white">Support</h4>
+              <h2 className="text-lg font-semibold text-white">Support</h2>
               <ul className="space-y-2">
                 {[
                   'Contact Us',
@@ -92,7 +92,7 @@ const Footer = () => {
 
             {/* Company Links */}
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-white">Company</h4>
+              <h2 className="text-lg font-semibold text-white">Company</h2>
               <ul className="space-y-2">
                 {[
                   'About Us',
