@@ -4,6 +4,7 @@ import { useImageSourceContext } from '@/context/general/ImageSourceContext';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { useCategoryFilter } from '../shopify/context/CategoryFilterContext';
+import Image from 'next/image';
 
 function PromoSectionContainer({ title, subtitle, type }) {
   const pathname = usePathname();

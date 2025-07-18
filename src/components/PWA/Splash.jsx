@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function SplashScreen() {
@@ -13,11 +14,13 @@ export default function SplashScreen() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex md:hidden items-center justify-center bg-[#101828] text-white">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#101828] text-white md:hidden">
       <div className="text-center">
-        <img
+        <Image
           src="/logo.png"
           alt="FitWorld Logo"
+          width={240}
+          height={240}
           className="mx-auto mb-4 h-60 w-60 animate-pulse object-contain"
         />
       </div>

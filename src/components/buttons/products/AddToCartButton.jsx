@@ -1,6 +1,7 @@
 'use client';
 
 import { usePurchase } from '@/components/productCard/context/PurchaseContext';
+import Image from 'next/image';
 import { useState } from 'react';
 
 function AddToCartButton({ product, selectedSize, selectedColor, quantity }) {
@@ -103,7 +104,13 @@ function AddToCartButton({ product, selectedSize, selectedColor, quantity }) {
       <span
         className={`absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 transform text-2xl transition-all duration-300 ${showCart ? 'scale-100 rotate-[360deg] opacity-100' : 'scale-0 opacity-0'}`}
       >
-        <img className="w-[30px]" src="/carrito.svg" alt="" />
+        <Image
+          src="/carrito.svg"
+          alt="Ícono de carrito"
+          width={30}
+          height={30}
+          className="w-[30px]"
+        />
       </span>
 
       <span

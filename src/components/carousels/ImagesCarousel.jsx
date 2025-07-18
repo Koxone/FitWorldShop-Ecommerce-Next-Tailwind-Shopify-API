@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons/Icons';
+import Image from 'next/image';
 
 const ImagesCarousel = ({
   items = [],
@@ -51,10 +52,12 @@ const ImagesCarousel = ({
         {items.map((item, index) => (
           <div key={index} className="w-full flex-shrink-0">
             {typeof item === 'string' ? (
-              <img
+              <Image
                 src={item}
                 alt={`Carousel Image ${index + 1}`}
-                className="h-full w-full object-cover"
+                fill
+                sizes="100vw"
+                className="object-cover"
               />
             ) : (
               item
