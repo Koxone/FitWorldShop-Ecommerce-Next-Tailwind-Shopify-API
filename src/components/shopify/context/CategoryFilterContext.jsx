@@ -10,6 +10,7 @@ export const CategoryFilterProvider = ({ children }) => {
   const pathname = usePathname();
   const [homeCategory, setHomeCategory] = useState(null);
   const [allProductsCategory, setAllProductsCategory] = useState(null);
+  const [shopifyVitAndSupCard, setShopifyVitAndSupCard] = useState(null);
   const [productOpenCategory, setProductOpenCategory] = useState(null);
 
   const { products, isLoading, isError } = useShopifyProducts();
@@ -30,7 +31,6 @@ export const CategoryFilterProvider = ({ children }) => {
     }
   }, [pathname, homeCategory, allProductsCategory, productOpenCategory]);
 
-  // Mapeo de etiquetas desde categorías legibles
   const labelToTagMap = {
     Vitaminas: 'Vitaminas',
     Suplementos: 'Suplementos',
@@ -64,12 +64,20 @@ export const CategoryFilterProvider = ({ children }) => {
   };
 
   const tag = labelToTagMap[currentCategory];
-  const filteredProducts =
-    tag === null || !tag
-      ? products
-      : products?.filter((product) =>
-          product.tags?.map((t) => t.toLowerCase()).includes(tag.toLowerCase())
-        );
+
+  const filteredProducts = !tag
+    ? products
+    : products?.filter((product) => {
+        const tagLower = tag.toLowerCase();
+        const tags = product.tags?.map((t) => t.toLowerCase()) || [];
+        const productType = product.productType?.toLowerCase() || '';
+
+        if (tagLower === 'women' || tagLower === 'men') {
+          return productType === tagLower;
+        }
+
+        return tags.includes(tagLower);
+      });
 
   return (
     <CategoryFilterContext.Provider
@@ -77,6 +85,8 @@ export const CategoryFilterProvider = ({ children }) => {
         currentCategory,
         setCategory,
         filteredProducts,
+        shopifyVitAndSupCard,
+        setShopifyVitAndSupCard,
         setAllProductsCategory,
         isLoading,
         isError,

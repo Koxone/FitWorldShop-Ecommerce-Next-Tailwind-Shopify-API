@@ -1,9 +1,20 @@
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import GenderFilterButton from '../buttons/filter/GenderFilterButton';
 import ShopifyProductCard from '../shopify/ShopifyProductCard';
 
-function HomeProductCardsContainer({ title, subtitle }) {
+function HomeProductCardsContainer({ title, subtitle, filterType = 'gender' }) {
   const pathname = usePathname();
+
+  const genderOptions = ['Todos', 'Mujer', 'Hombre'];
+  const categoryOptions = ['Vitaminas', 'Suplementos'];
+
+  const options = filterType === 'gender' ? genderOptions : categoryOptions;
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    filterType === 'category' ? 'Vitaminas' : null
+  );
+
   return (
     <div className={`${pathname === '/' ? 'px-4' : 'px-0'}`}>
       <div className="animate-fade-in text-left">
@@ -14,13 +25,22 @@ function HomeProductCardsContainer({ title, subtitle }) {
           {title}
         </h2>
       </div>
+
       <div className="flex flex-col gap-4">
         <div className="flex gap-2">
-          <GenderFilterButton text="Todos" />
-          <GenderFilterButton text="Mujer" />
-          <GenderFilterButton text="Hombre" />
+          {options.map((text) => (
+            <GenderFilterButton
+              key={text}
+              text={text}
+              isActive={selectedCategory === text}
+              onClick={() =>
+                setSelectedCategory(text === 'Todos' ? null : text)
+              }
+            />
+          ))}
         </div>
-        <ShopifyProductCard />
+
+        <ShopifyProductCard selectedCategory={selectedCategory} />
       </div>
     </div>
   );

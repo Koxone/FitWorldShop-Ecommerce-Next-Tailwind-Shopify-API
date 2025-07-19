@@ -1,37 +1,28 @@
 'use client';
 
+// import useShopifyProducts from '@/hooks/useShopifyProducts';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import WishlistButton from '../productCard/buttons/WishlistButton';
 import Badges from '../productCard/badges/Badges';
-import useShopifyProducts from '@/hooks/useShopifyProducts';
+import { useCategoryFilter } from './context/CategoryFilterContext';
 
-// Mapeo de categorías legibles a tags reales
-const labelToTagMap = {
-  Vitaminas: 'Vitaminas',
-  Suplementos: 'Suplementos',
-  Mujer: 'women',
-  Hombre: 'men',
-};
-
-export default function ShopifyProductCard({ selectedCategory }) {
+export default function ShopifyVitAndSupCard() {
+  // Hooks
   const pathname = usePathname();
   const router = useRouter();
+
+  // States
   const [productImages, setProductImages] = useState({});
 
-  const { products, isLoading, isError } = useShopifyProducts();
-
-  // Mapeamos el texto de categoría a un tag usable
-  const tag = selectedCategory ? labelToTagMap[selectedCategory] : null;
-
-  const filteredProducts = useMemo(() => {
-    if (!tag) return products;
-    return products?.filter((product) =>
-      product.tags?.map((t) => t.toLowerCase()).includes(tag.toLowerCase())
-    );
-  }, [products, tag]);
+  // Custom Hooks
+  const {
+    filteredProducts: products,
+    isLoading,
+    isError,
+  } = useCategoryFilter();
 
   if (isLoading) {
     return <div className="p-4 text-center">Cargando productos...</div>;
@@ -46,13 +37,13 @@ export default function ShopifyProductCard({ selectedCategory }) {
 
   return (
     <div
-      className={`${
+      className={` ${
         pathname === '/' || pathname.startsWith('/product-open')
           ? 'mx-auto flex w-full flex-nowrap gap-5 overflow-x-auto'
           : 'grid grid-cols-[1fr_1fr] gap-5 px-2 lg:grid-cols-[1fr_1fr_1fr] xl:grid-cols-4'
       }`}
     >
-      {filteredProducts?.map((product) => (
+      {products.map((product) => (
         <div
           key={product.id}
           className={`group hover-lift relative overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300 ${
@@ -63,7 +54,6 @@ export default function ShopifyProductCard({ selectedCategory }) {
         >
           <WishlistButton productId={product.id} />
           <Badges product={product} />
-
           {/* IMAGE */}
           <div className="relative aspect-square w-full overflow-hidden">
             <Link href={`/product-open/${product.handle}`}>

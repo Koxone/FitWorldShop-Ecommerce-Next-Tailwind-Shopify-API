@@ -20,8 +20,22 @@ export default function Home() {
       />
 
       <div className="flex w-full max-w-7xl flex-col gap-6 justify-self-center md:px-10">
-        <HomeProductCardsContainer subtitle="SHOP" title="drop #1" />
-        <ViewAllButton />
+        <div>
+          <HomeProductCardsContainer
+            title="Ropa Deportiva"
+            subtitle="Para Hombre y Mujer"
+            filterType="gender"
+          />
+          <ViewAllButton />
+        </div>
+        <div>
+          <HomeProductCardsContainer
+            title="Vitaminas y Suplementos"
+            subtitle="Salud y Bienestar"
+            filterType="category"
+          />
+          <ViewAllButton />
+        </div>
 
         {/* Categories Sections */}
         <PromoSectionContainer

@@ -345,9 +345,10 @@ export default function ProductOpenView() {
       {/*  Sección inferior */}
       <div className="mt-10 flex w-full flex-col gap-10 pb-[100px]">
         <HomeProductCardsContainer
-          title="mas productos"
-          subtitle="podria interesarte"
-        />
+            title="Ropa Deportiva"
+            subtitle="Para Hombre y Mujer"
+            filterType="gender"
+          />
         <ViewAllButton />
         <PromoSectionContainer
           title="Categorías"

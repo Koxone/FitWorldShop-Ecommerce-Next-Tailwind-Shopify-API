@@ -46,7 +46,7 @@ body {
 }
 
 .animate-scroll-x {
-  animation: scroll-x 40s linear infinite;
+  animation: scroll-x 180s linear infinite;
 }
 
 @keyframes fade-in {

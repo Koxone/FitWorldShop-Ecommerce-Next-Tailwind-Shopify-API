@@ -190,7 +190,7 @@ export default function ProductsView() {
       </aside>
 
       {/* Main Content */}
-      <div className="mx-auto pb-[100px] w-full max-w-7xl">
+      <div className="mx-auto w-full max-w-7xl pb-[100px]">
         {/* Heading */}
         <div className="px-3">
           <h1 className="font-montserrat mb-2 text-2xl font-bold uppercase md:text-3xl">
