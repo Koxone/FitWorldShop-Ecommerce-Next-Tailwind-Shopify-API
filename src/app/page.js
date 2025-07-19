@@ -20,7 +20,7 @@ export default function Home() {
       />
 
       <div className="flex w-full max-w-7xl flex-col gap-6 justify-self-center md:px-10">
-        <div>
+        <div className="flex flex-col gap-6">
           <HomeProductCardsContainer
             title="Ropa Deportiva"
             subtitle="Para Hombre y Mujer"
@@ -28,7 +28,7 @@ export default function Home() {
           />
           <ViewAllButton />
         </div>
-        <div>
+        <div className="flex flex-col gap-6">
           <HomeProductCardsContainer
             title="Vitaminas y Suplementos"
             subtitle="Salud y Bienestar"
