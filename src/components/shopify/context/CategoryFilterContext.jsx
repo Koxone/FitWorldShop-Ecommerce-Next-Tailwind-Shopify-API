@@ -32,6 +32,8 @@ export const CategoryFilterProvider = ({ children }) => {
 
   // Mapeo de etiquetas desde categorías legibles
   const labelToTagMap = {
+    Vitaminas: 'Vitaminas',
+    Suplementos: 'Suplementos',
     Todos: null,
     Mujer: 'women',
     Hombre: 'men',
