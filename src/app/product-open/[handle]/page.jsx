@@ -196,7 +196,22 @@ export default function ProductOpenView() {
         />
 
         <div className="flex gap-3">
-          <AddToCartButton />
+          <AddToCartButton
+            product={{
+              id: product.id,
+              title: product.title,
+              selectedSize,
+              selectedColor: currentColor,
+              quantity,
+              price: parseFloat(product.variants.edges[0].node.price.amount),
+              image:
+                productImages[product.id] ||
+                product.variants.edges[0].node.image?.url,
+              handle: product.handle,
+              description: product.description,
+            }}
+          />
+
           <button
             onClick={() => setIsWishlisted((w) => !w)}
             className={`rounded-lg border p-3 ${

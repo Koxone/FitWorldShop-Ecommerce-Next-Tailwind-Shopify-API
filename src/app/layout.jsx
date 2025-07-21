@@ -11,6 +11,8 @@ import { CategoryFilterProvider } from '@/context/filters/CategoryFilterContext'
 import { ProductViewProvider } from '@/context/productView/ProductViewContext';
 import SplashScreen from '@/components/PWA/Splash';
 import BottomNavBar from '@/components/footers/mobile/BottomNavBar';
+import { PurchaseProvider } from '@/context/Cart/PurchaseContext';
+import Cart from '@/components/cart/Cart';
 
 export const metadata = {
   title: {
@@ -86,23 +88,26 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <SplashScreen />
-        <CategoryFilterProvider>
-          <ProductViewProvider>
-            <WishlistProvider>
-              <BadgeProvider>
-                <ImageSourceProvider>
-                  <I18nProvider>
-                    <MainHeader />
-                    <PageTransitionWrapper>{children}</PageTransitionWrapper>
-                    <Footer />
-                    <BottomNavBar />
-                  </I18nProvider>
-                  <SpeedInsights />
-                </ImageSourceProvider>
-              </BadgeProvider>
-            </WishlistProvider>
-          </ProductViewProvider>
-        </CategoryFilterProvider>
+        <PurchaseProvider>
+          <CategoryFilterProvider>
+            <ProductViewProvider>
+              <WishlistProvider>
+                <BadgeProvider>
+                  <ImageSourceProvider>
+                    <I18nProvider>
+                      <MainHeader />
+                      <PageTransitionWrapper>{children}</PageTransitionWrapper>
+                      <Footer />
+                      <BottomNavBar />
+                      <Cart />
+                    </I18nProvider>
+                    <SpeedInsights />
+                  </ImageSourceProvider>
+                </BadgeProvider>
+              </WishlistProvider>
+            </ProductViewProvider>
+          </CategoryFilterProvider>
+        </PurchaseProvider>
       </body>
     </html>
   );

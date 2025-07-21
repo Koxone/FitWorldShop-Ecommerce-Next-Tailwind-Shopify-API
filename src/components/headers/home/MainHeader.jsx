@@ -6,6 +6,8 @@ import HeaderButton from '../../buttons/header/HeaderButton';
 import { ShoppingBagIcon, UserIcon } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
 import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
+import Cart from '@/components/cart/Cart';
+import { usePurchase } from '@/context/Cart/PurchaseContext';
 
 function MainHeader() {
   const router = useRouter();
@@ -16,6 +18,18 @@ function MainHeader() {
     setCategory(category);
     router.push('/all-products');
   };
+
+  const {
+    cartItems,
+    setCartItems,
+    addToCart,
+    updateQuantity,
+    removeItem,
+    clearCart,
+    isCartOpen,
+    setIsCartOpen,
+    toggleCart,
+  } = usePurchase();
 
   return (
     <>
@@ -63,7 +77,9 @@ function MainHeader() {
               className="relative cursor-pointer p-2 text-gray-300 hover:text-white"
             >
               <ShoppingBagIcon size={20} />
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-semibold text-gray-900"></span>
+              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-semibold text-gray-900">
+                {cartItems.length}
+              </span>
             </button>
           </div>
         </div>
