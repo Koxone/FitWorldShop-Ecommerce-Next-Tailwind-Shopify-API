@@ -300,10 +300,9 @@ export default function ProductOpenView() {
           </button>
         </div>
 
-        {/* <AddToCartButton /> */}
-
         {/* CTA Wishlist / Compartir */}
         <div className="mb-8 flex gap-3">
+          <AddToCartButton />
           <button
             onClick={() => setIsWishlisted((w) => !w)}
             className={`rounded-lg border p-3 ${

@@ -69,6 +69,19 @@ export const XIcon = (props) => (
   </IconBase>
 );
 
+export const CheckIconCart = (props) => (
+  <IconBase {...props} filled>
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M20.285 6.709a1 1 0 010 1.414l-9.5 9.5a1 1 0 
+      01-1.414 0l-4.5-4.5a1 1 0 011.414-1.414L10 
+      15.086l8.871-8.877a1 1 0 011.414 0z"
+    />
+  </IconBase>
+);
+
+
 export const InfoIcon = (props) => (
   <IconBase {...props}>
     <circle cx="12" cy="12" r="10" />
