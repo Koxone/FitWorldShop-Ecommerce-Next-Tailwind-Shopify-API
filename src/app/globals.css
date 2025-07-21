@@ -62,7 +62,7 @@ body {
   animation: fade-in 1s ease-in-out forwards;
 }
 
-/* Infifine Loop Banner */
+/* Infinite Loop Banner */
 @keyframes marquee {
   0% {
     transform: translateX(100%);
@@ -74,4 +74,11 @@ body {
 
 .animate-marquee {
   animation: marquee 50s linear infinite;
+}
+
+/* En móviles: velocidad más rápida */
+@media (max-width: 768px) {
+  .animate-marquee {
+    animation-duration: 10s;
+  }
 }
