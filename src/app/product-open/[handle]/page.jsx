@@ -243,12 +243,17 @@ export default function ProductOpenView() {
       </div>
 
       {/*  Sección inferior */}
-      <div className="flex w-full flex-col gap-10 pb-[100px]">
-        <HomeProductCardsContainer
-          title="Ropa Deportiva"
-          subtitle="Para Hombre y Mujer"
-          filterType="gender"
-        />
+      <div className="flex w-full flex-col gap-10 pt-6 pb-[100px]">
+        <div className="animate-fade-in text-left">
+          <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
+            Para tu Salud
+          </h2>
+          <h2 className="text-2xl font-bold tracking-wider text-white uppercase">
+            Podria Interesarte
+          </h2>
+        </div>
+        <FilterButtonsHomeSuplementos viewScope="salud" />
+        <ShopifyProductCard viewScope="salud" />
         <ViewAllButton />
         <PromoSectionContainer
           title="Categorías"
