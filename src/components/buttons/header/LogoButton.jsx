@@ -15,7 +15,7 @@ function LogoButton() {
       onClick={handleClick}
       className="flex max-w-[120px] cursor-pointer items-center md:h-[37px] md:max-w-[160px]"
     >
-      <Image src="/logo.png" alt="Logo" width={100} height={100} />
+      <Image src="/logo.png" alt="Logo" width={130} height={100} />
     </button>
   );
 }
