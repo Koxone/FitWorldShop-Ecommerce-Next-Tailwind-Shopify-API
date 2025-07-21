@@ -1,43 +1,49 @@
 'use client';
 
-import { createContext, useContext, useMemo, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { createContext, useContext, useState } from 'react';
 import useShopifyProducts from '@/hooks/useShopifyProducts';
 
 const CategoryFilterContext = createContext();
 
 export const CategoryFilterProvider = ({ children }) => {
-  const pathname = usePathname();
-
-  // Carrusel de Home
+  // Estados separados por vista
   const [homeCategory, setHomeCategory] = useState(null);
-
-  // Carrusel de All Products
   const [allProductsCategory, setAllProductsCategory] = useState(null);
-  
-  // Carrusel de All Products
   const [productOpenCategory, setProductOpenCategory] = useState(null);
+  const [suplementsCategory, setSuplementsCategory] = useState(null);
 
   const { products, isLoading, isError } = useShopifyProducts();
-  const { currentCategory, setCategory } = useMemo(() => {
-    if (pathname === '/') {
-      return { currentCategory: homeCategory, setCategory: setHomeCategory };
-    } else if (pathname.startsWith('/all-products')) {
-      return {
-        currentCategory: allProductsCategory,
-        setCategory: setAllProductsCategory,
-      };
-    } else {
-      return {
-        currentCategory: productOpenCategory,
-        setCategory: setProductOpenCategory,
-      };
-    }
-  }, [pathname, homeCategory, allProductsCategory, productOpenCategory]);
 
+  // Devuelve el estado correspondiente a cada vista
+  const getScopeState = (scope) => {
+    switch (scope) {
+      case 'home':
+        return { currentCategory: homeCategory, setCategory: setHomeCategory };
+      case 'all-products':
+        return {
+          currentCategory: allProductsCategory,
+          setCategory: setAllProductsCategory,
+        };
+      case 'product-open':
+        return {
+          currentCategory: productOpenCategory,
+          setCategory: setProductOpenCategory,
+        };
+      case 'supplements':
+        return {
+          currentCategory: suplementsCategory,
+          setCategory: setSuplementsCategory,
+        };
+      default:
+        return { currentCategory: null, setCategory: () => {} };
+    }
+  };
+
+  // Mapeo de etiquetas legibles a tags de Shopify
   const labelToTagMap = {
     Vitaminas: 'Vitaminas',
     Suplementos: 'Suplementos',
+    Ropa: 'Ropa',
     Todos: null,
     Mujer: 'women',
     Hombre: 'men',
@@ -63,37 +69,17 @@ export const CategoryFilterProvider = ({ children }) => {
 
   const categoryLabels = Object.keys(labelToTagMap);
 
-  const mapTextToShopifyCategory = (text) => {
-    return labelToTagMap[text] ?? null;
-  };
-
-  const tag = labelToTagMap[currentCategory];
-
-  const filteredProducts = !tag
-    ? products
-    : products?.filter((product) => {
-        const tagLower = tag.toLowerCase();
-        const tags = product.tags?.map((t) => t.toLowerCase()) || [];
-        const productType = product.productType?.toLowerCase() || '';
-
-        if (tagLower === 'women' || tagLower === 'men') {
-          return productType === tagLower;
-        }
-
-        return tags.includes(tagLower);
-      });
+  const mapTextToShopifyCategory = (text) => labelToTagMap[text] ?? null;
 
   return (
     <CategoryFilterContext.Provider
       value={{
-        currentCategory,
-        setCategory,
-        filteredProducts,
-        setAllProductsCategory,
-        isLoading,
-        isError,
+        getScopeState,
         mapTextToShopifyCategory,
         categoryLabels,
+        products,
+        isLoading,
+        isError,
       }}
     >
       {children}
