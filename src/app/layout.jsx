@@ -15,6 +15,7 @@ import { PurchaseProvider } from '@/context/Cart/PurchaseContext';
 import Cart from '@/components/cart/Cart';
 import { AuthProvider } from '@/context/Auth/AuthContext';
 import { ClerkProvider } from '@clerk/nextjs';
+import { dark, shadesOfPurple } from '@clerk/themes';
 
 export const metadata = {
   title: {
@@ -87,8 +88,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
+    <ClerkProvider
+      localization={{
+        locale: 'es-ES',
+      }}
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: '#22c55e',
+          colorBackground: '#0f172a',
+          colorText: '#ffffff',
+          borderRadius: '0.5rem',
+        },
+      }}
+    >
+      <html lang="es">
         <body>
           <SplashScreen />
           <AuthProvider>
