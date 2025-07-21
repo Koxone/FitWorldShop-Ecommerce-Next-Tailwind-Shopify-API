@@ -22,17 +22,12 @@ export default function Home() {
       <div className="flex w-full max-w-7xl flex-col gap-6 justify-self-center md:px-10">
         <div className="flex flex-col gap-6">
           <HomeProductCardsContainer
-            title="Ropa Deportiva"
-            subtitle="Para Hombre y Mujer"
-            filterType="gender"
-          />
-          <ViewAllButton />
-        </div>
-        <div className="flex flex-col gap-6">
-          <HomeProductCardsContainer
-            title="Vitaminas y Suplementos"
-            subtitle="Salud y Bienestar"
-            filterType="category"
+            title1="Ropa Deportiva"
+            subtitle1="Para Hombre y Mujer"
+            title2="Vitaminas y Suplementos"
+            subtitle2="Para tu salud"
+            viewScope1="home"
+            viewScope2="vitamins"
           />
           <ViewAllButton />
         </div>

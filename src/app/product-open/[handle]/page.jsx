@@ -25,6 +25,9 @@ import ColorSelectorMobile from '@/components/Views/ProductOpen/ColorSelectorMob
 import ProductColorSelectorDesktop from '@/components/Views/ProductOpen/ProductColorSelectorDesktop';
 import ProductSizeSelector from '@/components/Views/ProductOpen/ProductSizeSelector';
 import ProductQuantitySelector from '@/components/Views/ProductOpen/ProductQuantitySelector';
+import ShopifyProductCard from '@/components/cards/shopify/ShopifyProductCard';
+import FilterButtonsHomeRopa from '@/components/buttons/filter/FilterButtonsHomeRopa';
+import FilterButtonsHomeSuplementos from '@/components/buttons/filter/FilterButtonsHomeSuplementos';
 
 export default function ProductOpenView() {
   // Routing
