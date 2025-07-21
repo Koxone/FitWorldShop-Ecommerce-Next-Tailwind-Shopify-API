@@ -94,7 +94,6 @@ export default function ProductOpenView() {
     setCurrentColor(toPascal(color));
   };
 
-  // ✅ Determina si es un producto de suplementos o vitaminas según sus tags
   const productTags = product?.tags?.map((tag) => tag.toLowerCase()) || [];
   const isVitaminOrSupplement = productTags.some((tag) =>
     ['vitaminas', 'suplementos'].includes(tag)
@@ -148,16 +147,30 @@ export default function ProductOpenView() {
 
         <Rating product={product} />
 
+        {/* Price */}
         <div className="flex items-center gap-3">
-          <span className="text-2xl font-bold">
+          <span className="text-2xl font-bold text-white">
             ${product.variants.edges[0].node.price.amount}{' '}
             {product.variants.edges[0].node.price.currencyCode}
           </span>
-          {product.compareAtPriceRange?.maxVariantPrice?.amount && (
-            <span className="text-lg text-gray-500 line-through">
-              ${product.compareAtPriceRange.maxVariantPrice.amount}
-            </span>
-          )}
+
+          {product.compareAtPriceRange?.maxVariantPrice?.amount &&
+            parseFloat(product.compareAtPriceRange.maxVariantPrice.amount) >
+              parseFloat(product.variants.edges[0].node.price.amount) && (
+              <>
+                <span className="text-lg text-gray-500 line-through">
+                  ${product.compareAtPriceRange.maxVariantPrice.amount}
+                </span>
+                <span className="rounded bg-red-500 px-2 py-1 text-xs font-bold text-white">
+                  Ahorro $
+                  {(
+                    parseFloat(
+                      product.compareAtPriceRange.maxVariantPrice.amount
+                    ) - parseFloat(product.variants.edges[0].node.price.amount)
+                  ).toFixed(2)}
+                </span>
+              </>
+            )}
         </div>
 
         <ProductColorSelectorDesktop
