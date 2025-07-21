@@ -1,4 +1,3 @@
-// Open Product View
 'use client';
 
 // External
@@ -16,8 +15,6 @@ import ViewAllButton from '@/components/buttons/general/ViewAllButton';
 import PromoSectionContainer from '@/components/containers/general/PromoSectionContainer';
 import ExpandableText from '@/components/text/ExpandableText';
 import ProductCarousel from '@/components/carousels/General/ProductCarousel';
-import HomeProductCardsContainer from '@/components/containers/home/HomeProductCardsContainer';
-import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
 import AddToCartButton from '@/components/buttons/product-open/AddToCartButton';
 import Rating from '@/components/Decoration/ProductOpenView/Rating';
 import ProductGallery from '@/components/carousels/ProductOpen/ProductGallery';
@@ -30,14 +27,11 @@ import FilterButtonsHomeRopa from '@/components/buttons/filter/FilterButtonsHome
 import FilterButtonsHomeSuplementos from '@/components/buttons/filter/FilterButtonsHomeSuplementos';
 
 export default function ProductOpenView() {
-  // Routing
   const pathname = usePathname();
   const { handle } = useParams();
 
-  // Remote data
   const { products, isLoading, isError } = useShopifyProducts();
 
-  // Global product context
   const {
     quantity,
     setQuantity,
@@ -51,7 +45,6 @@ export default function ProductOpenView() {
     setCurrentColor,
   } = useProductView();
 
-  // Current product & derived data
   const product = products.find((p) => p.handle === handle);
   const images = product?.images?.edges || [];
 
@@ -59,18 +52,15 @@ export default function ProductOpenView() {
     product?.options.find((o) => o.name.toLowerCase() === 'talla')?.values ||
     [];
 
-  // Badges
   const { getBadges } = useBadge();
   const badges = product ? getBadges(product) : [];
   const isNew = badges.includes('new');
   const isDiscount = badges.includes('discount');
 
-  // Local UI state
   const [currentTab, setCurrentTab] = useState('Description');
   const randomTags = useMemo(() => ['accesories', 'sale', 'new'], []);
   const [randomTag, setRandomTag] = useState(null);
 
-  // Effects
   useEffect(() => {
     if (pathname.startsWith('/product-open')) {
       const tag = randomTags[Math.floor(Math.random() * randomTags.length)];
@@ -78,7 +68,6 @@ export default function ProductOpenView() {
     }
   }, [pathname, randomTags]);
 
-  // Helpers
   const toPascal = (str = '') =>
     str
       .split(' ')
@@ -105,45 +94,42 @@ export default function ProductOpenView() {
     setCurrentColor(toPascal(color));
   };
 
-  const { categoryLabels } = useCategoryFilter();
-  const isVitaminOrSupplement = categoryLabels.some((label) =>
-    ['Vitaminas', 'Suplementos'].includes(label.toLowerCase())
+  // ✅ Determina si es un producto de suplementos o vitaminas según sus tags
+  const productTags = product?.tags?.map((tag) => tag.toLowerCase()) || [];
+  const isVitaminOrSupplement = productTags.some((tag) =>
+    ['vitaminas', 'suplementos'].includes(tag)
   );
 
-  // Loading / error states
   if (isLoading) return <p className="p-10 text-white">Cargando producto…</p>;
   if (isError)
     return <p className="p-10 text-red-500">Error al cargar producto.</p>;
   if (!product)
     return <p className="p-10 text-white">Producto no encontrado.</p>;
 
-  // Render
   return (
     <div className="flex w-full max-w-[1200px] grid-cols-1 flex-wrap gap-4 self-center p-4 md:grid-cols-[1fr_1fr] md:gap-12 md:p-10">
-      {/*  Galería  */}
+      {/* Galería */}
       <ProductGallery
         product={product}
         images={images}
         overrideImage={productImages[product.id]}
       />
 
-      {/* Color Selector Mobile */}
+      {/* Selector de color (mobile) */}
       <ColorSelectorMobile
         product={product}
         onColorChange={changeColor}
         isHidden={isVitaminOrSupplement}
       />
 
-      {/*  Información y variantes  */}
+      {/* Información y variantes */}
       <div className="animate-slide-in-right flex max-w-[500px] flex-col gap-6 text-white">
-        {/* Badges */}
         <div className="flex flex-wrap gap-2">
           {isNew && (
             <span className="inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
               NEW
             </span>
           )}
-
           {isDiscount && (
             <span className="inline-block rounded bg-red-500 px-3 py-1 text-xs font-semibold text-white">
               SALE
@@ -151,7 +137,6 @@ export default function ProductOpenView() {
           )}
         </div>
 
-        {/* Text */}
         <div className="flex flex-col gap-6">
           <h1 className="font-montserrat text-3xl font-bold md:text-4xl lg:text-5xl">
             {product.title}
@@ -161,10 +146,8 @@ export default function ProductOpenView() {
           </h2>
         </div>
 
-        {/* Rating */}
         <Rating product={product} />
 
-        {/* Precio */}
         <div className="flex items-center gap-3">
           <span className="text-2xl font-bold">
             ${product.variants.edges[0].node.price.amount}{' '}
@@ -177,7 +160,6 @@ export default function ProductOpenView() {
           )}
         </div>
 
-        {/* Color Selector Desktop */}
         <ProductColorSelectorDesktop
           isVitaminOrSupplement={isVitaminOrSupplement}
           product={product}
@@ -185,7 +167,6 @@ export default function ProductOpenView() {
           changeColor={changeColor}
         />
 
-        {/* Tallas */}
         <ProductSizeSelector
           isVitaminOrSupplement={isVitaminOrSupplement}
           sizes={sizes}
@@ -193,13 +174,11 @@ export default function ProductOpenView() {
           setSelectedSize={setSelectedSize}
         />
 
-        {/* Cantidad */}
         <ProductQuantitySelector
           quantity={quantity}
           changeQuantity={changeQuantity}
         />
 
-        {/* Wishlist & Share */}
         <div className="flex gap-3">
           <AddToCartButton />
           <button
@@ -217,7 +196,6 @@ export default function ProductOpenView() {
           </button>
         </div>
 
-        {/* Tabs */}
         <div className="border-t border-gray-700 pt-6">
           {['Description', 'Features', 'Care'].map((tab) => (
             <button
@@ -245,18 +223,36 @@ export default function ProductOpenView() {
         </div>
       </div>
 
-      {/*  Sección inferior */}
+      {/* Sección inferior de productos relacionados */}
       <div className="flex w-full flex-col gap-10 pt-6 pb-[100px]">
-        <div className="animate-fade-in text-left">
-          <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
-            Para tu Salud
-          </h2>
-          <h2 className="text-2xl font-bold tracking-wider text-white uppercase">
-            Podria Interesarte
-          </h2>
-        </div>
-        <FilterButtonsHomeSuplementos viewScope="salud" />
-        <ShopifyProductCard viewScope="salud" />
+        {isVitaminOrSupplement ? (
+          <>
+            <div className="animate-fade-in text-left">
+              <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
+                Ropa Recomendada
+              </h2>
+              <h2 className="text-2xl font-bold tracking-wider text-white uppercase">
+                Podría Interesarte
+              </h2>
+            </div>
+            <FilterButtonsHomeRopa viewScope="ropa" />
+            <ShopifyProductCard viewScope="ropa" />
+          </>
+        ) : (
+          <>
+            <div className="animate-fade-in text-left">
+              <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
+                Para tu Salud
+              </h2>
+              <h2 className="text-2xl font-bold tracking-wider text-white uppercase">
+                Podría Interesarte
+              </h2>
+            </div>
+            <FilterButtonsHomeSuplementos viewScope="salud" />
+            <ShopifyProductCard viewScope="salud" />
+          </>
+        )}
+
         <ViewAllButton />
         <PromoSectionContainer
           title="Categorías"
