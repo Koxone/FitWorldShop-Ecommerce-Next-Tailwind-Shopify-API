@@ -42,7 +42,7 @@ export function PurchaseProvider({ children }) {
             : item
         );
       } else {
-        return [...prev, product];
+        return [...prev, { ...product }];
       }
     });
     // setIsCartOpen(true);

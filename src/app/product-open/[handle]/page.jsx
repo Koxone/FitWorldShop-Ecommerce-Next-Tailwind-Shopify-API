@@ -199,6 +199,7 @@ export default function ProductOpenView() {
           <AddToCartButton
             product={{
               id: product.id,
+              variantId: product.variants.edges[0].node.id,
               title: product.title,
               selectedSize,
               selectedColor: currentColor,
