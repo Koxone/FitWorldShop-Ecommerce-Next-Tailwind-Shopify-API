@@ -1,7 +1,12 @@
 'use client';
 
 import useIsPWA from '@/hooks/useIsPWA';
-import { HomeIcon, MenuIcon, ShoppingBagIcon, UserIcon } from '../icons/Icons';
+import {
+  HomeIcon,
+  MenuIcon,
+  ShoppingBagIcon,
+  UserIcon,
+} from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
 
 function BottomNavBar() {

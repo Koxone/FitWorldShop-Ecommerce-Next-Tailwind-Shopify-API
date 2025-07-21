@@ -1,7 +1,7 @@
 'use client';
 
-import { useCategoryFilter } from '@/components/shopify/context/CategoryFilterContext';
-import ShopifyProductCard from '@/components/shopify/ShopifyProductCard';
+import { useCategoryFilter } from '@/context/CategoryFilterContext';
+import ShopifyProductCard from '@/components/cards/shopify/ShopifyProductCard';
 import { useState } from 'react';
 
 export default function ProductsView() {

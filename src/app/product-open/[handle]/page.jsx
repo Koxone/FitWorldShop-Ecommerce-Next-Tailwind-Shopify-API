@@ -9,7 +9,7 @@ import { useParams, usePathname } from 'next/navigation';
 // Hooks & Contexts
 import useShopifyProducts from '@/hooks/useShopifyProducts';
 import { useProductView } from '@/context/productView/ProductViewContext';
-import { useBadge } from '@/components/productCard/context/BadgeContext';
+import { useBadge } from '@/context/product-card/BadgeContext';
 
 // Icons & UI Components
 import {
@@ -20,12 +20,13 @@ import {
   PlusIcon,
   ShareIcon,
 } from '@/components/icons/Icons';
-import ViewAllButton from '@/components/buttons/products/ViewAllButton';
-import PromoSectionContainer from '@/components/containers/PromoSectionContainer';
+import ViewAllButton from '@/components/buttons/general/ViewAllButton';
+import PromoSectionContainer from '@/components/containers/general/PromoSectionContainer';
 import ExpandableText from '@/components/text/ExpandableText';
-import ProductCarousel from '@/components/carousel/ProductCarousel';
-import HomeProductCardsContainer from '@/components/containers/HomeProductCardsContainer';
-import { useCategoryFilter } from '@/components/shopify/context/CategoryFilterContext';
+import ProductCarousel from '@/components/carousels/product-open/ProductCarousel';
+import HomeProductCardsContainer from '@/components/containers/home/HomeProductCardsContainer';
+import { useCategoryFilter } from '@/context/CategoryFilterContext';
+import AddToCartButton from '@/components/buttons/product-open/AddToCartButton';
 
 export default function ProductOpenView() {
   // 1. Routing
@@ -112,7 +113,7 @@ export default function ProductOpenView() {
   const { categoryLabels } = useCategoryFilter();
   const productTag = product?.tags?.[0]?.toLowerCase() || '';
   const isVitaminOrSupplement = categoryLabels.some((label) =>
-    ['vitaminas', 'suplementos'].includes(label.toLowerCase())
+    ['Vitaminas', 'Suplementos'].includes(label.toLowerCase())
   );
 
   // 9. Loading / error states
@@ -237,26 +238,30 @@ export default function ProductOpenView() {
         {/* Color Selector Desktop */}
         {!isVitaminOrSupplement && (
           <div className="hidden md:block">
-            <h3 className="mb-2 text-sm font-semibold">
-              Color: {currentColor}
-            </h3>
-            <div className="mb-6 flex gap-2">
-              {product.options
-                .find((o) => o.name.toLowerCase() === 'color')
-                ?.values.map((color) => (
-                  <span
-                    key={color}
-                    onClick={() => changeColor(color)}
-                    className="h-10 w-10 cursor-pointer rounded-full border-2 border-white transition hover:scale-110"
-                    style={{ backgroundColor: color.toLowerCase() }}
-                  />
-                ))}
-            </div>
+            {product.options.find((o) => o.name.toLowerCase() === 'color') ? (
+              <>
+                <h3 className="mb-2 text-sm font-semibold">
+                  Color: {currentColor}
+                </h3>
+                <div className="mb-6 flex gap-2">
+                  {product.options
+                    .find((o) => o.name.toLowerCase() === 'color')
+                    .values.map((color) => (
+                      <span
+                        key={color}
+                        onClick={() => changeColor(color)}
+                        className="h-10 w-10 cursor-pointer rounded-full border-2 border-white transition hover:scale-110"
+                        style={{ backgroundColor: color.toLowerCase() }}
+                      />
+                    ))}
+                </div>
+              </>
+            ) : null}
           </div>
         )}
 
         {/* Tallas */}
-        {!isVitaminOrSupplement && (
+        {!isVitaminOrSupplement && sizes.length > 0 && (
           <>
             <h3 className="mb-2 text-sm font-semibold">Talla</h3>
             <div className="mb-6 grid grid-cols-5 gap-2">
@@ -345,10 +350,10 @@ export default function ProductOpenView() {
       {/*  Sección inferior */}
       <div className="mt-10 flex w-full flex-col gap-10 pb-[100px]">
         <HomeProductCardsContainer
-            title="Ropa Deportiva"
-            subtitle="Para Hombre y Mujer"
-            filterType="gender"
-          />
+          title="Ropa Deportiva"
+          subtitle="Para Hombre y Mujer"
+          filterType="gender"
+        />
         <ViewAllButton />
         <PromoSectionContainer
           title="Categorías"

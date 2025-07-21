@@ -1,6 +1,6 @@
 'use client';
 
-import LogoButton from '../buttons/header/LogoButton';
+import LogoButton from '../../buttons/header/LogoButton';
 
 const Footer = () => {
   return (

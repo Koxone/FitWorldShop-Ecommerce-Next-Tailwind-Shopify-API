@@ -1,11 +1,11 @@
 'use client';
 
 import MainBanner from '@/components/banners/MainBanner';
-import ViewAllButton from '@/components/buttons/products/ViewAllButton';
-import ImagesCarousel from '@/components/carousels/ImagesCarousel';
-import HomeProductCardsContainer from '@/components/containers/HomeProductCardsContainer';
-import PromoSectionContainer from '@/components/containers/PromoSectionContainer';
-import NewsLetter from '@/components/newsletter/Newsletter';
+import ViewAllButton from '@/components/buttons/general/ViewAllButton';
+import ImagesCarousel from '@/components/carousels/HomeBanner/ImagesCarousel';
+import HomeProductCardsContainer from '@/components/containers/home/HomeProductCardsContainer';
+import PromoSectionContainer from '@/components/containers/general/PromoSectionContainer';
+import NewsLetter from '@/components/containers/home/newsletter/Newsletter';
 
 export default function Home() {
   const heroItems = MainBanner();

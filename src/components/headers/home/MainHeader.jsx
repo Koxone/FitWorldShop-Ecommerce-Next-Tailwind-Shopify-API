@@ -1,11 +1,11 @@
 'use client';
 
 import generalTextData from '@/data/generalText/generalTextData';
-import LogoButton from '../buttons/header/LogoButton';
-import HeaderButton from '../buttons/header/HeaderButton';
-import { ShoppingBagIcon, UserIcon } from '../icons/Icons';
+import LogoButton from '../../buttons/header/LogoButton';
+import HeaderButton from '../../buttons/header/HeaderButton';
+import { ShoppingBagIcon, UserIcon } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
-import { useCategoryFilter } from '../shopify/context/CategoryFilterContext';
+import { useCategoryFilter } from '../../../context/CategoryFilterContext';
 
 function MainHeader() {
   const router = useRouter();

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { ChevronLeftIcon, ChevronRightIcon } from '../icons/Icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '../../icons/Icons';
 import Image from 'next/image';
 
 const ImagesCarousel = ({

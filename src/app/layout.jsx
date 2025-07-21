@@ -1,16 +1,16 @@
 import '@/app/globals.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import I18nProvider from '@/components/providers/I18nProvider';
+import I18nProvider from '@/providers/I18nProvider';
 import PageTransitionWrapper from '@/components/wrappers/PageTransitionWrapper';
-import MainHeader from '@/components/headers/MainHeader';
+import MainHeader from '@/components/headers/home/MainHeader';
 import { ImageSourceProvider } from '@/context/general/ImageSourceContext';
-import Footer from '@/components/footers/Footer';
-import { WishlistProvider } from '@/components/productCard/context/WishlistContext';
-import { BadgeProvider } from '@/components/productCard/context/BadgeContext';
-import { CategoryFilterProvider } from '@/components/shopify/context/CategoryFilterContext';
+import Footer from '@/components/footers/desktop/Footer';
+import { WishlistProvider } from '@/context/product-card/WishlistContext';
+import { BadgeProvider } from '@/context/product-card/BadgeContext';
+import { CategoryFilterProvider } from '@/context/CategoryFilterContext';
 import { ProductViewProvider } from '@/context/productView/ProductViewContext';
 import SplashScreen from '@/components/PWA/Splash';
-import BottomNavBar from '@/components/footers/BottomNavBar';
+import BottomNavBar from '@/components/footers/mobile/BottomNavBar';
 
 export const metadata = {
   title: {

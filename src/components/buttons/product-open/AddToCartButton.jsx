@@ -1,6 +1,6 @@
 'use client';
 
-import { usePurchase } from '@/components/productCard/context/PurchaseContext';
+import { usePurchase } from '@/context/filters/PurchaseContext';
 import Image from 'next/image';
 import { useState } from 'react';
 

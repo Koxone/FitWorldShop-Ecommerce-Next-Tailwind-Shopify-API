@@ -1,7 +1,7 @@
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import GenderFilterButton from '../buttons/filter/GenderFilterButton';
-import ShopifyProductCard from '../shopify/ShopifyProductCard';
+import GenderFilterButton from '../../buttons/filter/GenderFilterButton';
+import ShopifyProductCard from '../../cards/shopify/ShopifyProductCard';
 
 function HomeProductCardsContainer({ title, subtitle, filterType = 'gender' }) {
   const pathname = usePathname();

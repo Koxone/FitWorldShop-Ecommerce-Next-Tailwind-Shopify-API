@@ -8,13 +8,17 @@ const CategoryFilterContext = createContext();
 
 export const CategoryFilterProvider = ({ children }) => {
   const pathname = usePathname();
+
+  // Carrusel de Home
   const [homeCategory, setHomeCategory] = useState(null);
+
+  // Carrusel de All Products
   const [allProductsCategory, setAllProductsCategory] = useState(null);
-  const [shopifyVitAndSupCard, setShopifyVitAndSupCard] = useState(null);
+  
+  // Carrusel de All Products
   const [productOpenCategory, setProductOpenCategory] = useState(null);
 
   const { products, isLoading, isError } = useShopifyProducts();
-
   const { currentCategory, setCategory } = useMemo(() => {
     if (pathname === '/') {
       return { currentCategory: homeCategory, setCategory: setHomeCategory };
@@ -85,8 +89,6 @@ export const CategoryFilterProvider = ({ children }) => {
         currentCategory,
         setCategory,
         filteredProducts,
-        shopifyVitAndSupCard,
-        setShopifyVitAndSupCard,
         setAllProductsCategory,
         isLoading,
         isError,
