@@ -1,14 +1,25 @@
 'use client';
 
-// import useProducts from '@/hooks/useProducts';
 import useShopifyProducts from '@/hooks/useShopifyProducts';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// Función para mezclar el array de productos
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export default function ProductCarousel() {
   const { products, isLoading, isError } = useShopifyProducts();
 
-  const duplicatedProducts = [...products, ...products];
+  // Aplica shuffle solo si hay productos
+  const randomizedProducts = shuffleArray(products);
+  const duplicatedProducts = [...randomizedProducts, ...randomizedProducts];
 
   return (
     <div className="relative w-full overflow-hidden pt-1 pb-6">
