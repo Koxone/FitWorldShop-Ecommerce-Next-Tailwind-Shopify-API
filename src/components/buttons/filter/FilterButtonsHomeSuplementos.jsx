@@ -8,7 +8,7 @@ export default function FilterButtonsHomeSuplementos({ viewScope }) {
 
   return (
     <div className="flex gap-2">
-      {['Todos', 'Vitaminas', 'Suplementos'].map((label) => (
+      {['Todos', 'Vitaminas', 'Suplementos', 'Novedades'].map((label) => (
         <button
           key={label}
           onClick={() => setCategory(label)}
