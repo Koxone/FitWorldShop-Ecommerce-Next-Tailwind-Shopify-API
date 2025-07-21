@@ -25,6 +25,7 @@ import ProductQuantitySelector from '@/components/Views/ProductOpen/ProductQuant
 import ShopifyProductCard from '@/components/cards/shopify/ShopifyProductCard';
 import FilterButtonsHomeRopa from '@/components/buttons/filter/FilterButtonsHomeRopa';
 import FilterButtonsHomeSuplementos from '@/components/buttons/filter/FilterButtonsHomeSuplementos';
+import RevealOnScroll from '@/Styles/RevealOnScroll';
 
 export default function ProductOpenView() {
   const pathname = usePathname();
@@ -108,11 +109,13 @@ export default function ProductOpenView() {
   return (
     <div className="flex w-full max-w-[1200px] grid-cols-1 flex-wrap gap-4 self-center p-4 md:grid-cols-[1fr_1fr] md:gap-12 md:p-10">
       {/* Galería */}
-      <ProductGallery
-        product={product}
-        images={images}
-        overrideImage={productImages[product.id]}
-      />
+      <RevealOnScroll>
+        <ProductGallery
+          product={product}
+          images={images}
+          overrideImage={productImages[product.id]}
+        />
+      </RevealOnScroll>
 
       {/* Selector de color (mobile) */}
       <ColorSelectorMobile
@@ -238,41 +241,51 @@ export default function ProductOpenView() {
 
       {/* Sección inferior de productos relacionados */}
       <div className="flex w-full flex-col gap-10 pt-6 pb-[100px]">
-        {isVitaminOrSupplement ? (
-          <>
-            <div className="animate-fade-in text-left">
-              <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
-                Ropa Recomendada
-              </h2>
-              <h2 className="text-2xl font-bold tracking-wider text-white uppercase">
-                Podría Interesarte
-              </h2>
-            </div>
-            <FilterButtonsHomeRopa viewScope="ropa" />
-            <ShopifyProductCard viewScope="ropa" />
-          </>
-        ) : (
-          <>
-            <div className="animate-fade-in text-left">
-              <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
-                Para tu Salud
-              </h2>
-              <h2 className="text-2xl font-bold tracking-wider text-white uppercase">
-                Podría Interesarte
-              </h2>
-            </div>
-            <FilterButtonsHomeSuplementos viewScope="salud" />
-            <ShopifyProductCard viewScope="salud" />
-          </>
-        )}
+        <RevealOnScroll>
+          {isVitaminOrSupplement ? (
+            <>
+              <div className="animate-fade-in text-left">
+                <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
+                  Ropa Recomendada
+                </h2>
+                <h2 className="text-2xl font-bold tracking-wider text-white uppercase">
+                  Podría Interesarte
+                </h2>
+              </div>
+              <FilterButtonsHomeRopa viewScope="ropa" />
+              <ShopifyProductCard viewScope="ropa" />
+            </>
+          ) : (
+            <>
+              <div className="animate-fade-in text-left">
+                <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
+                  Para tu Salud
+                </h2>
+                <h2 className="text-2xl font-bold tracking-wider text-white uppercase">
+                  Podría Interesarte
+                </h2>
+              </div>
+              <FilterButtonsHomeSuplementos viewScope="salud" />
+              <ShopifyProductCard viewScope="salud" />
+            </>
+          )}
+        </RevealOnScroll>
 
-        <ViewAllButton />
-        <PromoSectionContainer
-          title="Categorías"
-          subtitle="Podría interesarte"
-          type="categories"
-        />
-        <ProductCarousel />
+        <RevealOnScroll>
+          <ViewAllButton />
+        </RevealOnScroll>
+
+        <RevealOnScroll>
+          <PromoSectionContainer
+            title="Categorías"
+            subtitle="Podría interesarte"
+            type="categories"
+          />
+        </RevealOnScroll>
+
+        <RevealOnScroll>
+          <ProductCarousel />
+        </RevealOnScroll>
       </div>
     </div>
   );
