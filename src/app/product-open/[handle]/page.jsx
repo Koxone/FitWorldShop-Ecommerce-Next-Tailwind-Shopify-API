@@ -19,6 +19,7 @@ import {
   MinusIcon,
   PlusIcon,
   ShareIcon,
+  StarIcon,
 } from '@/components/icons/Icons';
 import ViewAllButton from '@/components/buttons/general/ViewAllButton';
 import PromoSectionContainer from '@/components/containers/general/PromoSectionContainer';
@@ -27,6 +28,7 @@ import ProductCarousel from '@/components/carousels/product-open/ProductCarousel
 import HomeProductCardsContainer from '@/components/containers/home/HomeProductCardsContainer';
 import { useCategoryFilter } from '@/context/CategoryFilterContext';
 import AddToCartButton from '@/components/buttons/product-open/AddToCartButton';
+import Rating from '@/components/Decoration/ProductOpenView/Rating';
 
 export default function ProductOpenView() {
   // 1. Routing
@@ -200,8 +202,9 @@ export default function ProductOpenView() {
       )}
 
       {/*  Información y variantes  */}
-      <div className="animate-slide-in-right max-w-[500px] text-white">
-        <div className="mb-4 flex flex-wrap gap-2">
+      <div className="animate-slide-in-right flex max-w-[500px] flex-col gap-6 text-white">
+        {/* Badges */}
+        <div className="flex flex-wrap gap-2">
           {isNew && (
             <span className="inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
               NEW
@@ -215,15 +218,21 @@ export default function ProductOpenView() {
           )}
         </div>
 
-        <h1 className="font-montserrat mb-5 text-3xl font-bold md:text-4xl lg:text-5xl">
-          {product.title}
-        </h1>
-        <h2>
-          <ExpandableText text={`${product.description}`} />
-        </h2>
+        {/* Text */}
+        <div className="flex flex-col gap-6">
+          <h1 className="font-montserrat text-3xl font-bold md:text-4xl lg:text-5xl">
+            {product.title}
+          </h1>
+          <h2>
+            <ExpandableText text={`${product.description}`} />
+          </h2>
+        </div>
+
+        {/* Rating */}
+        <Rating product={product} />
 
         {/* Precio */}
-        <div className="mb-6 flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <span className="text-2xl font-bold">
             ${product.variants.edges[0].node.price.amount}{' '}
             {product.variants.edges[0].node.price.currencyCode}
@@ -243,7 +252,7 @@ export default function ProductOpenView() {
                 <h3 className="mb-2 text-sm font-semibold">
                   Color: {currentColor}
                 </h3>
-                <div className="mb-6 flex gap-2">
+                <div className="flex gap-2">
                   {product.options
                     .find((o) => o.name.toLowerCase() === 'color')
                     .values.map((color) => (
@@ -262,9 +271,9 @@ export default function ProductOpenView() {
 
         {/* Tallas */}
         {!isVitaminOrSupplement && sizes.length > 0 && (
-          <>
+          <div className="">
             <h3 className="mb-2 text-sm font-semibold">Talla</h3>
-            <div className="mb-6 grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-2">
               {sizes.map((size) => (
                 <button
                   key={size}
@@ -279,29 +288,31 @@ export default function ProductOpenView() {
                 </button>
               ))}
             </div>
-          </>
+          </div>
         )}
 
         {/* Cantidad */}
-        <h3 className="mb-2 text-sm font-semibold">Cantidad</h3>
-        <div className="mb-6 flex items-center gap-2">
-          <button
-            onClick={() => changeQuantity(-1)}
-            className="cursor-pointer rounded bg-gray-700 p-2 hover:bg-gray-600"
-          >
-            <MinusIcon size={14} />
-          </button>
-          <span className="px-3">{quantity}</span>
-          <button
-            onClick={() => changeQuantity(1)}
-            className="cursor-pointer rounded bg-gray-700 p-2 hover:bg-gray-600"
-          >
-            <PlusIcon size={14} />
-          </button>
+        <div className="">
+          <h3 className="mb-2 text-sm font-semibold">Cantidad</h3>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => changeQuantity(-1)}
+              className="cursor-pointer rounded bg-gray-700 p-2 hover:bg-gray-600"
+            >
+              <MinusIcon size={14} />
+            </button>
+            <span className="px-3">{quantity}</span>
+            <button
+              onClick={() => changeQuantity(1)}
+              className="cursor-pointer rounded bg-gray-700 p-2 hover:bg-gray-600"
+            >
+              <PlusIcon size={14} />
+            </button>
+          </div>
         </div>
 
-        {/* CTA Wishlist / Compartir */}
-        <div className="mb-8 flex gap-3">
+        {/* Wishlist & Share */}
+        <div className="flex gap-3">
           <AddToCartButton />
           <button
             onClick={() => setIsWishlisted((w) => !w)}
@@ -347,7 +358,7 @@ export default function ProductOpenView() {
       </div>
 
       {/*  Sección inferior */}
-      <div className="mt-10 flex w-full flex-col gap-10 pb-[100px]">
+      <div className="flex w-full flex-col gap-10 pb-[100px]">
         <HomeProductCardsContainer
           title="Ropa Deportiva"
           subtitle="Para Hombre y Mujer"
