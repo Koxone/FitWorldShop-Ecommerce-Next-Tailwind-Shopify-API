@@ -27,7 +27,7 @@ export default function Home() {
             title2="Vitaminas y Suplementos"
             subtitle2="Para tu salud"
             viewScope1="home"
-            viewScope2="supplements"
+            viewScope2="vitamins"
           />
           <ViewAllButton />
         </div>

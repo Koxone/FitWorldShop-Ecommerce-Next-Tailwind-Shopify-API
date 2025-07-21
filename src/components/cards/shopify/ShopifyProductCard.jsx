@@ -21,8 +21,8 @@ export default function ShopifyProductCard({ viewScope }) {
 
   const [productImages, setProductImages] = useState({});
   const { products } = useShopifyProducts();
-  const { currentCategory } = getScopeState(viewScope);
 
+  const { currentCategory } = getScopeState(viewScope);
   const tag = mapTextToShopifyCategory(currentCategory);
 
   const filteredProducts = useMemo(() => {
@@ -33,16 +33,29 @@ export default function ShopifyProductCard({ viewScope }) {
     return products.filter((product) => {
       const tags = product.tags?.map((t) => t.toLowerCase()) || [];
 
-      if (tagLower) {
-        return tags.includes(tagLower);
-      }
+      // Si hay una categoría activa (ej. Mujer, Vitaminas), usarla
+      if (tagLower) return tags.includes(tagLower);
+
+      // Si no hay categoría seleccionada, aplicar filtros fijos por scope
       switch (viewScope) {
         case 'home':
+        case 'ropa':
           return tags.includes('ropa');
         case 'supplements':
           return tags.includes('vitaminas') || tags.includes('suplementos');
+        case 'vitamins':
+          return tags.includes('vitaminas');
+        case 'offers':
+          return tags.includes('sale');
+        case 'new':
+          return tags.includes('new');
+        case 'accesories':
+          return tags.includes('accesories');
+        case 'salud':
+          return tags.includes('salud');
         default:
-          return true; 
+          // Si no hay viewScope o no se reconoce, mostrar todo
+          return true;
       }
     });
   }, [products, tag, viewScope]);
@@ -67,7 +80,7 @@ export default function ShopifyProductCard({ viewScope }) {
           : 'grid grid-cols-[1fr_1fr] gap-5 px-2 lg:grid-cols-[1fr_1fr_1fr] xl:grid-cols-4'
       }`}
     >
-      {filteredProducts?.map((product) => (
+      {filteredProducts.map((product) => (
         <div
           key={product.id}
           className={`group hover-lift relative overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300 ${

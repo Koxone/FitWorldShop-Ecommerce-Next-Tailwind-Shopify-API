@@ -11,6 +11,12 @@ export const CategoryFilterProvider = ({ children }) => {
   const [allProductsCategory, setAllProductsCategory] = useState(null);
   const [productOpenCategory, setProductOpenCategory] = useState(null);
   const [suplementsCategory, setSuplementsCategory] = useState(null);
+  const [vitaminsCategory, setVitaminsCategory] = useState(null);
+  const [ropaCategory, setRopaCategory] = useState(null);
+  const [offersCategory, setOffersCategory] = useState(null);
+  const [newCategory, setNewCategory] = useState(null);
+  const [accesoriesCategory, setAccesoriesCategory] = useState(null);
+  const [saludCategory, setSaludCategory] = useState(null);
 
   const { products, isLoading, isError } = useShopifyProducts();
 
@@ -34,15 +40,45 @@ export const CategoryFilterProvider = ({ children }) => {
           currentCategory: suplementsCategory,
           setCategory: setSuplementsCategory,
         };
+      case 'vitamins':
+        return {
+          currentCategory: vitaminsCategory,
+          setCategory: setVitaminsCategory,
+        };
+      case 'salud':
+        return {
+          currentCategory: saludCategory,
+          setCategory: setSaludCategory,
+        };
+      case 'ropa':
+        return {
+          currentCategory: ropaCategory,
+          setCategory: setRopaCategory,
+        };
+      case 'offers':
+        return {
+          currentCategory: offersCategory,
+          setCategory: setOffersCategory,
+        };
+      case 'new':
+        return {
+          currentCategory: newCategory,
+          setCategory: setNewCategory,
+        };
+      case 'accesories':
+        return {
+          currentCategory: accesoriesCategory,
+          setCategory: setAccesoriesCategory,
+        };
       default:
         return { currentCategory: null, setCategory: () => {} };
     }
   };
 
-  // Mapeo de etiquetas legibles a tags de Shopify
   const labelToTagMap = {
     Vitaminas: 'Vitaminas',
     Suplementos: 'Suplementos',
+    Salud: 'Salud',
     Ropa: 'Ropa',
     Todos: null,
     Mujer: 'women',
