@@ -2,7 +2,7 @@
 
 import MainBanner from '@/components/banners/MainBanner';
 import ViewAllButton from '@/components/buttons/general/ViewAllButton';
-import ImagesCarousel from '@/components/carousels/HomeBanner/ImagesCarousel';
+import ImagesCarousel from '@/components/carousels/HomeBanner/BannerCarousel';
 import HomeProductCardsContainer from '@/components/containers/home/HomeProductCardsContainer';
 import PromoSectionContainer from '@/components/containers/general/PromoSectionContainer';
 import NewsLetter from '@/components/containers/home/newsletter/Newsletter';
