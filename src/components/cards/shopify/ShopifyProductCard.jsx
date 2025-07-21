@@ -26,13 +26,26 @@ export default function ShopifyProductCard({ viewScope }) {
   const tag = mapTextToShopifyCategory(currentCategory);
 
   const filteredProducts = useMemo(() => {
-    if (!tag) return products;
-    return products?.filter((product) => {
-      const tagLower = tag.toLowerCase();
+    if (!products) return [];
+
+    const tagLower = tag?.toLowerCase();
+
+    return products.filter((product) => {
       const tags = product.tags?.map((t) => t.toLowerCase()) || [];
-      return tags.includes(tagLower);
+
+      if (tagLower) {
+        return tags.includes(tagLower);
+      }
+      switch (viewScope) {
+        case 'home':
+          return tags.includes('ropa');
+        case 'supplements':
+          return tags.includes('vitaminas') || tags.includes('suplementos');
+        default:
+          return true; 
+      }
     });
-  }, [products, tag]);
+  }, [products, tag, viewScope]);
 
   if (isLoading) {
     return <div className="p-4 text-center">Cargando productos...</div>;
