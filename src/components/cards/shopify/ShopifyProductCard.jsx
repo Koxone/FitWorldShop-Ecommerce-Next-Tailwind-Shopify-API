@@ -30,13 +30,11 @@ export default function ShopifyProductCard({ viewScope }) {
 
     const tagLower = tag?.toLowerCase();
 
-    return products.filter((product) => {
+    const result = products.filter((product) => {
       const tags = product.tags?.map((t) => t.toLowerCase()) || [];
 
-      // Si hay una categoría activa (ej. Mujer, Vitaminas), usarla
       if (tagLower) return tags.includes(tagLower);
 
-      // Si no hay categoría seleccionada, aplicar filtros fijos por scope
       switch (viewScope) {
         case 'home':
         case 'ropa':
@@ -52,12 +50,19 @@ export default function ShopifyProductCard({ viewScope }) {
         case 'accesories':
           return tags.includes('accesories');
         case 'salud':
-          return tags.includes('salud');
+          return (
+            tags.includes('salud') ||
+            tags.includes('vitaminas') ||
+            tags.includes('suplementos')
+          );
+
         default:
-          // Si no hay viewScope o no se reconoce, mostrar todo
           return true;
       }
     });
+
+    // Orden aleatorio
+    return [...result].sort(() => Math.random() - 0.5);
   }, [products, tag, viewScope]);
 
   if (isLoading) {
