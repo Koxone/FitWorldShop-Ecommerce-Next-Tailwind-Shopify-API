@@ -17,7 +17,6 @@ function MainHeader() {
     router.push('/all-products');
   };
 
-  const { setAllProductsCategory } = useCategoryFilter();
   return (
     <>
       {/* Top Banner */}

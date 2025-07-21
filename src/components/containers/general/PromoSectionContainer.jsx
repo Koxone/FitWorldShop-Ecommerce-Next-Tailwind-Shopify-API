@@ -4,22 +4,22 @@ import { useImageSourceContext } from '@/context/general/ImageSourceContext';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
-import Image from 'next/image';
 
 function PromoSectionContainer({ title, subtitle, type }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const { setAllProductsCategory } = useCategoryFilter();
+  const { getScopeState } = useCategoryFilter();
+  const { setCategory } = getScopeState('all-products');
 
   const { promoSectionData } = useImageSourceContext();
 
   const handleClick = (section) => {
-    if (type === 'businesses') {
-      if (section.url) window.open(section.url, '_blank');
-    } else if (type === 'categories') {
-      if (section.route) setAllProductsCategory(section.route);
-      if (section.href) router.push(section.href);
+    if (type === 'categories') {
+      setCategory(section.title);
+      router.push('/all-products');
+    } else if (type === 'businesses' && section.url) {
+      window.open(section.url, '_blank');
     }
   };
 

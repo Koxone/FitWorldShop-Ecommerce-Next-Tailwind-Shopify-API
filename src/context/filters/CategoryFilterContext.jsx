@@ -91,7 +91,7 @@ export const CategoryFilterProvider = ({ children }) => {
     Calcetines: 'socks',
     Crops: 'crops',
     Hoodies: 'hoodies',
-    Jogger: 'jogger',
+    Pants: 'jogger',
     Leggings: 'legging',
     Novedades: 'new',
     Ofertas: 'sale',
