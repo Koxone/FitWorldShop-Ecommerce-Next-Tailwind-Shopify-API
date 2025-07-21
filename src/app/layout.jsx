@@ -13,6 +13,8 @@ import SplashScreen from '@/components/PWA/Splash';
 import BottomNavBar from '@/components/footers/mobile/BottomNavBar';
 import { PurchaseProvider } from '@/context/Cart/PurchaseContext';
 import Cart from '@/components/cart/Cart';
+import { AuthProvider } from '@/context/Auth/AuthContext';
+import { ClerkProvider } from '@clerk/nextjs';
 
 export const metadata = {
   title: {
@@ -85,30 +87,36 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        <SplashScreen />
-        <PurchaseProvider>
-          <CategoryFilterProvider>
-            <ProductViewProvider>
-              <WishlistProvider>
-                <BadgeProvider>
-                  <ImageSourceProvider>
-                    <I18nProvider>
-                      <MainHeader />
-                      <PageTransitionWrapper>{children}</PageTransitionWrapper>
-                      <Footer />
-                      <BottomNavBar />
-                      <Cart />
-                    </I18nProvider>
-                    <SpeedInsights />
-                  </ImageSourceProvider>
-                </BadgeProvider>
-              </WishlistProvider>
-            </ProductViewProvider>
-          </CategoryFilterProvider>
-        </PurchaseProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <SplashScreen />
+          <AuthProvider>
+            <PurchaseProvider>
+              <CategoryFilterProvider>
+                <ProductViewProvider>
+                  <WishlistProvider>
+                    <BadgeProvider>
+                      <ImageSourceProvider>
+                        <I18nProvider>
+                          <MainHeader />
+                          <PageTransitionWrapper>
+                            {children}
+                          </PageTransitionWrapper>
+                          <Footer />
+                          <BottomNavBar />
+                          <Cart />
+                        </I18nProvider>
+                        <SpeedInsights />
+                      </ImageSourceProvider>
+                    </BadgeProvider>
+                  </WishlistProvider>
+                </ProductViewProvider>
+              </CategoryFilterProvider>
+            </PurchaseProvider>
+          </AuthProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

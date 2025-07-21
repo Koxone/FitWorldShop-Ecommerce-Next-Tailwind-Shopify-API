@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
 import Cart from '@/components/cart/Cart';
 import { usePurchase } from '@/context/Cart/PurchaseContext';
+import { useAuth } from '@/context/Auth/AuthContext';
 
 function MainHeader() {
   const router = useRouter();
@@ -19,17 +20,17 @@ function MainHeader() {
     router.push('/all-products');
   };
 
-  const {
-    cartItems,
-    setCartItems,
-    addToCart,
-    updateQuantity,
-    removeItem,
-    clearCart,
-    isCartOpen,
-    setIsCartOpen,
-    toggleCart,
-  } = usePurchase();
+  const { user, isLoggedIn, login, signup, logout } = useAuth();
+
+  const handleAuthClick = () => {
+    if (!isLoggedIn) {
+      router.push('/auth/login');
+    } else {
+      router.push('/auth/dashboard');
+    }
+  };
+
+  const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
 
   return (
     <>
@@ -66,8 +67,9 @@ function MainHeader() {
 
           {/* Right Icons */}
           <div className="flex items-center justify-end space-x-4">
+            {/* Auth Button */}
             <button
-              onClick={() => handleClick()}
+              onClick={() => handleAuthClick()}
               className="cursor-pointer p-2 text-gray-300 hover:text-white"
             >
               <UserIcon size={20} />
