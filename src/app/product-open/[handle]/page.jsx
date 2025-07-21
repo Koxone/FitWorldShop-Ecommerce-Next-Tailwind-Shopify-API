@@ -25,6 +25,9 @@ import ColorSelectorMobile from '@/components/Views/ProductOpen/ColorSelectorMob
 import ProductColorSelectorDesktop from '@/components/Views/ProductOpen/ProductColorSelectorDesktop';
 import ProductSizeSelector from '@/components/Views/ProductOpen/ProductSizeSelector';
 import ProductQuantitySelector from '@/components/Views/ProductOpen/ProductQuantitySelector';
+import ShopifyProductCard from '@/components/cards/shopify/ShopifyProductCard';
+import FilterButtonsHomeRopa from '@/components/buttons/filter/FilterButtonsHomeRopa';
+import FilterButtonsHomeSuplementos from '@/components/buttons/filter/FilterButtonsHomeSuplementos';
 
 export default function ProductOpenView() {
   // Routing
@@ -244,11 +247,8 @@ export default function ProductOpenView() {
 
       {/*  Sección inferior */}
       <div className="flex w-full flex-col gap-10 pb-[100px]">
-        <HomeProductCardsContainer
-          title="Ropa Deportiva"
-          subtitle="Para Hombre y Mujer"
-          filterType="gender"
-        />
+        <FilterButtonsHomeSuplementos viewScope="salud" />
+        <ShopifyProductCard viewScope="salud" />
         <ViewAllButton />
         <PromoSectionContainer
           title="Categorías"

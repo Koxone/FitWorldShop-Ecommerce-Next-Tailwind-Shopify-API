@@ -37,7 +37,7 @@ export function BadgeProvider({ children }) {
 
     const descuento = ((precioOriginal - precio) / precioOriginal) * 100;
 
-    return Math.round(descuento); // Ej: 33
+    return Math.round(descuento); 
   }
 
   return (
