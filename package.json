@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/localizations": "^3.20.1",
     "@clerk/nextjs": "^6.25.4",
     "@clerk/themes": "^2.3.3",
     "@vercel/speed-insights": "^1.2.0",

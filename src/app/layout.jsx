@@ -16,6 +16,7 @@ import Cart from '@/components/cart/Cart';
 import { AuthProvider } from '@/context/Auth/AuthContext';
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark, shadesOfPurple } from '@clerk/themes';
+import { esES } from '@clerk/localizations'
 
 export const metadata = {
   title: {
@@ -89,9 +90,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider
-      localization={{
-        locale: 'es-ES',
-      }}
+      localization={esES}
       appearance={{
         baseTheme: dark,
         variables: {
