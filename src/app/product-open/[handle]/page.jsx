@@ -243,7 +243,7 @@ export default function ProductOpenView() {
       <div className="flex w-full flex-col gap-10 pt-6 pb-[100px]">
         <RevealOnScroll>
           {isVitaminOrSupplement ? (
-            <>
+            <div className="flex flex-col gap-6">
               <div className="animate-fade-in text-left">
                 <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
                   Ropa Recomendada
@@ -254,9 +254,9 @@ export default function ProductOpenView() {
               </div>
               <FilterButtonsHomeRopa viewScope="ropa" />
               <ShopifyProductCard viewScope="ropa" />
-            </>
+            </div>
           ) : (
-            <>
+            <div className="flex flex-col gap-6">
               <div className="animate-fade-in text-left">
                 <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
                   Para tu Salud
@@ -267,7 +267,7 @@ export default function ProductOpenView() {
               </div>
               <FilterButtonsHomeSuplementos viewScope="salud" />
               <ShopifyProductCard viewScope="salud" />
-            </>
+            </div>
           )}
         </RevealOnScroll>
 
