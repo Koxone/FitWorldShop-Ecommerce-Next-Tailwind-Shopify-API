@@ -76,7 +76,7 @@ export const CategoryFilterProvider = ({ children }) => {
   };
 
   const labelToTagMap = {
-    Vitaminas: 'Vitaminas',
+    Vitaminas: 'vitaminas',
     Suplementos: 'Suplementos',
     Salud: 'Salud',
     Ropa: 'Ropa',

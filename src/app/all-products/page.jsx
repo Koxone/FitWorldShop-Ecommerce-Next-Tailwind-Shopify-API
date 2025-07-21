@@ -40,7 +40,7 @@ export default function ProductsView() {
 
         {/* Products Cards */}
         <div>
-          <ShopifyProductCard />
+          <ShopifyProductCard viewScope="all-products" />
         </div>
       </div>
     </div>

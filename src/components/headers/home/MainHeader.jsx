@@ -9,6 +9,14 @@ import { useCategoryFilter } from '../../../context/filters/CategoryFilterContex
 
 function MainHeader() {
   const router = useRouter();
+  const { getScopeState } = useCategoryFilter();
+  const { setCategory } = getScopeState('all-products');
+
+  const handleClick = (category) => {
+    setCategory(category);
+    router.push('/all-products');
+  };
+
   const { setAllProductsCategory } = useCategoryFilter();
   return (
     <>
@@ -25,46 +33,24 @@ function MainHeader() {
           {/* Desktop Navigation Buttons */}
           <nav className="hidden justify-center space-x-8 lg:flex">
             <HeaderButton
-              onClick={() => {
-                setAllProductsCategory(null);
-                router.push('/all-products');
-              }}
+              onClick={() => handleClick(null)}
               text="Todos"
             />
             <HeaderButton
-              onClick={() => {
-                setAllProductsCategory('Mujer');
-                router.push('/all-products');
-              }}
-              text="Mujer"
+              onClick={() => handleClick('Ropa')}
+              text="Moda"
             />
             <HeaderButton
-              onClick={() => {
-                setAllProductsCategory('Hombre');
-                router.push('/all-products');
-              }}
-              text="hombre"
+              onClick={() => handleClick('Salud')}
+              text="Salud"
             />
             <HeaderButton
-              onClick={() => {
-                setAllProductsCategory('Accesorios');
-                router.push('/all-products');
-              }}
-              text="accesorios"
+              onClick={() => handleClick('Novedades')}
+              text="Novedades"
             />
             <HeaderButton
-              onClick={() => {
-                setAllProductsCategory('Novedades');
-                router.push('/all-products');
-              }}
-              text="novedades"
-            />
-            <HeaderButton
-              onClick={() => {
-                setAllProductsCategory('Ofertas');
-                router.push('/all-products');
-              }}
-              text="ofertas"
+              onClick={() => handleClick('Ofertas')}
+              text="Ofertas"
             />
           </nav>
 
