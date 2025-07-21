@@ -5,7 +5,7 @@ import LogoButton from '../../buttons/header/LogoButton';
 import HeaderButton from '../../buttons/header/HeaderButton';
 import { ShoppingBagIcon, UserIcon } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
-import { useCategoryFilter } from '../../../context/CategoryFilterContext';
+import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
 
 function MainHeader() {
   const router = useRouter();

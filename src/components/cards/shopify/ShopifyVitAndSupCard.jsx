@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import WishlistButton from './Components/Wishlist/WishlistButton';
 import Badges from './Components/Badges/Badges';
-import { useCategoryFilter } from '../../../context/CategoryFilterContext';
+import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
 
 export default function ShopifyVitAndSupCard() {
   // Hooks

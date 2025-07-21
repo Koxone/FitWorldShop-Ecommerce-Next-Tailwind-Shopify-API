@@ -7,7 +7,7 @@ import { ImageSourceProvider } from '@/context/general/ImageSourceContext';
 import Footer from '@/components/footers/desktop/Footer';
 import { WishlistProvider } from '@/context/product-card/WishlistContext';
 import { BadgeProvider } from '@/context/product-card/BadgeContext';
-import { CategoryFilterProvider } from '@/context/CategoryFilterContext';
+import { CategoryFilterProvider } from '@/context/filters/CategoryFilterContext';
 import { ProductViewProvider } from '@/context/productView/ProductViewContext';
 import SplashScreen from '@/components/PWA/Splash';
 import BottomNavBar from '@/components/footers/mobile/BottomNavBar';

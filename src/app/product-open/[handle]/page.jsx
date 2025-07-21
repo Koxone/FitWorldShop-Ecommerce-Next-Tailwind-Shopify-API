@@ -17,7 +17,7 @@ import PromoSectionContainer from '@/components/containers/general/PromoSectionC
 import ExpandableText from '@/components/text/ExpandableText';
 import ProductCarousel from '@/components/carousels/General/ProductCarousel';
 import HomeProductCardsContainer from '@/components/containers/home/HomeProductCardsContainer';
-import { useCategoryFilter } from '@/context/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
 import AddToCartButton from '@/components/buttons/product-open/AddToCartButton';
 import Rating from '@/components/Decoration/ProductOpenView/Rating';
 import ProductGallery from '@/components/carousels/ProductOpen/ProductGallery';

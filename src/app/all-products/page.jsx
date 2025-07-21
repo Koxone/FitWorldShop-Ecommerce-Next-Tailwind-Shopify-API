@@ -1,6 +1,6 @@
 'use client';
 
-import { useCategoryFilter } from '@/context/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
 import ShopifyProductCard from '@/components/cards/shopify/ShopifyProductCard';
 import { useState } from 'react';
 import ProductFiltersSidebar from '@/components/Navigation/AllProducts/ProductFiltersSidebar';
