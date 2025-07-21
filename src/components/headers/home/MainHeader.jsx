@@ -21,8 +21,14 @@ function MainHeader() {
   return (
     <>
       {/* Top Banner */}
-      <div className="bg-gray-800 py-2 text-center text-xs text-gray-300 md:py-2 md:text-sm">
-        {generalTextData.header.banner}
+      <div className="relative overflow-hidden bg-gray-800 py-2">
+        <div className="animate-marquee text-center text-xs whitespace-nowrap text-gray-300 md:text-sm">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <span key={index} className="mx-4">
+              {generalTextData.header.banner}
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* Main Header */}
@@ -32,18 +38,9 @@ function MainHeader() {
           <LogoButton />
           {/* Desktop Navigation Buttons */}
           <nav className="hidden justify-center space-x-8 lg:flex">
-            <HeaderButton
-              onClick={() => handleClick(null)}
-              text="Todos"
-            />
-            <HeaderButton
-              onClick={() => handleClick('Ropa')}
-              text="Moda"
-            />
-            <HeaderButton
-              onClick={() => handleClick('Salud')}
-              text="Salud"
-            />
+            <HeaderButton onClick={() => handleClick(null)} text="Todos" />
+            <HeaderButton onClick={() => handleClick('Ropa')} text="Moda" />
+            <HeaderButton onClick={() => handleClick('Salud')} text="Salud" />
             <HeaderButton
               onClick={() => handleClick('Novedades')}
               text="Novedades"
