@@ -76,7 +76,6 @@ body {
   animation: marquee 50s linear infinite;
 }
 
-/* En móviles: velocidad más rápida */
 @media (max-width: 768px) {
   .animate-marquee {
     animation-duration: 10s;
