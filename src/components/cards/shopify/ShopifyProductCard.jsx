@@ -10,8 +10,8 @@ import CategoryTags from './Components/Category/CategoryTags';
 import Price from './Components/Price/Price';
 import ColorSelector from './Components/ColorSelector/ColorSelector';
 import ImageRender from './Components/ImageRender/ImageRender';
-import WishlistButton from '../product-card/buttons/WishlistButton';
-import Badges from '../product-card/badges/Badges';
+import WishlistButton from './Components/Wishlist/WishlistButton';
+import Badges from './Components/Badges/Badges';
 
 // Categories Map
 const labelToTagMap = {

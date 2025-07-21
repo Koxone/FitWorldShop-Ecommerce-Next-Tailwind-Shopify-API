@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import WishlistButton from '../product-card/buttons/WishlistButton';
-import Badges from '../product-card/badges/Badges';
+import WishlistButton from './Components/Wishlist/WishlistButton';
+import Badges from './Components/Badges/Badges';
 import { useCategoryFilter } from '../../../context/CategoryFilterContext';
 
 export default function ShopifyVitAndSupCard() {

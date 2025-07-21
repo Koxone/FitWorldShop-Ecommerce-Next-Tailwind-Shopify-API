@@ -1,7 +1,7 @@
 'use client';
 
 import { HeartIcon } from '@/components/icons/Icons';
-import { useWishlist } from '../../../../context/product-card/WishlistContext';
+import { useWishlist } from '../../../../../context/product-card/WishlistContext';
 
 export default function WishlistButton({ productId, className = '' }) {
   const { isWishlisted, toggleWishlist } = useWishlist();

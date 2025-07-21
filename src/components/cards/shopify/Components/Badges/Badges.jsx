@@ -1,6 +1,6 @@
 'use client';
 
-import { useBadge } from '../../../../context/product-card/BadgeContext';
+import { useBadge } from '../../../../../context/product-card/BadgeContext';
 
 export default function Badges({ product }) {
   const { getBadges, discountCalculation } = useBadge();
