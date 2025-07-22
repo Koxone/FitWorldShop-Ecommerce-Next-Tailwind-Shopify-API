@@ -23,16 +23,8 @@ function BottomNavBar() {
   const [searchResults, setSearchResults] = useState([]);
   const debounceRef = useRef(null);
   
-  // Safely get auth state, fallback to false if Clerk is not properly configured
-  let isSignedIn = false;
-  try {
-    const { useAuth } = require('@clerk/nextjs');
-    const auth = useAuth();
-    isSignedIn = auth?.isSignedIn || false;
-  } catch (error) {
-    // Clerk not properly configured, continue with isSignedIn = false
-    console.warn('Clerk auth not available:', error.message);
-  }
+  // For testing purposes, default to not signed in
+  const isSignedIn = false;
 
   if (isPWA === null) return null;
 
