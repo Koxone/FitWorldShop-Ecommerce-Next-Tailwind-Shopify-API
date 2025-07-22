@@ -6,10 +6,13 @@ import HeaderButton from '../../buttons/header/HeaderButton';
 import { ShoppingBagIcon, UserIcon } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
 import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
-import Cart from '@/components/cart/Cart';
 import { usePurchase } from '@/context/Cart/PurchaseContext';
 import { useAuth } from '@/context/Auth/AuthContext';
-import { useAuth as useClerkAuth, UserButton } from '@clerk/nextjs';
+import {
+  SignInButton,
+  useAuth as useClerkAuth,
+  UserButton,
+} from '@clerk/nextjs';
 import { useEffect } from 'react';
 
 function MainHeader() {
@@ -22,18 +25,17 @@ function MainHeader() {
     router.push('/all-products');
   };
 
-  const { isSignedIn } = useClerkAuth(); // de Clerk
-  const { isLoggedIn, setIsLoggedIn } = useAuth(); // tu contexto
-
+  const { isSignedIn } = useClerkAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   useEffect(() => {
     setIsLoggedIn(isSignedIn);
   }, [isSignedIn, setIsLoggedIn]);
 
-  const handleAuthClick = () => {
-    if (!isLoggedIn) {
-      router.push('/auth/login');
-    }
-  };
+  // const handleAuthClick = () => {
+  //   if (!isLoggedIn) {
+  //     router.push('/auth/login');
+  //   }
+  // };
 
   const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
 
@@ -88,12 +90,14 @@ function MainHeader() {
                   }}
                 />
               ) : (
-                <button
-                  onClick={handleAuthClick}
-                  className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white"
-                >
-                  <UserIcon size={20} />
-                </button>
+                <SignInButton>
+                  <button
+                    // onClick={handleAuthClick}
+                    className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white"
+                  >
+                    <UserIcon size={20} />
+                  </button>
+                </SignInButton>
               )}
             </div>
 
