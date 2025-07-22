@@ -26,24 +26,26 @@ function MainHeader() {
     router.push('/all-products');
   };
 
-  // For testing purposes, default to safe values
+  // Safe Clerk integration fallback
   let clerkAuth = { isSignedIn: false };
   let UserButtonComponent = null;
   let SignInButtonComponent = null;
 
+  try {
+    clerkAuth = useClerkAuth();
+    UserButtonComponent = UserButton;
+    SignInButtonComponent = SignInButton;
+  } catch (error) {
+    console.warn('Clerk auth not available in MainHeader:', error.message);
+  }
+
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  
+
   useEffect(() => {
     if (clerkAuth.isSignedIn !== undefined) {
       setIsLoggedIn(clerkAuth.isSignedIn);
     }
   }, [clerkAuth.isSignedIn, setIsLoggedIn]);
-
-  // const handleAuthClick = () => {
-  //   if (!isLoggedIn) {
-  //     router.push('/auth/login');
-  //   }
-  // };
 
   const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
 
@@ -102,10 +104,7 @@ function MainHeader() {
                 />
               ) : SignInButtonComponent ? (
                 <SignInButtonComponent>
-                  <button
-                    // onClick={handleAuthClick}
-                    className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white"
-                  >
+                  <button className="absolute inset-0 lg:pl-4 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white">
                     <UserIcon size={20} />
                   </button>
                 </SignInButtonComponent>
@@ -133,7 +132,7 @@ function MainHeader() {
       </header>
 
       {/* Mobile Header */}
-      <header className="sticky top-0 z-50 border-b border-gray-700 bg-gray-900 px-4 py-3 lg:hidden">
+      <header className="sticky top-0 hidden z-50 border-b border-gray-700 bg-gray-900 px-4 py-3 lg:hidden">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <LogoButton />
