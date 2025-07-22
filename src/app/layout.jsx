@@ -88,6 +88,45 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // Check if Clerk keys are available
+  const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+  const hasValidClerkKey = clerkPublishableKey && clerkPublishableKey.startsWith('pk_');
+  
+  if (!hasValidClerkKey) {
+    // Render without Clerk if keys are not available
+    return (
+      <html lang="es">
+        <body>
+          <SplashScreen />
+          <AuthProvider>
+            <PurchaseProvider>
+              <CategoryFilterProvider>
+                <ProductViewProvider>
+                  <WishlistProvider>
+                    <BadgeProvider>
+                      <ImageSourceProvider>
+                        <I18nProvider>
+                          <MainHeader />
+                          <PageTransitionWrapper>
+                            {children}
+                          </PageTransitionWrapper>
+                          <Footer />
+                          <BottomNavBar />
+                          <Cart />
+                        </I18nProvider>
+                        <SpeedInsights />
+                      </ImageSourceProvider>
+                    </BadgeProvider>
+                  </WishlistProvider>
+                </ProductViewProvider>
+              </CategoryFilterProvider>
+            </PurchaseProvider>
+          </AuthProvider>
+        </body>
+      </html>
+    );
+  }
+
   return (
     <ClerkProvider
       localization={esES}
