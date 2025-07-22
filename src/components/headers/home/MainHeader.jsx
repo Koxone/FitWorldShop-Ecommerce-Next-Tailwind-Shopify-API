@@ -9,6 +9,8 @@ import { useCategoryFilter } from '../../../context/filters/CategoryFilterContex
 import Cart from '@/components/cart/Cart';
 import { usePurchase } from '@/context/Cart/PurchaseContext';
 import { useAuth } from '@/context/Auth/AuthContext';
+import { useAuth as useClerkAuth, UserButton } from '@clerk/nextjs';
+import { useEffect } from 'react';
 
 function MainHeader() {
   const router = useRouter();
@@ -20,13 +22,16 @@ function MainHeader() {
     router.push('/all-products');
   };
 
-  const { user, isLoggedIn, login, signup, logout } = useAuth();
+  const { isSignedIn } = useClerkAuth(); // de Clerk
+  const { isLoggedIn, setIsLoggedIn } = useAuth(); // tu contexto
+
+  useEffect(() => {
+    setIsLoggedIn(isSignedIn);
+  }, [isSignedIn, setIsLoggedIn]);
 
   const handleAuthClick = () => {
     if (!isLoggedIn) {
       router.push('/auth/login');
-    } else {
-      router.push('/auth/dashboard');
     }
   };
 
@@ -50,6 +55,7 @@ function MainHeader() {
         <div className="grid h-16 w-full grid-cols-[auto_1fr_auto] items-center justify-between pl-5">
           {/* Logo */}
           <LogoButton />
+
           {/* Desktop Navigation Buttons */}
           <nav className="hidden justify-center space-x-8 lg:flex">
             <HeaderButton onClick={() => handleClick(null)} text="Todos" />
@@ -68,12 +74,29 @@ function MainHeader() {
           {/* Right Icons */}
           <div className="flex items-center justify-end space-x-4">
             {/* Auth Button */}
-            <button
-              onClick={() => handleAuthClick()}
-              className="cursor-pointer p-2 text-gray-300 hover:text-white"
-            >
-              <UserIcon size={20} />
-            </button>
+            <div className="relative flex items-center justify-center">
+              {isLoggedIn ? (
+                <UserButton
+                  afterSignInUrl="/user-profile"
+                  afterSignOutUrl="/"
+                  className="z-10 h-8 w-8 overflow-hidden rounded-full"
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox:
+                        'h-8 w-8 rounded-full overflow-hidden',
+                    },
+                  }}
+                />
+              ) : (
+                <button
+                  onClick={handleAuthClick}
+                  className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white"
+                >
+                  <UserIcon size={20} />
+                </button>
+              )}
+            </div>
+
             <button
               onClick={() => setIsCartOpen(!isCartOpen)}
               className="relative cursor-pointer p-2 text-gray-300 hover:text-white"

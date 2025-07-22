@@ -90,7 +90,7 @@ const signup = async (email, password, firstName, lastName) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, isLoggedIn, login, signup, logout, setIsLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );

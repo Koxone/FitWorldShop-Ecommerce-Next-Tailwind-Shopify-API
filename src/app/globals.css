@@ -81,3 +81,11 @@ body {
     animation-duration: 10s;
   }
 }
+
+/* Clerk */
+.cl-userButtonPopoverFooter {
+  display: none !important;
+}
+.cl-internal-1dauvpw {
+  display: none !important;
+}
