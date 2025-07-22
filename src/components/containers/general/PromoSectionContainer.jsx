@@ -42,7 +42,7 @@ function PromoSectionContainer({ title, subtitle, type }) {
         </h2>
       </div>
 
-      <div className="flex w-full snap-x snap-mandatory justify-between gap-4 overflow-x-auto pb-4 md:px-0">
+      <div className="flex w-full snap-x snap-mandatory justify-between gap-3 overflow-x-auto pb-4 md:gap-4 md:px-0">
         {promoSectionData[type]?.map((section, idx) => {
           let imgClass = 'object-cover';
 
@@ -64,7 +64,7 @@ function PromoSectionContainer({ title, subtitle, type }) {
             <div
               key={idx}
               onClick={() => handleClick(section)}
-              className="group relative aspect-square w-[400px] min-w-[80%] cursor-pointer snap-center overflow-hidden rounded-lg border border-neutral-600/40 sm:min-w-[60%] md:min-w-[40%] lg:min-w-[30%]"
+              className="group relative aspect-square w-[300px] min-w-[70%] cursor-pointer snap-center overflow-hidden rounded-lg border border-neutral-600/40 sm:w-[350px] sm:min-w-[60%] md:w-[400px] md:min-w-[40%] lg:min-w-[30%]"
             >
               <div className="absolute inset-0">
                 <img
@@ -75,12 +75,12 @@ function PromoSectionContainer({ title, subtitle, type }) {
                 <div className="absolute inset-0 bg-black/20"></div>
               </div>
 
-              <div className="absolute bottom-0 left-0 flex flex-col p-6">
-                <h3 className="text-lg font-bold text-white uppercase md:text-2xl">
+              <div className="absolute bottom-0 left-0 flex flex-col p-4 md:p-6">
+                <h3 className="text-base font-bold text-white uppercase sm:text-lg md:text-2xl">
                   {section.title}
                 </h3>
-                <h3 className="mb-4 text-white">{section.subtitle}</h3>
-                <div className="cursor-pointer rounded-full bg-white px-10 py-2 text-center font-semibold text-black uppercase transition-all duration-300 ease-in-out hover:bg-neutral-300">
+                <h3 className="mb-3 text-sm text-white sm:text-base md:mb-4">{section.subtitle}</h3>
+                <div className="cursor-pointer rounded-full bg-white px-6 py-1.5 text-center text-sm font-semibold text-black uppercase transition-all duration-300 ease-in-out hover:bg-neutral-300 sm:px-8 sm:py-2 md:px-10">
                   {section.buttonText || 'Shop Now'}
                 </div>
               </div>

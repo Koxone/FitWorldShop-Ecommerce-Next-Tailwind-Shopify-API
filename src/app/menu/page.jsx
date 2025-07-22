@@ -98,7 +98,7 @@ export default function MenuPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-900 text-white pb-[100px]">
+    <main className="min-h-screen bg-slate-900 text-white pb-20 md:pb-10">
       <div className="container mx-auto px-4 py-8">
         <h1 className="mb-8 text-3xl font-bold text-center">Menú</h1>
         
@@ -126,7 +126,7 @@ export default function MenuPage() {
           {/* Main Categories */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-3 text-gray-300">Categorías Principales</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {organizedCategories.main.map((category) => (
                 <button
                   key={category}
@@ -143,7 +143,7 @@ export default function MenuPage() {
           {/* Gender Categories */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-3 text-gray-300">Por Género</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {organizedCategories.gender.map((category) => (
                 <button
                   key={category}
@@ -160,7 +160,7 @@ export default function MenuPage() {
           {/* Clothing Types */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-3 text-gray-300">Tipos de Ropa</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {organizedCategories.clothing.map((category) => (
                 <button
                   key={category}
@@ -177,7 +177,7 @@ export default function MenuPage() {
           {/* Accessories */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-3 text-gray-300">Accesorios y Complementos</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {organizedCategories.accessories.map((category) => (
                 <button
                   key={category}
@@ -194,7 +194,7 @@ export default function MenuPage() {
           {/* Special Categories */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-3 text-gray-300">Especiales</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {organizedCategories.special.map((category) => (
                 <button
                   key={category}

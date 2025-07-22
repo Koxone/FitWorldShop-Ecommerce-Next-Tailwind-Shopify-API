@@ -14,8 +14,10 @@ export default function LoginPage() {
   }, [isSignedIn, setIsLoggedIn]);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black text-white">
-      <SignIn path="/auth/login" routing="path" signUpUrl="/auth/sign-up" />
+    <main className="flex min-h-screen items-center justify-center bg-black text-white px-4 pb-20 md:pb-10">
+      <div className="w-full max-w-md">
+        <SignIn path="/auth/login" routing="path" signUpUrl="/auth/sign-up" />
+      </div>
     </main>
   );
 }

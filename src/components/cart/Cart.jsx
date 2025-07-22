@@ -58,7 +58,7 @@ const Cart = () => {
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="flex h-full w-full max-w-md flex-col border-l border-neutral-700 bg-gray-900 shadow-2xl"
+              className="flex h-full w-full flex-col border-l border-neutral-700 bg-gray-900 shadow-2xl sm:max-w-md"
             >
               {/* Header */}
               <div className="flex items-center justify-between border-b border-neutral-700 p-4">
