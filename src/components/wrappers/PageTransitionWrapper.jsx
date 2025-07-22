@@ -2,9 +2,9 @@
 
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Suspense } from 'react';
+import { Suspense, memo } from 'react';
 
-export default function PageTransitionWrapper({ children }) {
+function PageTransitionWrapper({ children }) {
   const pathname = usePathname();
 
   return (
@@ -24,3 +24,6 @@ export default function PageTransitionWrapper({ children }) {
     </AnimatePresence>
   );
 }
+
+// Memoize the component to prevent unnecessary re-renders
+export default memo(PageTransitionWrapper);

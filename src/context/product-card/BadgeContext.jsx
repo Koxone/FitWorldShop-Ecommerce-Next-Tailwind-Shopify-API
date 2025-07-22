@@ -1,11 +1,11 @@
 'use client';
 
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useMemo, useCallback } from 'react';
 
 const BadgeContext = createContext();
 
 export function BadgeProvider({ children }) {
-  const getBadges = (product) => {
+  const getBadges = useCallback((product) => {
     const badges = [];
 
     // Badge "NEW" si incluye un tag 'new' (insensible a mayúsculas)
@@ -22,9 +22,9 @@ export function BadgeProvider({ children }) {
     }
 
     return badges;
-  };
+  }, []);
 
-  function discountCalculation(product) {
+  const discountCalculation = useCallback((product) => {
     const variant = product.variants?.edges?.[0]?.node;
 
     if (!variant?.price?.amount || !variant?.compareAtPrice?.amount)
@@ -38,10 +38,16 @@ export function BadgeProvider({ children }) {
     const descuento = ((precioOriginal - precio) / precioOriginal) * 100;
 
     return Math.round(descuento); 
-  }
+  }, []);
+
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    getBadges,
+    discountCalculation
+  }), [getBadges, discountCalculation]);
 
   return (
-    <BadgeContext.Provider value={{ getBadges, discountCalculation }}>
+    <BadgeContext.Provider value={contextValue}>
       {children}
     </BadgeContext.Provider>
   );

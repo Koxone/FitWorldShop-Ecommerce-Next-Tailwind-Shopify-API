@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext();
@@ -11,14 +11,22 @@ export function AuthProvider({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('fws_user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsLoggedIn(true);
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('fws_user');
+      if (storedUser) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+          setIsLoggedIn(true);
+        } catch (error) {
+          console.error('Error parsing stored user data:', error);
+          localStorage.removeItem('fws_user');
+        }
+      }
     }
   }, []);
 
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
@@ -48,9 +56,9 @@ export function AuthProvider({ children }) {
       console.error(err);
       throw err;
     }
-  };
+  }, [router]);
 
-const signup = async (email, password, firstName, lastName) => {
+const signup = useCallback(async (email, password, firstName, lastName) => {
   try {
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
@@ -79,18 +87,30 @@ const signup = async (email, password, firstName, lastName) => {
     console.error(err);
     throw err;
   }
-};
+}, [router]);
 
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
     setIsLoggedIn(false);
-    localStorage.removeItem('fws_user');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('fws_user');
+    }
     router.push('/');
-  };
+  }, [router]);
+
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    user,
+    isLoggedIn,
+    login,
+    signup,
+    logout,
+    setIsLoggedIn
+  }), [user, isLoggedIn, login, signup, logout]);
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login, signup, logout, setIsLoggedIn }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 
 const PurchaseContext = createContext();
 
@@ -20,13 +20,13 @@ export function PurchaseProvider({ children }) {
 
   // Sync cart to localStorage on every change
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && cartItems.length >= 0) {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
   }, [cartItems]);
 
-  // Add product to cart
-  const addToCart = (product) => {
+  // Add product to cart - memoized to prevent re-creation
+  const addToCart = useCallback((product) => {
     setCartItems((prev) => {
       const existingItem = prev.find(
         (item) =>
@@ -60,10 +60,10 @@ export function PurchaseProvider({ children }) {
     })
   }
 */
-  };
+  }, []);
 
-  // Update quantity
-  const updateQuantity = (id, selectedSize, selectedColor, newQuantity) => {
+  // Update quantity - memoized to prevent re-creation
+  const updateQuantity = useCallback((id, selectedSize, selectedColor, newQuantity) => {
     if (newQuantity <= 0) {
       removeItem(id, selectedSize, selectedColor);
     } else {
@@ -77,10 +77,10 @@ export function PurchaseProvider({ children }) {
         )
       );
     }
-  };
+  }, []);
 
-  // Remove item from cart
-  const removeItem = (id, selectedSize, selectedColor) => {
+  // Remove item from cart - memoized to prevent re-creation
+  const removeItem = useCallback((id, selectedSize, selectedColor) => {
     setCartItems((prev) =>
       prev.filter(
         (item) =>
@@ -91,28 +91,29 @@ export function PurchaseProvider({ children }) {
           )
       )
     );
-  };
+  }, []);
 
-  // Clear cart
-  const clearCart = () => setCartItems([]);
+  // Clear cart - memoized to prevent re-creation
+  const clearCart = useCallback(() => setCartItems([]), []);
 
-  // Toggle cart open/close
-  const toggleCart = () => setIsCartOpen((prev) => !prev);
+  // Toggle cart open/close - memoized to prevent re-creation  
+  const toggleCart = useCallback(() => setIsCartOpen((prev) => !prev), []);
+
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    cartItems,
+    setCartItems,
+    addToCart,
+    updateQuantity,
+    removeItem,
+    clearCart,
+    isCartOpen,
+    setIsCartOpen,
+    toggleCart,
+  }), [cartItems, addToCart, updateQuantity, removeItem, clearCart, isCartOpen, toggleCart]);
 
   return (
-    <PurchaseContext.Provider
-      value={{
-        cartItems,
-        setCartItems,
-        addToCart,
-        updateQuantity,
-        removeItem,
-        clearCart,
-        isCartOpen,
-        setIsCartOpen,
-        toggleCart,
-      }}
-    >
+    <PurchaseContext.Provider value={contextValue}>
       {children}
     </PurchaseContext.Provider>
   );
