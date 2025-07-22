@@ -26,8 +26,6 @@ function BottomNavBar() {
   // For testing purposes, default to not signed in
   const isSignedIn = false;
 
-  if (isPWA === null) return null;
-
   // Debounced search effect for real-time filtering
   useEffect(() => {
     if (debounceRef.current) {
@@ -49,6 +47,9 @@ function BottomNavBar() {
       }
     };
   }, [mobileSearchValue, searchProducts]);
+
+  // Early return after all hooks have been called
+  if (isPWA === null) return null;
 
   // Handle mobile search input change
   const handleMobileSearchInputChange = (e) => {
