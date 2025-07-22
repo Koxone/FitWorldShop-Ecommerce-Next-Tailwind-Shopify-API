@@ -90,9 +90,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   // Check if Clerk keys are available
   const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  const hasValidClerkKey = clerkPublishableKey && clerkPublishableKey.startsWith('pk_');
+  const hasValidClerkKey = clerkPublishableKey && clerkPublishableKey.startsWith('pk_') && !clerkPublishableKey.includes('dummy');
   
   if (!hasValidClerkKey) {
+    console.log('🔧 Rendering without Clerk - using fallback layout');
     // Render without Clerk if keys are not available
     return (
       <html lang="es">

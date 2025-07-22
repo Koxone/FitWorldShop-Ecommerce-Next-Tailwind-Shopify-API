@@ -6,7 +6,7 @@ import { useState } from 'react';
 import ProductFiltersSidebar from '@/components/Navigation/AllProducts/ProductFiltersSidebar';
 
 export default function ProductsView() {
-  const { getScopeState, categoryLabels } = useCategoryFilter();
+  const { getScopeState, categoryLabels, searchQuery, setSearchQuery } = useCategoryFilter();
   const { setCategory, currentCategory } = getScopeState('all-products');
   const [showMore, setShowMore] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
@@ -15,6 +15,11 @@ export default function ProductsView() {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   const toggleShowMore = () => setShowMore((prev) => !prev);
+
+  const clearSearch = () => {
+    setSearchQuery('');
+    setCategory(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -37,6 +42,26 @@ export default function ProductsView() {
             Filtros
           </button>
         </div>
+        
+        {/* Mobile Search Results Indicator */}
+        {searchQuery && (
+          <div className="mt-3 flex items-center justify-between bg-gray-800 rounded-lg p-3 border border-gray-700">
+            <div>
+              <p className="text-white text-sm">
+                Resultados para: <span className="font-semibold">"{searchQuery}"</span>
+              </p>
+            </div>
+            <button
+              onClick={clearSearch}
+              className="flex items-center gap-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm text-gray-300 hover:text-white transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Limpiar búsqueda
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="lg:grid lg:grid-cols-[auto_1fr] lg:gap-6 lg:px-6">
@@ -73,6 +98,26 @@ export default function ProductsView() {
             <p className="font-inter mb-6 text-gray-400">
               Descubre nuestra coleccion completa de Ropa y Accesorios.
             </p>
+            
+            {/* Desktop Search Results Indicator */}
+            {searchQuery && (
+              <div className="mb-4 flex items-center justify-between bg-gray-800 rounded-lg p-3 border border-gray-700">
+                <div>
+                  <p className="text-white text-sm">
+                    Resultados para: <span className="font-semibold">"{searchQuery}"</span>
+                  </p>
+                </div>
+                <button
+                  onClick={clearSearch}
+                  className="flex items-center gap-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm text-gray-300 hover:text-white transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Limpiar búsqueda
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Products Cards */}

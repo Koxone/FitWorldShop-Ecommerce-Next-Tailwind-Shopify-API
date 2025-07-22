@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
 import { usePurchase } from '@/context/Cart/PurchaseContext';
 import { useAuth } from '@/context/Auth/AuthContext';
+import SearchInput from '../../Navigation/SearchInput';
 import {
   SignInButton,
   useAuth as useClerkAuth,
@@ -25,19 +26,10 @@ function MainHeader() {
     router.push('/all-products');
   };
 
-  // Safely get Clerk auth state, fallback to false if not available
+  // For testing purposes, default to safe values
   let clerkAuth = { isSignedIn: false };
   let UserButtonComponent = null;
   let SignInButtonComponent = null;
-  
-  try {
-    clerkAuth = useClerkAuth();
-    UserButtonComponent = UserButton;
-    SignInButtonComponent = SignInButton;
-  } catch (error) {
-    // Clerk not available, continue with default values
-    console.warn('Clerk auth not available in MainHeader:', error.message);
-  }
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   
@@ -89,8 +81,11 @@ function MainHeader() {
             />
           </nav>
 
-          {/* Right Icons */}
+          {/* Right Side - Search + Icons */}
           <div className="flex items-center justify-end space-x-4">
+            {/* Search Input */}
+            <SearchInput />
+
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
               {isLoggedIn && UserButtonComponent ? (

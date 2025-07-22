@@ -16,7 +16,7 @@ import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
 
 export default function ShopifyProductCard({ viewScope }) {
   const pathname = usePathname();
-  const { getScopeState, isLoading, isError, mapTextToShopifyCategory } =
+  const { getScopeState, isLoading, isError, mapTextToShopifyCategory, searchQuery } =
     useCategoryFilter();
 
   const [productImages, setProductImages] = useState({});
@@ -29,10 +29,26 @@ export default function ShopifyProductCard({ viewScope }) {
     if (!products) return [];
 
     const tagLower = tag?.toLowerCase();
+    const hasSearchQuery = searchQuery && searchQuery.trim();
 
-    const result = products.filter((product) => {
+    let result = products.filter((product) => {
       const tags = product.tags?.map((t) => t.toLowerCase()) || [];
 
+      // If there's a search query, filter by search first
+      if (hasSearchQuery && viewScope === 'all-products') {
+        const searchTerm = searchQuery.toLowerCase().trim();
+        const title = product.title?.toLowerCase() || '';
+        const description = product.description?.toLowerCase() || '';
+        
+        const matchesSearch = 
+          title.includes(searchTerm) ||
+          tags.some(tag => tag.includes(searchTerm)) ||
+          description.includes(searchTerm);
+        
+        if (!matchesSearch) return false;
+      }
+
+      // Then apply category filters
       if (tagLower) return tags.includes(tagLower);
 
       switch (viewScope) {
@@ -61,9 +77,13 @@ export default function ShopifyProductCard({ viewScope }) {
       }
     });
 
-    // Orden aleatorio
-    return [...result].sort(() => Math.random() - 0.5);
-  }, [products, tag, viewScope]);
+    // Only randomize if there's no search query
+    if (!hasSearchQuery || viewScope !== 'all-products') {
+      return [...result].sort(() => Math.random() - 0.5);
+    }
+
+    return result;
+  }, [products, tag, viewScope, searchQuery]);
 
   if (isLoading) {
     return <div className="p-4 text-center">Cargando productos...</div>;
