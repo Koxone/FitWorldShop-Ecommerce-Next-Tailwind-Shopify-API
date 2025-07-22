@@ -6,8 +6,7 @@ import { useState } from 'react';
 import ProductFiltersSidebar from '@/components/Navigation/AllProducts/ProductFiltersSidebar';
 
 export default function ProductsView() {
-  const { getScopeState, categoryLabels } = useCategoryFilter();
-  const { setCategory, currentCategory } = getScopeState('all-products');
+  const { setCategory, currentCategory, categoryLabels } = useCategoryFilter();
   const [showMore, setShowMore] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Infinity);

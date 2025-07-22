@@ -7,71 +7,20 @@ import {
   ShoppingBagIcon,
   UserIcon,
 } from '../../icons/Icons';
-import { useRouter, usePathname } from 'next/navigation';
-import { usePurchase } from '@/context/Cart/PurchaseContext';
+import { useRouter } from 'next/navigation';
 
 function BottomNavBar() {
   const isPWA = useIsPWA();
   const router = useRouter();
-  const pathname = usePathname();
-  const { setIsCartOpen } = usePurchase();
-  
-  // Safely get auth state, fallback to false if Clerk is not properly configured
-  let isSignedIn = false;
-  try {
-    const { useAuth } = require('@clerk/nextjs');
-    const auth = useAuth();
-    isSignedIn = auth?.isSignedIn || false;
-  } catch (error) {
-    // Clerk not properly configured, continue with isSignedIn = false
-    console.warn('Clerk auth not available:', error.message);
-  }
 
   if (isPWA === null) return null;
 
   const items = [
-    { 
-      icon: HomeIcon, 
-      label: 'Home', 
-      path: '/',
-      action: () => router.push('/')
-    },
-    { 
-      icon: UserIcon, 
-      label: 'Cuenta', 
-      path: '/user-profile',
-      action: () => {
-        if (isSignedIn) {
-          router.push('/user-profile');
-        } else {
-          router.push('/auth/login');
-        }
-      }
-    },
-    { 
-      icon: ShoppingBagIcon, 
-      label: 'Carrito', 
-      path: '/cart',
-      action: () => setIsCartOpen(true)
-    },
-    { 
-      icon: MenuIcon, 
-      label: 'Menu', 
-      path: '/menu',
-      action: () => router.push('/menu')
-    },
+    { icon: HomeIcon, label: 'Home' },
+    { icon: UserIcon, label: 'Cuenta' },
+    { icon: ShoppingBagIcon, label: 'Carrito' },
+    { icon: MenuIcon, label: 'Menu' },
   ];
-
-  const isActive = (item) => {
-    if (item.label === 'Home') {
-      return pathname === '/';
-    }
-    if (item.label === 'Carrito') {
-      // Cart doesn't have a dedicated page, so never active
-      return false;
-    }
-    return pathname.startsWith(item.path);
-  };
 
   return (
     <div
@@ -79,27 +28,26 @@ function BottomNavBar() {
         isPWA ? 'pb-20' : 'pb-8'
       } text-white lg:hidden`}
     >
-      {items.map((item, index) => {
-        const { icon: Icon, label, action } = item;
-        const active = isActive(item);
-        
-        return (
-          <button
-            key={index}
-            onClick={action}
-            className={`flex h-fit w-fit cursor-pointer flex-col items-center justify-center gap-1 text-xs transition-all duration-200 ${
-              active 
-                ? 'text-blue-400 scale-105' 
-                : 'text-white hover:text-blue-400 hover:scale-105'
-            }`}
-          >
-            <Icon className={`h-5 w-5 transition-transform duration-200 ${active ? 'scale-110' : ''}`} />
-            <span className={`transition-colors duration-200 ${active ? 'font-semibold' : ''}`}>
-              {label}
-            </span>
-          </button>
-        );
-      })}
+      {items.map(({ icon: Icon, label }, index) => (
+        <button
+          key={index}
+          onClick={() => {
+            if (label === 'Home') {
+              router.push('/');
+            } else if (label === 'Cuenta') {
+              console.log('Cuenta Abierto');
+            } else if (label === 'Carrito') {
+              console.log('Carrito Abierto');
+            } else if (label === 'Menu') {
+              console.log('Menu Abierto');
+            }
+          }}
+          className="flex h-fit w-fit cursor-pointer flex-col items-center justify-center gap-1 text-xs text-white hover:text-blue-400"
+        >
+          <Icon className="h-5 w-5" />
+          <span>{label}</span>
+        </button>
+      ))}
     </div>
   );
 }
