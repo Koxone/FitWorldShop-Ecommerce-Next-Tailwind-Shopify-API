@@ -9,7 +9,7 @@ import {
 } from '../../icons/Icons';
 import { useRouter, usePathname } from 'next/navigation';
 import { usePurchase } from '@/context/Cart/PurchaseContext';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
 
 function BottomNavBar() {
@@ -17,9 +17,11 @@ function BottomNavBar() {
   const router = useRouter();
   const pathname = usePathname();
   const { setIsCartOpen } = usePurchase();
-  const { setSearchQuery } = useCategoryFilter();
+  const { setSearchQuery, searchProducts } = useCategoryFilter();
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [mobileSearchValue, setMobileSearchValue] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const debounceRef = useRef(null);
   
   // Safely get auth state, fallback to false if Clerk is not properly configured
   let isSignedIn = false;
@@ -33,6 +35,41 @@ function BottomNavBar() {
   }
 
   if (isPWA === null) return null;
+
+  // Debounced search effect for real-time filtering
+  useEffect(() => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      if (mobileSearchValue.trim()) {
+        const results = searchProducts(mobileSearchValue);
+        setSearchResults(results.slice(0, 10)); // Show up to 10 results
+      } else {
+        setSearchResults([]);
+      }
+    }, 300);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, [mobileSearchValue, searchProducts]);
+
+  // Handle mobile search input change
+  const handleMobileSearchInputChange = (e) => {
+    setMobileSearchValue(e.target.value);
+  };
+
+  // Handle search result click
+  const handleSearchResultClick = (product) => {
+    setMobileSearchValue('');
+    setSearchResults([]);
+    setShowMobileSearch(false);
+    router.push(`/product-open/${product.handle}`);
+  };
 
   // Handle mobile search
   const handleMobileSearch = (e) => {
@@ -113,7 +150,11 @@ function BottomNavBar() {
             <div className="flex items-center justify-between p-4 border-b border-gray-700">
               <h2 className="text-lg font-semibold text-white">Buscar Productos</h2>
               <button
-                onClick={() => setShowMobileSearch(false)}
+                onClick={() => {
+                  setShowMobileSearch(false);
+                  setMobileSearchValue('');
+                  setSearchResults([]);
+                }}
                 className="text-gray-400 hover:text-white"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -121,27 +162,109 @@ function BottomNavBar() {
                 </svg>
               </button>
             </div>
-            <form onSubmit={handleMobileSearch} className="p-4">
+            
+            {/* Search Input */}
+            <div className="p-4 border-b border-gray-700">
               <div className="relative">
                 <input
                   type="text"
                   value={mobileSearchValue}
-                  onChange={(e) => setMobileSearchValue(e.target.value)}
+                  onChange={handleMobileSearchInputChange}
                   placeholder="¿Qué estás buscando?"
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
                   autoFocus
                 />
-                <button
-                  type="submit"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
-                >
-                  <SearchIcon className="w-5 h-5" />
-                </button>
+                <SearchIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               </div>
               <p className="mt-2 text-sm text-gray-400">
                 Busca por nombre de producto, categoría o tags
               </p>
-            </form>
+            </div>
+
+            {/* Search Results */}
+            <div className="flex-1 overflow-y-auto">
+              {mobileSearchValue.trim() && searchResults.length > 0 && (
+                <div className="p-4">
+                  <p className="text-sm text-gray-400 mb-4">
+                    {searchResults.length} resultado{searchResults.length !== 1 ? 's' : ''} encontrado{searchResults.length !== 1 ? 's' : ''}
+                  </p>
+                  <div className="space-y-3">
+                    {searchResults.map((product) => (
+                      <button
+                        key={product.id}
+                        onClick={() => handleSearchResultClick(product)}
+                        className="w-full flex items-center p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors text-left border border-gray-700"
+                      >
+                        {product.featuredImage && (
+                          <img
+                            src={product.featuredImage.url}
+                            alt={product.title}
+                            className="w-16 h-16 object-cover rounded-lg mr-4 flex-shrink-0"
+                          />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-sm font-medium mb-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                            {product.title}
+                          </p>
+                          <p className="text-blue-400 text-sm font-semibold">
+                            ${product.priceRange.minVariantPrice.amount}
+                          </p>
+                          {product.tags && product.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-2">
+                              {product.tags.slice(0, 3).map((tag, index) => (
+                                <span
+                                  key={index}
+                                  className="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                  
+                  {/* View All Results Button */}
+                  {mobileSearchValue.trim() && (
+                    <button
+                      onClick={() => {
+                        setSearchQuery(mobileSearchValue);
+                        setShowMobileSearch(false);
+                        setMobileSearchValue('');
+                        setSearchResults([]);
+                        router.push('/all-products');
+                      }}
+                      className="w-full mt-4 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+                    >
+                      Ver todos los resultados
+                    </button>
+                  )}
+                </div>
+              )}
+              
+              {/* No Results */}
+              {mobileSearchValue.trim() && searchResults.length === 0 && (
+                <div className="p-4 text-center">
+                  <p className="text-gray-400">No se encontraron productos</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Intenta con otros términos de búsqueda
+                  </p>
+                </div>
+              )}
+              
+              {/* Empty State */}
+              {!mobileSearchValue.trim() && (
+                <div className="p-4 text-center">
+                  <SearchIcon className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                  <p className="text-gray-400 text-lg mb-2">¿Qué estás buscando?</p>
+                  <p className="text-sm text-gray-500">
+                    Escribe para ver resultados en tiempo real
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
