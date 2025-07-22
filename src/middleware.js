@@ -1,13 +1,9 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-
-const isPublicRoute = createRouteMatcher([
-  '/auth/login',
-  '/auth/sign-up',
-  '/auth/login/sso-callback',
-]);
+import { clerkMiddleware } from '@clerk/nextjs/server';
 
 export default clerkMiddleware();
 
 export const config = {
-  matcher: ['/((?!_next|.*\\..*).*)'],
+  matcher: [
+    '/((?!_next|.*\\..*|auth/login.*|auth/sign-up.*).*)',
+  ],
 };

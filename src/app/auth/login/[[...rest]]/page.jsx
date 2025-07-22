@@ -6,8 +6,8 @@ import { SignIn } from '@clerk/nextjs';
 import { useEffect } from 'react';
 
 export default function LoginPage() {
-  const { isSignedIn } = useClerkAuth(); // Clerk
-  const { setIsLoggedIn } = useAuth(); // Context
+  const { isSignedIn } = useClerkAuth(); 
+  const { setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     setIsLoggedIn(isSignedIn);

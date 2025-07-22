@@ -41,8 +41,10 @@ export default function ProductCarousel() {
                   }
                   alt={product.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
                   className="object-cover transition duration-300 ease-in-out group-hover:scale-105"
                 />
+
                 <div className="absolute bottom-0 left-0 flex w-full px-4 pb-4">
                   <div className="flex items-center rounded-full border bg-white/70 p-1 text-xs font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/70 dark:text-white">
                     <h3 className="mr-4 line-clamp-2 flex-grow pl-2 leading-none tracking-tight">

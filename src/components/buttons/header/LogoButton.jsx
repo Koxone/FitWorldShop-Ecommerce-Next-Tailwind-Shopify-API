@@ -10,12 +10,20 @@ function LogoButton() {
   const handleClick = () => {
     router.push('/');
   };
+
   return (
     <button
       onClick={handleClick}
-      className="flex max-w-[120px] cursor-pointer items-center md:h-[37px] md:max-w-[160px]"
+      className="relative cursor-pointer h-[40px] w-[120px] md:h-[50px] md:w-[160px]"
     >
-      <Image src="/logo.png" alt="Logo" width={130} height={100} />
+      <Image
+        src="/logo.png"
+        alt="Logo"
+        fill
+        sizes="(max-width: 768px) 120px, 160px"
+        style={{ objectFit: 'contain' }}
+        priority
+      />
     </button>
   );
 }

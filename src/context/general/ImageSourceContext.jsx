@@ -92,7 +92,7 @@ export function ImageSourceProvider({ children }) {
       {
         title: 'koxland',
         subtitle: 'Desarrollo Web a tu medida',
-        image: 'koxland.png',
+        image: '/koxland.png',
         buttonText: 'conocenos',
         url: 'https://koxland.dev/',
       },
