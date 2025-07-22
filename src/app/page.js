@@ -11,7 +11,7 @@ import RevealOnScroll from '@/Styles/RevealOnScroll';
 export default function Home() {
   const heroItems = MainBanner();
   return (
-    <main className="flex min-h-screen flex-col items-center gap-10">
+    <main className="flex min-h-screen flex-col items-center gap-6 md:gap-10">
       <ImagesCarousel
         items={heroItems}
         autoPlay={true}
@@ -20,9 +20,9 @@ export default function Home() {
         showArrows={true}
       />
 
-      <div className="flex w-full max-w-7xl flex-col gap-6 justify-self-center md:px-10">
+      <div className="flex w-full max-w-7xl flex-col gap-4 justify-self-center px-4 sm:px-6 md:px-10">
         <RevealOnScroll>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 md:gap-6">
             <HomeProductCardsContainer
               title1="Ropa Deportiva"
               subtitle1="Para Hombre y Mujer"
@@ -53,7 +53,11 @@ export default function Home() {
           />
         </RevealOnScroll>
       </div>
-      <NewsLetter />
+      
+      {/* Newsletter with proper bottom spacing for mobile navigation */}
+      <div className="w-full pb-20 md:pb-10">
+        <NewsLetter />
+      </div>
     </main>
   );
 }

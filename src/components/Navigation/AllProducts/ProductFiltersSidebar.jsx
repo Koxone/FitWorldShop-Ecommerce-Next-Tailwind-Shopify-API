@@ -9,13 +9,89 @@ export default function ProductFiltersSidebar({
   setMinPrice,
   setMaxPrice,
   setMinRating,
+  isMobile = false,
+  isOpen = false,
+  onClose = () => {},
 }) {
   const [showMore, setShowMore] = useState(false);
 
   const toggleShowMore = () => setShowMore((prev) => !prev);
 
+  // Mobile overlay filter
+  if (isMobile) {
+    return (
+      <>
+        {/* Overlay */}
+        {isOpen && (
+          <div
+            className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+            onClick={onClose}
+          />
+        )}
+
+        {/* Mobile Filter Sidebar */}
+        <aside
+          className={`fixed left-0 top-0 z-50 h-full w-4/5 max-w-xs transform bg-[#0b1320] p-4 text-white transition-transform duration-300 lg:hidden ${
+            isOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Filtros</h2>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-white"
+            >
+              ✕
+            </button>
+          </div>
+          
+          <div className="overflow-y-auto h-full pb-20">
+            <FilterContent
+              categoryLabels={categoryLabels}
+              currentCategory={currentCategory}
+              setCategory={setCategory}
+              setMinPrice={setMinPrice}
+              setMaxPrice={setMaxPrice}
+              setMinRating={setMinRating}
+              showMore={showMore}
+              toggleShowMore={toggleShowMore}
+            />
+          </div>
+        </aside>
+      </>
+    );
+  }
+
+  // Desktop sidebar
   return (
-    <aside className="sticky top-0 hidden h-fit w-full max-w-[220px] flex-col overflow-y-auto rounded-lg border border-neutral-600 bg-[#0b1320] p-4 pr-4 text-white md:flex">
+    <aside className="sticky top-0 hidden h-fit w-full max-w-[220px] flex-col overflow-y-auto rounded-lg border border-neutral-600 bg-[#0b1320] p-4 pr-4 text-white lg:flex">
+      <FilterContent
+        categoryLabels={categoryLabels}
+        currentCategory={currentCategory}
+        setCategory={setCategory}
+        setMinPrice={setMinPrice}
+        setMaxPrice={setMaxPrice}
+        setMinRating={setMinRating}
+        showMore={showMore}
+        toggleShowMore={toggleShowMore}
+      />
+    </aside>
+  );
+}
+
+// Separate component for the filter content to avoid duplication
+function FilterContent({
+  categoryLabels,
+  currentCategory,
+  setCategory,
+  setMinPrice,
+  setMaxPrice,
+  setMinRating,
+  showMore,
+  toggleShowMore,
+}) {
+  return (
+    <>
       {/* ───────── Categoría ───────── */}
       <div className="mb-6">
         <h3 className="mb-2 text-sm font-semibold text-neutral-300">
@@ -185,6 +261,6 @@ export default function ProductFiltersSidebar({
           ))}
         </div>
       </div>
-    </aside>
+    </>
   );
 }
