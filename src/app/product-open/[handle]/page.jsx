@@ -110,25 +110,32 @@ export default function ProductOpenView() {
     return <p className="p-10 text-white">Producto no encontrado.</p>;
 
   return (
-    <div className="flex w-full max-w-[1200px] grid-cols-1 flex-wrap gap-4 self-center p-4 md:grid-cols-[1fr_1fr] md:gap-12 md:p-10">
-      {/* Galería */}
-      <RevealOnScroll>
-        <ProductGallery
+    <div className="w-full max-w-[1200px] mx-auto p-4 md:p-10">
+      {/* Main Product Container */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-12">
+      {/* Product Gallery Column */}
+      <div className="space-y-4">
+        {/* Galería */}
+        <RevealOnScroll>
+          <ProductGallery
+            product={product}
+            images={images}
+            overrideImage={productImages[product.id]}
+          />
+        </RevealOnScroll>
+
+        {/* Selector de color (mobile) */}
+        <ColorSelectorMobile
           product={product}
-          images={images}
-          overrideImage={productImages[product.id]}
+          onColorChange={changeColor}
+          isHidden={isVitaminOrSupplement}
         />
-      </RevealOnScroll>
+      </div>
 
-      {/* Selector de color (mobile) */}
-      <ColorSelectorMobile
-        product={product}
-        onColorChange={changeColor}
-        isHidden={isVitaminOrSupplement}
-      />
-
-      {/* Información y variantes */}
-      <div className="animate-slide-in-right flex max-w-[500px] flex-col gap-6 text-white">
+      {/* Product Info Column */}
+      <div className="space-y-6">
+        {/* Información y variantes */}
+        <div className="animate-slide-in-right flex w-full flex-col gap-6 text-white md:max-w-[500px]">
         <div className="flex flex-wrap gap-2">
           {isNew && (
             <span className="inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
@@ -143,7 +150,7 @@ export default function ProductOpenView() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <h1 className="font-montserrat text-3xl font-bold md:text-4xl lg:text-5xl">
+          <h1 className="font-montserrat text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
             {product.title}
           </h1>
           <h2>
@@ -198,7 +205,7 @@ export default function ProductOpenView() {
           changeQuantity={changeQuantity}
         />
 
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <>
             <AddToCartButton
               product={{
@@ -245,19 +252,21 @@ export default function ProductOpenView() {
             </GeneralModal>
           </>
 
-          <button
-            onClick={() => setIsWishlisted((w) => !w)}
-            className={`rounded-lg border p-3 ${
-              isWishlisted
-                ? 'border-red-500 bg-red-500 text-white'
-                : 'border-gray-600 text-gray-300 hover:border-white hover:text-white'
-            }`}
-          >
-            <HeartIcon size={18} filled={isWishlisted} />
-          </button>
-          <button className="rounded-lg border border-gray-600 p-3 text-gray-300 hover:border-white hover:text-white">
-            <ShareIcon size={18} />
-          </button>
+          <div className="flex gap-3 sm:ml-auto">
+            <button
+              onClick={() => setIsWishlisted((w) => !w)}
+              className={`rounded-lg border p-3 ${
+                isWishlisted
+                  ? 'border-red-500 bg-red-500 text-white'
+                  : 'border-gray-600 text-gray-300 hover:border-white hover:text-white'
+              }`}
+            >
+              <HeartIcon size={18} filled={isWishlisted} />
+            </button>
+            <button className="rounded-lg border border-gray-600 p-3 text-gray-300 hover:border-white hover:text-white">
+              <ShareIcon size={18} />
+            </button>
+          </div>
         </div>
 
         <div className="border-t border-gray-700 pt-6">
@@ -284,11 +293,13 @@ export default function ProductOpenView() {
               'Care instructions here.'
             )}
           </div>
+          </div>
         </div>
+      </div>
       </div>
 
       {/* Sección inferior de productos relacionados */}
-      <div className="flex w-full flex-col gap-10 pt-6 pb-[100px]">
+      <div className="flex w-full flex-col gap-10 pt-8 pb-20 md:pb-10">
         <RevealOnScroll>
           {isVitaminOrSupplement ? (
             <div className="flex flex-col gap-6">
