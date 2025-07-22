@@ -53,7 +53,7 @@ function MainHeader() {
     <>
       {/* Top Banner */}
       <div className="relative overflow-hidden bg-surface py-2">
-        <div className="animate-marquee text-center text-xs whitespace-nowrap text-secondary md:text-sm">
+        <div className="animate-marquee text-center text-xs whitespace-nowrap text-secondary md:text-sm font-sans">
           {Array.from({ length: 8 }).map((_, index) => (
             <span key={index} className="mx-4">
               {generalTextData.header.banner}
@@ -63,7 +63,7 @@ function MainHeader() {
       </div>
 
       {/* Desktop Header */}
-      <header className="sticky top-0 z-fixed hidden border-b border-border bg-surface-elevated px-4 lg:block">
+      <header className="sticky top-0 z-fixed hidden border-b border-border bg-surface-elevated px-4 lg:block shadow-sm">
         <div className="grid h-16 w-full grid-cols-[auto_1fr_auto] items-center justify-between pl-5">
           {/* Logo */}
           <LogoButton />
@@ -104,14 +104,14 @@ function MainHeader() {
                 />
               ) : SignInButtonComponent ? (
                 <SignInButtonComponent>
-                  <button className="absolute inset-0 lg:pl-4 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-muted hover:text">
+                  <button className="absolute inset-0 lg:pl-4 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-muted hover:text-text hover:text-primary transition-colors duration-normal">
                     <UserIcon size={20} />
                   </button>
                 </SignInButtonComponent>
               ) : (
                 <button
                   onClick={() => router.push('/auth/login')}
-                  className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-muted hover:text"
+                  className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-muted hover:text-text hover:text-primary transition-colors duration-normal"
                 >
                   <UserIcon size={20} />
                 </button>
@@ -120,10 +120,10 @@ function MainHeader() {
 
             <button
               onClick={() => setIsCartOpen(!isCartOpen)}
-              className="relative cursor-pointer p-2 text-muted hover:text"
+              className="relative cursor-pointer p-2 text-muted hover:text-text hover:text-primary transition-colors duration-normal"
             >
               <ShoppingBagIcon size={20} />
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-semibold text-gray-900">
+              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-inverse">
                 {cartItems.length}
               </span>
             </button>
@@ -132,7 +132,7 @@ function MainHeader() {
       </header>
 
       {/* Mobile Header */}
-      <header className="sticky top-0 hidden z-50 border-b border-gray-700 bg-gray-900 px-4 py-3 lg:hidden">
+      <header className="sticky top-0 hidden z-50 border-b border-border bg-surface-elevated px-4 py-3 lg:hidden shadow-sm">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <LogoButton />
@@ -155,14 +155,14 @@ function MainHeader() {
                 />
               ) : SignInButtonComponent ? (
                 <SignInButtonComponent>
-                  <button className="cursor-pointer p-2 text-gray-300 hover:text-white">
+                  <button className="cursor-pointer p-2 text-muted hover:text-text hover:text-primary transition-colors duration-normal">
                     <UserIcon size={18} />
                   </button>
                 </SignInButtonComponent>
               ) : (
                 <button
                   onClick={() => router.push('/auth/login')}
-                  className="cursor-pointer p-2 text-gray-300 hover:text-white"
+                  className="cursor-pointer p-2 text-muted hover:text-text hover:text-primary transition-colors duration-normal"
                 >
                   <UserIcon size={18} />
                 </button>
@@ -171,10 +171,10 @@ function MainHeader() {
 
             <button
               onClick={() => setIsCartOpen(!isCartOpen)}
-              className="relative cursor-pointer p-2 text-gray-300 hover:text-white"
+              className="relative cursor-pointer p-2 text-muted hover:text-text hover:text-primary transition-colors duration-normal"
             >
               <ShoppingBagIcon size={18} />
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-white text-xs font-semibold text-gray-900">
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs font-semibold text-inverse">
                 {cartItems.length}
               </span>
             </button>

@@ -11,7 +11,7 @@ function ViewAllButton() {
     <div className="animate-fade-in self-center text-center">
       <button
         onClick={handleClick}
-        className="hover-lift uppercase focus-ring font-poppins cursor-pointer rounded-lg bg-white px-6 py-2.5 text-sm font-semibold text-gray-900 transition-all duration-200 hover:bg-gray-400 sm:px-8 sm:py-3 sm:text-base"
+        className="uppercase focus-ring font-sans cursor-pointer rounded-lg bg-surface text-text px-6 py-2.5 text-sm font-semibold transition-all duration-normal hover:bg-surface-hover hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 sm:px-8 sm:py-3 sm:text-base border border-border hover:border-primary"
       >
         ver todo
       </button>

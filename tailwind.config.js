@@ -120,6 +120,10 @@ module.exports = {
         popover: 'var(--z-popover)',
         tooltip: 'var(--z-tooltip)',
       },
+      backgroundImage: {
+        'gradient-primary': 'var(--gradient-primary)',
+        'gradient-surface': 'var(--gradient-surface)',
+      },
       opacity: {
         disabled: 'var(--opacity-disabled)',
         hover: 'var(--opacity-hover)',

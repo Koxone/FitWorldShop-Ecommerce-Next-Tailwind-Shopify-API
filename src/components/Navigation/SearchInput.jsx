@@ -78,7 +78,7 @@ export default function SearchInput({ className = '' }) {
       {/* Search Button (Mobile/Desktop toggle) */}
       <button
         onClick={() => setIsVisible(!isVisible)}
-        className="flex items-center justify-center p-2 text-gray-300 hover:text-white transition-colors lg:hidden"
+        className="flex items-center justify-center p-2 text-muted hover:text-text hover:text-primary transition-colors duration-normal lg:hidden"
         aria-label="Abrir búsqueda"
       >
         <svg
@@ -101,7 +101,7 @@ export default function SearchInput({ className = '' }) {
         onSubmit={handleSearch}
         className={`${
           isVisible ? 'block' : 'hidden'
-        } lg:block absolute lg:relative top-full lg:top-0 left-0 right-0 lg:left-auto lg:right-auto bg-gray-800 lg:bg-transparent border lg:border-0 border-gray-600 rounded-lg lg:rounded-none p-2 lg:p-0 z-50`}
+        } lg:block absolute lg:relative top-full lg:top-0 left-0 right-0 lg:left-auto lg:right-auto bg-surface lg:bg-transparent border lg:border-0 border-border rounded-lg lg:rounded-none p-2 lg:p-0 z-50 shadow-lg lg:shadow-none`}
       >
         <div className="relative">
           <input
@@ -110,12 +110,12 @@ export default function SearchInput({ className = '' }) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Buscar productos..."
-            className="w-full lg:w-64 xl:w-80 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+            className="w-full lg:w-64 xl:w-80 px-4 py-2 bg-surface border border-border rounded-lg text-text placeholder-text-muted focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-20 transition-all duration-normal font-sans"
             autoComplete="off"
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary transition-colors duration-normal"
           >
             <svg
               className="w-4 h-4"
@@ -137,13 +137,13 @@ export default function SearchInput({ className = '' }) {
         {showResults && searchResults.length > 0 && (
           <div
             ref={resultsRef}
-            className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg shadow-lg max-h-80 overflow-y-auto z-50"
+            className="absolute top-full left-0 right-0 mt-1 bg-surface border border-border rounded-lg shadow-xl max-h-80 overflow-y-auto z-50"
           >
             {searchResults.map((product) => (
               <button
                 key={product.id}
                 onClick={() => handleResultClick(product)}
-                className="w-full flex items-center p-3 hover:bg-gray-700 transition-colors text-left border-b border-gray-700 last:border-b-0"
+                className="w-full flex items-center p-3 hover:bg-surface-hover transition-colors duration-normal text-left border-b border-border last:border-b-0"
               >
                 {product.featuredImage && (
                   <img
@@ -153,10 +153,10 @@ export default function SearchInput({ className = '' }) {
                   />
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm font-medium truncate">
+                  <p className="text-text text-sm font-medium truncate font-sans">
                     {product.title}
                   </p>
-                  <p className="text-gray-400 text-xs">
+                  <p className="text-muted text-xs font-sans">
                     ${product.priceRange.minVariantPrice.amount}
                   </p>
                 </div>
@@ -168,7 +168,7 @@ export default function SearchInput({ className = '' }) {
                 setShowResults(false);
                 router.push('/all-products');
               }}
-              className="w-full p-3 text-center text-gray-300 hover:text-white hover:bg-gray-700 transition-colors border-t border-gray-600"
+              className="w-full p-3 text-center text-secondary hover:text-primary hover:bg-surface-hover transition-colors duration-normal border-t border-border font-sans"
             >
               Ver todos los resultados ({searchResults.length > 5 ? 'más de 5' : searchResults.length})
             </button>

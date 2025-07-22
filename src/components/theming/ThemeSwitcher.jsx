@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react';
 
 const themes = [
-  { name: 'Default', value: 'default' },
-  { name: 'Corporate Blue', value: 'client1' },
-  { name: 'Light Modern', value: 'client2' },
+  { name: 'Default', value: 'default', description: 'Dark green fitness theme' },
+  { name: 'Corporate Blue', value: 'client1', description: 'Professional blue & orange' },
+  { name: 'Light Modern', value: 'client2', description: 'Clean light theme' },
+  { name: 'Ocean Sunset', value: 'ocean-sunset', description: 'Vibrant blues & oranges' },
+  { name: 'Nordic Minimal', value: 'nordic-minimal', description: 'Minimalist light theme' },
 ];
 
 export default function ThemeSwitcher() {
@@ -20,7 +22,13 @@ export default function ThemeSwitcher() {
 
   const applyTheme = (themeName) => {
     // Remove existing theme classes
-    document.documentElement.classList.remove('theme-default', 'theme-client1', 'theme-client2');
+    document.documentElement.classList.remove(
+      'theme-default', 
+      'theme-client1', 
+      'theme-client2', 
+      'theme-ocean-sunset', 
+      'theme-nordic-minimal'
+    );
     
     // Add new theme class
     document.documentElement.classList.add(`theme-${themeName}`);
@@ -47,22 +55,25 @@ export default function ThemeSwitcher() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-tooltip bg-surface border border-border rounded-lg p-4 shadow-lg">
-      <h3 className="text-sm font-semibold text mb-3">Theme Switcher</h3>
-      <div className="space-y-2">
-        {themes.map((theme) => (
-          <button
-            key={theme.value}
-            onClick={() => handleThemeChange(theme.value)}
-            className={`w-full px-3 py-2 text-sm rounded-md text-left transition-colors ${
-              currentTheme === theme.value
-                ? 'bg-primary text-inverse'
-                : 'bg-surface-hover text-secondary hover:bg-surface-elevated'
-            }`}
-          >
-            {theme.name}
-          </button>
-        ))}
+    <div className="fixed bottom-4 right-4 z-tooltip bg-surface border border-border rounded-lg shadow-lg max-w-xs">
+      <div className="p-4">
+        <h3 className="text-sm font-semibold text mb-3">Theme Switcher</h3>
+        <div className="space-y-2 max-h-80 overflow-y-auto">
+          {themes.map((theme) => (
+            <button
+              key={theme.value}
+              onClick={() => handleThemeChange(theme.value)}
+              className={`w-full px-3 py-2.5 text-sm rounded-md text-left transition-all duration-normal ${
+                currentTheme === theme.value
+                  ? 'bg-primary text-inverse shadow-md'
+                  : 'bg-surface-hover text-secondary hover:bg-surface-elevated hover:shadow-sm'
+              }`}
+            >
+              <div className="font-medium">{theme.name}</div>
+              <div className="text-xs text-muted mt-1">{theme.description}</div>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

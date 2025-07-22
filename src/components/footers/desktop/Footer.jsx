@@ -4,7 +4,7 @@ import LogoButton from '../../buttons/header/LogoButton';
 
 const Footer = () => {
   return (
-    <footer className="hidden border-t border-gray-700 bg-gray-800 lg:block">
+    <footer className="hidden border-t border-border bg-surface lg:block">
       {/* Main Footer Content */}
       <div className="py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -12,7 +12,7 @@ const Footer = () => {
             {/* Company Info */}
             <div className="space-y-4">
               <LogoButton />
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-muted font-sans">
                 Ropa deportiva premium diseñada para quienes exigen excelencia
                 en cada aspecto de su viaje fitness.
               </p>
@@ -30,7 +30,7 @@ const Footer = () => {
                     }
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-12 w-12 items-center justify-center transition-colors duration-200 hover:opacity-80"
+                    className="flex h-12 w-12 items-center justify-center transition-all duration-normal hover:opacity-hover hover:scale-110 hover:bg-surface-hover rounded-lg"
                   >
                     <img
                       src={`/${platform}.svg`}
@@ -44,7 +44,7 @@ const Footer = () => {
 
             {/* Shop Links */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Shop</h2>
+              <h2 className="text-lg font-semibold text-text font-sans">Shop</h2>
               <ul className="space-y-2">
                 {[
                   "Women's",
@@ -57,7 +57,7 @@ const Footer = () => {
                   <li key={idx}>
                     <a
                       href="#"
-                      className="text-gray-400 transition-colors duration-200 hover:text-white"
+                      className="text-muted transition-colors duration-normal hover:text-text hover:text-primary font-sans"
                     >
                       {item}
                     </a>
@@ -68,7 +68,7 @@ const Footer = () => {
 
             {/* Support Links */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Support</h2>
+              <h2 className="text-lg font-semibold text-text font-sans">Support</h2>
               <ul className="space-y-2">
                 {[
                   'Contact Us',
@@ -81,7 +81,7 @@ const Footer = () => {
                   <li key={idx}>
                     <a
                       href="#"
-                      className="text-gray-400 transition-colors duration-200 hover:text-white"
+                      className="text-muted transition-colors duration-normal hover:text-text hover:text-primary font-sans"
                     >
                       {item}
                     </a>
@@ -92,7 +92,7 @@ const Footer = () => {
 
             {/* Company Links */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Company</h2>
+              <h2 className="text-lg font-semibold text-text font-sans">Company</h2>
               <ul className="space-y-2">
                 {[
                   'About Us',
@@ -105,7 +105,7 @@ const Footer = () => {
                   <li key={idx}>
                     <a
                       href="#"
-                      className="text-gray-400 transition-colors duration-200 hover:text-white"
+                      className="text-muted transition-colors duration-normal hover:text-text hover:text-primary font-sans"
                     >
                       {item}
                     </a>
@@ -118,11 +118,11 @@ const Footer = () => {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-gray-700 py-6">
+      <div className="border-t border-border py-6">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
             {/* Copyright */}
-            <div className="text-sm text-gray-400">
+            <div className="text-sm text-muted font-sans">
               © 2025 FitWorld Shop. All rights reserved.
             </div>
 
@@ -133,7 +133,7 @@ const Footer = () => {
                   <a
                     key={idx}
                     href="#"
-                    className="text-sm text-gray-400 transition-colors duration-200 hover:text-white"
+                    className="text-sm text-muted transition-colors duration-normal hover:text-text hover:text-primary font-sans"
                   >
                     {item}
                   </a>
@@ -143,19 +143,19 @@ const Footer = () => {
 
             {/* Payment Methods */}
             <div className="flex items-center space-x-3">
-              <span className="text-sm text-gray-400">We accept:</span>
+              <span className="text-sm text-muted font-sans">We accept:</span>
               <div className="flex space-x-2">
                 {['VISA', 'MC', 'PP', '🍎'].map((method, idx) => (
                   <div
                     key={idx}
-                    className={`flex h-5 w-8 items-center justify-center rounded text-xs font-bold text-white ${
+                    className={`flex h-5 w-8 items-center justify-center rounded text-xs font-bold text-inverse transition-all duration-normal hover:scale-105 ${
                       method === 'VISA'
-                        ? 'bg-blue-600'
+                        ? 'bg-info'
                         : method === 'MC'
-                          ? 'bg-red-600'
+                          ? 'bg-error'
                           : method === 'PP'
-                            ? 'bg-blue-500'
-                            : 'bg-black'
+                            ? 'bg-primary'
+                            : 'bg-surface-elevated'
                     }`}
                   >
                     {method}

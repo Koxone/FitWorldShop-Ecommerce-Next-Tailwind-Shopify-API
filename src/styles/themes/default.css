@@ -95,9 +95,21 @@
   --opacity-hover: 0.8;
   --opacity-muted: 0.6;
 
-  /* Scrollbar */
-  --scrollbar-width: 8px;
-  --scrollbar-track: transparent;
-  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
-  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.4);
+  /* Theme-specific gradients */
+  --gradient-primary: linear-gradient(135deg, #22c55e 0%, #3b82f6 100%);
+  --gradient-surface: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  
+  /* Enhanced button styles */
+  --button-primary-bg: var(--color-primary);
+  --button-primary-hover: var(--color-primary-hover);
+  --button-primary-text: var(--color-text-inverse);
+  
+  --button-secondary-bg: var(--color-surface);
+  --button-secondary-hover: var(--color-surface-hover);
+  --button-secondary-text: var(--color-text);
+  
+  /* Enhanced hover effects */
+  --hover-scale: 1.05;
+  --hover-shadow: var(--shadow-lg);
+  --hover-brightness: 1.1;
 }

@@ -14,7 +14,7 @@ function LogoButton() {
   return (
     <button
       onClick={handleClick}
-      className="relative cursor-pointer h-[40px] w-[120px] md:h-[50px] md:w-[160px]"
+      className="relative cursor-pointer h-[40px] w-[120px] md:h-[50px] md:w-[160px] transition-all duration-normal hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 rounded-md"
     >
       <Image
         src="/logo.png"
