@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo, useCallback } from 'react';
 import useShopifyProducts from '@/hooks/useShopifyProducts';
 
 const CategoryFilterContext = createContext();
@@ -23,8 +23,8 @@ export const CategoryFilterProvider = ({ children }) => {
 
   const { products, isLoading, isError } = useShopifyProducts();
 
-  // Devuelve el estado correspondiente a cada vista
-  const getScopeState = (scope) => {
+  // Devuelve el estado correspondiente a cada vista - memoized to prevent re-creation
+  const getScopeState = useCallback((scope) => {
     switch (scope) {
       case 'home':
         return { currentCategory: homeCategory, setCategory: setHomeCategory };
@@ -76,9 +76,10 @@ export const CategoryFilterProvider = ({ children }) => {
       default:
         return { currentCategory: null, setCategory: () => {} };
     }
-  };
+  }, [homeCategory, allProductsCategory, productOpenCategory, suplementsCategory, vitaminsCategory, ropaCategory, offersCategory, newCategory, accesoriesCategory, saludCategory]);
 
-  const labelToTagMap = {
+  // Static mapping - memoized to prevent re-creation
+  const labelToTagMap = useMemo(() => ({
     Vitaminas: 'vitaminas',
     Suplementos: 'Suplementos',
     Salud: 'Salud',
@@ -104,14 +105,14 @@ export const CategoryFilterProvider = ({ children }) => {
     Tanks: 'tanks',
     Tops: 'tops',
     Underware: 'underware',
-  };
+  }), []);
 
-  const categoryLabels = Object.keys(labelToTagMap);
+  const categoryLabels = useMemo(() => Object.keys(labelToTagMap), [labelToTagMap]);
 
-  const mapTextToShopifyCategory = (text) => labelToTagMap[text] ?? null;
+  const mapTextToShopifyCategory = useCallback((text) => labelToTagMap[text] ?? null, [labelToTagMap]);
 
-  // Search function to filter products by title and tags
-  const searchProducts = (query) => {
+  // Search function to filter products by title and tags - memoized to prevent re-creation
+  const searchProducts = useCallback((query) => {
     if (!query.trim()) return products;
     
     const searchTerm = query.toLowerCase().trim();
@@ -126,22 +127,23 @@ export const CategoryFilterProvider = ({ children }) => {
         description.includes(searchTerm)
       );
     });
-  };
+  }, [products]);
+
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    getScopeState,
+    mapTextToShopifyCategory,
+    categoryLabels,
+    products,
+    isLoading,
+    isError,
+    searchQuery,
+    setSearchQuery,
+    searchProducts,
+  }), [getScopeState, mapTextToShopifyCategory, categoryLabels, products, isLoading, isError, searchQuery, searchProducts]);
 
   return (
-    <CategoryFilterContext.Provider
-      value={{
-        getScopeState,
-        mapTextToShopifyCategory,
-        categoryLabels,
-        products,
-        isLoading,
-        isError,
-        searchQuery,
-        setSearchQuery,
-        searchProducts,
-      }}
-    >
+    <CategoryFilterContext.Provider value={contextValue}>
       {children}
     </CategoryFilterContext.Provider>
   );

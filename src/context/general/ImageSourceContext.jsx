@@ -1,12 +1,12 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 
 const ImageSourceContext = createContext();
 
 export function ImageSourceProvider({ children }) {
-  // MainCarousel
-  const mainCarouselData = [
+  // MainCarousel - memoized to prevent re-creation on every render
+  const mainCarouselData = useMemo(() => [
     {
       image: '/Banner/Main-Banner-1.webp',
       title: '10% DE DESCUENTO',
@@ -35,10 +35,10 @@ export function ImageSourceProvider({ children }) {
       description: 'Encuentra todo lo que necesitas para rendir al máximo.',
       button: 'COMPRA AHORA',
     },
-  ];
+  ], []);
 
-  // Promo Container
-  const promoSectionData = {
+  // Promo Container - memoized to prevent re-creation on every render
+  const promoSectionData = useMemo(() => ({
     categories: [
       {
         title: 'Playeras',
@@ -104,15 +104,16 @@ export function ImageSourceProvider({ children }) {
         url: 'https://www.fitworldshop.com.mx/',
       },
     ],
-  };
+  }), []);
+
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    mainCarouselData,
+    promoSectionData,
+  }), [mainCarouselData, promoSectionData]);
 
   return (
-    <ImageSourceContext.Provider
-      value={{
-        mainCarouselData,
-        promoSectionData,
-      }}
-    >
+    <ImageSourceContext.Provider value={contextValue}>
       {children}
     </ImageSourceContext.Provider>
   );
