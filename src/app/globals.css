@@ -1,38 +1,45 @@
 @import 'tailwindcss';
+@import '../styles/themes/default.css';
 
-html,
-body {
-  scroll-behavior: smooth;
-  background-color: #101828;
+@layer base {
+  html,
+  body {
+    scroll-behavior: smooth;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+  }
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+@layer base {
+  ::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+    height: var(--scrollbar-width);
+  }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-normal);
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-}
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
 
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
 
-*::-webkit-scrollbar-corner {
-  background: transparent;
+  *::-webkit-scrollbar-corner {
+    background: var(--scrollbar-track);
+  }
 }
 
 /* Products Carousel */

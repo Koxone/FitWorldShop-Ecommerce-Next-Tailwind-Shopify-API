@@ -16,7 +16,8 @@ import Cart from '@/components/cart/Cart';
 import { AuthProvider } from '@/context/Auth/AuthContext';
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark, shadesOfPurple } from '@clerk/themes';
-import { esES } from '@clerk/localizations'
+import { esES } from '@clerk/localizations';
+import ThemeSwitcher from '@/components/theming/ThemeSwitcher';
 
 export const metadata = {
   title: {
@@ -116,6 +117,7 @@ export default function RootLayout({ children }) {
                           <Cart />
                         </I18nProvider>
                         <SpeedInsights />
+                        {process.env.NODE_ENV === 'development' && <ThemeSwitcher />}
                       </ImageSourceProvider>
                     </BadgeProvider>
                   </WishlistProvider>
@@ -134,10 +136,10 @@ export default function RootLayout({ children }) {
       appearance={{
         baseTheme: dark,
         variables: {
-          colorPrimary: '#22c55e',
-          colorBackground: '#0f172a',
-          colorText: '#ffffff',
-          borderRadius: '0.5rem',
+          colorPrimary: 'var(--color-primary)',
+          colorBackground: 'var(--color-background)',
+          colorText: 'var(--color-text)',
+          borderRadius: 'var(--radius-lg)',
         },
       }}
     >
@@ -161,6 +163,7 @@ export default function RootLayout({ children }) {
                           <Cart />
                         </I18nProvider>
                         <SpeedInsights />
+                        {process.env.NODE_ENV === 'development' && <ThemeSwitcher />}
                       </ImageSourceProvider>
                     </BadgeProvider>
                   </WishlistProvider>
