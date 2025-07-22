@@ -81,8 +81,8 @@ export default function ShopifyProductCard({ viewScope }) {
     <div
       className={`${
         pathname === '/' || pathname.startsWith('/product-open')
-          ? 'mx-auto flex w-full flex-nowrap gap-5 overflow-x-auto'
-          : 'grid grid-cols-[1fr_1fr] gap-5 px-2 lg:grid-cols-[1fr_1fr_1fr] xl:grid-cols-4'
+          ? 'mx-auto flex w-full flex-nowrap gap-3 sm:gap-4 md:gap-5 overflow-x-auto'
+          : 'grid grid-cols-1 gap-3 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-4 lg:gap-5'
       }`}
     >
       {filteredProducts.map((product) => (
@@ -90,7 +90,7 @@ export default function ShopifyProductCard({ viewScope }) {
           key={product.id}
           className={`group hover-lift relative overflow-hidden rounded-lg border border-neutral-300/10 bg-gray-800 transition-all duration-300 ${
             pathname === '/' || pathname.startsWith('/product-open')
-              ? 'max-w-[300px] min-w-[250px] flex-shrink-0'
+              ? 'max-w-[280px] min-w-[240px] flex-shrink-0 sm:max-w-[300px] sm:min-w-[260px]'
               : 'w-full'
           }`}
         >
@@ -100,10 +100,10 @@ export default function ShopifyProductCard({ viewScope }) {
 
           <div className="flex flex-col gap-1 p-3 md:p-4">
             <ColorSelector product={product} />
-            <h2 className="font-montserrat text-lg font-semibold text-white group-hover:text-gray-300 md:mb-1">
+            <h2 className="font-montserrat text-base font-semibold text-white group-hover:text-gray-300 sm:text-lg md:mb-1">
               {product.title}
             </h2>
-            <p className="font-inter mb-2 max-h-20 overflow-y-auto text-sm text-gray-400 md:block">
+            <p className="font-inter mb-2 max-h-16 overflow-y-auto text-xs text-gray-400 sm:text-sm md:block">
               {product.description}
             </p>
             <Price product={product} />

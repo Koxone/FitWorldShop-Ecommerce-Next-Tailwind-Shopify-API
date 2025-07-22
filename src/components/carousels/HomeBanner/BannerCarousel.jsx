@@ -71,32 +71,32 @@ const ImagesCarousel = ({
         <>
           <button
             onClick={goToPrevious}
-            className="absolute top-1/2 left-4 z-10 -translate-y-1/2 transform cursor-pointer rounded-full border border-white/20 bg-white/10 p-2 text-white backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none"
+            className="absolute top-1/2 left-2 z-10 -translate-y-1/2 transform cursor-pointer rounded-full border border-white/20 bg-white/10 p-1.5 text-white backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none sm:left-4 sm:p-2"
           >
-            <ChevronLeftIcon size={20} />
+            <ChevronLeftIcon size={16} className="sm:w-5 sm:h-5" />
           </button>
 
           <button
             onClick={goToNext}
-            className="absolute top-1/2 right-4 z-10 -translate-y-1/2 transform cursor-pointer rounded-full border border-white/20 bg-white/10 p-2 text-white backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none"
+            className="absolute top-1/2 right-2 z-10 -translate-y-1/2 transform cursor-pointer rounded-full border border-white/20 bg-white/10 p-1.5 text-white backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none sm:right-4 sm:p-2"
           >
-            <ChevronRightIcon size={20} />
+            <ChevronRightIcon size={16} className="sm:w-5 sm:h-5" />
           </button>
         </>
       )}
 
       {/* Dots Indicator */}
       {showDots && items.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 transform space-x-2">
+        <div className="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 transform space-x-1 sm:bottom-4 sm:space-x-2">
           {items.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
               aria-label={`Ir al slide ${index + 1}`}
-              className={`focus-ring relative h-12 w-12 rounded-full p-3 transition-all duration-200`}
+              className={`focus-ring relative h-10 w-10 rounded-full p-2 transition-all duration-200 sm:h-12 sm:w-12 sm:p-3`}
             >
               <span
-                className={`block h-3 w-3 rounded-full transition-all duration-200 ${
+                className={`block h-2 w-2 rounded-full transition-all duration-200 sm:h-3 sm:w-3 ${
                   index === currentIndex
                     ? 'bg-white'
                     : 'bg-opacity-50 hover:bg-opacity-75 bg-white'

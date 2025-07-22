@@ -2,18 +2,18 @@ import React from 'react';
 
 function NewsLetter() {
   return (
-    <div className="bg-gray-900 pb-[100px]">
+    <div className="bg-gray-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="font-montserrat mb-4 text-3xl font-bold text-white">
+          <h2 className="font-montserrat mb-4 text-2xl font-bold text-white sm:text-3xl">
             ENTERATE DE NUESTRAS NOVEDADES!
           </h2>
-          <p className="font-inter mx-auto mb-8 max-w-2xl text-gray-400">
+          <p className="font-inter mx-auto mb-6 max-w-2xl text-sm text-gray-400 sm:mb-8 sm:text-base">
             Sé el primero en enterarte de nuevos lanzamientos, ofertas
             exclusivas y contenido detrás de cámaras de FitWorld Shop.
           </p>
           <div className="mx-auto max-w-md">
-            <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
               <input
                 type="email"
                 placeholder="Ingresa tu Email"

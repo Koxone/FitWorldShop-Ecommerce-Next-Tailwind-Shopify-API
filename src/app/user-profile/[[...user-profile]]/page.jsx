@@ -5,15 +5,16 @@ import { UserProfile, SignOutButton } from '@clerk/nextjs';
 
 export default function UserProfilePage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black text-white">
+    <main className="flex min-h-screen items-center justify-center bg-black text-white px-4 pb-20 md:pb-10">
       {/* Tu UserProfile embebido */}
-      <div className="relative">
+      <div className="relative w-full max-w-4xl">
         <UserProfile
           routing="path"
           path="/user-profile"
           appearance={{
             elements: {
               card: 'bg-neutral-900 relative text-white border border-neutral-700 shadow-lg',
+              rootBox: 'w-full',
             },
           }}
         />
