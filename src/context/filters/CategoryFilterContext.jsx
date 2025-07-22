@@ -18,6 +18,9 @@ export const CategoryFilterProvider = ({ children }) => {
   const [accesoriesCategory, setAccesoriesCategory] = useState(null);
   const [saludCategory, setSaludCategory] = useState(null);
 
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
+
   const { products, isLoading, isError } = useShopifyProducts();
 
   // Devuelve el estado correspondiente a cada vista
@@ -107,6 +110,24 @@ export const CategoryFilterProvider = ({ children }) => {
 
   const mapTextToShopifyCategory = (text) => labelToTagMap[text] ?? null;
 
+  // Search function to filter products by title and tags
+  const searchProducts = (query) => {
+    if (!query.trim()) return products;
+    
+    const searchTerm = query.toLowerCase().trim();
+    return products.filter((product) => {
+      const title = product.title?.toLowerCase() || '';
+      const tags = product.tags?.map(tag => tag.toLowerCase()) || [];
+      const description = product.description?.toLowerCase() || '';
+      
+      return (
+        title.includes(searchTerm) ||
+        tags.some(tag => tag.includes(searchTerm)) ||
+        description.includes(searchTerm)
+      );
+    });
+  };
+
   return (
     <CategoryFilterContext.Provider
       value={{
@@ -116,6 +137,9 @@ export const CategoryFilterProvider = ({ children }) => {
         products,
         isLoading,
         isError,
+        searchQuery,
+        setSearchQuery,
+        searchProducts,
       }}
     >
       {children}

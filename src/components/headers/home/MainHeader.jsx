@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
 import { usePurchase } from '@/context/Cart/PurchaseContext';
 import { useAuth } from '@/context/Auth/AuthContext';
+import SearchInput from '../../Navigation/SearchInput';
 import {
   SignInButton,
   useAuth as useClerkAuth,
@@ -89,8 +90,11 @@ function MainHeader() {
             />
           </nav>
 
-          {/* Right Icons */}
+          {/* Right Side - Search + Icons */}
           <div className="flex items-center justify-end space-x-4">
+            {/* Search Input */}
+            <SearchInput />
+
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
               {isLoggedIn && UserButtonComponent ? (
