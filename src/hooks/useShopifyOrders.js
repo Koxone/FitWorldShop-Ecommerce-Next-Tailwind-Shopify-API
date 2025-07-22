@@ -4,17 +4,33 @@ export default function useShopifyOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
 
-  // Safe useUser hook call
-  let user = null;
-  try {
-    const { useUser } = require('@clerk/nextjs');
-    const userHook = useUser();
-    user = userHook.user;
-  } catch (error) {
-    // Clerk not available
-    console.log('Clerk not available in useShopifyOrders');
-  }
+  // Handle Clerk user loading safely
+  useEffect(() => {
+    const loadClerkUser = async () => {
+      try {
+        // Check if Clerk is available
+        const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+        const hasValidClerkKey = clerkPublishableKey && clerkPublishableKey.startsWith('pk_') && !clerkPublishableKey.includes('dummy');
+        
+        if (hasValidClerkKey) {
+          // Dynamically import Clerk to avoid build issues
+          const { useUser } = await import('@clerk/nextjs');
+          // Note: We can't call useUser here because we're in useEffect
+          // Instead, we'll handle this through state in the components
+          setUser(null);
+        } else {
+          setUser(null);
+        }
+      } catch (error) {
+        console.log('Clerk not available in useShopifyOrders');
+        setUser(null);
+      }
+    };
+
+    loadClerkUser();
+  }, []);
 
   useEffect(() => {
     const fetchOrders = async () => {

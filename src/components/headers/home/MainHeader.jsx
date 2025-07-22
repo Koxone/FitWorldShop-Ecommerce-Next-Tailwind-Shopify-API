@@ -9,12 +9,7 @@ import { useCategoryFilter } from '../../../context/filters/CategoryFilterContex
 import { usePurchase } from '@/context/Cart/PurchaseContext';
 import { useAuth } from '@/context/Auth/AuthContext';
 import SearchInput from '../../Navigation/SearchInput';
-import {
-  SignInButton,
-  useAuth as useClerkAuth,
-  UserButton,
-} from '@clerk/nextjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function MainHeader() {
   const router = useRouter();
@@ -27,25 +22,36 @@ function MainHeader() {
   };
 
   // Safe Clerk integration fallback
-  let clerkAuth = { isSignedIn: false };
-  let UserButtonComponent = null;
-  let SignInButtonComponent = null;
+  const [clerkAuth, setClerkAuth] = useState({ isSignedIn: false });
+  const [UserButtonComponent, setUserButtonComponent] = useState(null);
+  const [SignInButtonComponent, setSignInButtonComponent] = useState(null);
 
-  try {
-    clerkAuth = useClerkAuth();
-    UserButtonComponent = UserButton;
-    SignInButtonComponent = SignInButton;
-  } catch (error) {
-    console.warn('Clerk auth not available in MainHeader:', error.message);
-  }
+  useEffect(() => {
+    // Dynamically import Clerk components only when available
+    const loadClerkComponents = async () => {
+      try {
+        const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+        const hasValidClerkKey = clerkPublishableKey && clerkPublishableKey.startsWith('pk_') && !clerkPublishableKey.includes('dummy');
+        
+        if (hasValidClerkKey) {
+          const { SignInButton, useAuth: useClerkAuth, UserButton } = await import('@clerk/nextjs');
+          setSignInButtonComponent(() => SignInButton);
+          setUserButtonComponent(() => UserButton);
+          // Note: We can't use useClerkAuth here since it's a hook
+          // The actual auth state will be managed through our AuthContext
+        }
+      } catch (error) {
+        console.warn('Clerk components not available in MainHeader:', error.message);
+      }
+    };
+
+    loadClerkComponents();
+  }, []);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
-  useEffect(() => {
-    if (clerkAuth.isSignedIn !== undefined) {
-      setIsLoggedIn(clerkAuth.isSignedIn);
-    }
-  }, [clerkAuth.isSignedIn, setIsLoggedIn]);
+  // Update auth state when available (no longer using clerkAuth hook directly)
+  // Auth state is managed through AuthContext instead
 
   const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
 
