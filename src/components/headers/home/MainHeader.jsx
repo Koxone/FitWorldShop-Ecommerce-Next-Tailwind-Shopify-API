@@ -25,27 +25,11 @@ function MainHeader() {
     router.push('/all-products');
   };
 
-  // Safely get Clerk auth state, fallback to false if not available
-  let clerkAuth = { isSignedIn: false };
-  let UserButtonComponent = null;
-  let SignInButtonComponent = null;
-  
-  try {
-    clerkAuth = useClerkAuth();
-    UserButtonComponent = UserButton;
-    SignInButtonComponent = SignInButton;
-  } catch (error) {
-    // Clerk not available, continue with default values
-    console.warn('Clerk auth not available in MainHeader:', error.message);
-  }
-
+  const { isSignedIn } = useClerkAuth();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  
   useEffect(() => {
-    if (clerkAuth.isSignedIn !== undefined) {
-      setIsLoggedIn(clerkAuth.isSignedIn);
-    }
-  }, [clerkAuth.isSignedIn, setIsLoggedIn]);
+    setIsLoggedIn(isSignedIn);
+  }, [isSignedIn, setIsLoggedIn]);
 
   // const handleAuthClick = () => {
   //   if (!isLoggedIn) {
@@ -93,8 +77,8 @@ function MainHeader() {
           <div className="flex items-center justify-end space-x-4">
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
-              {isLoggedIn && UserButtonComponent ? (
-                <UserButtonComponent
+              {isLoggedIn ? (
+                <UserButton
                   afterSignInUrl="/user-profile"
                   afterSignOutUrl="/"
                   className="z-10 h-8 w-8 overflow-hidden rounded-full"
@@ -105,22 +89,15 @@ function MainHeader() {
                     },
                   }}
                 />
-              ) : SignInButtonComponent ? (
-                <SignInButtonComponent>
+              ) : (
+                <SignInButton>
                   <button
                     // onClick={handleAuthClick}
                     className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white"
                   >
                     <UserIcon size={20} />
                   </button>
-                </SignInButtonComponent>
-              ) : (
-                <button
-                  onClick={() => router.push('/auth/login')}
-                  className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white"
-                >
-                  <UserIcon size={20} />
-                </button>
+                </SignInButton>
               )}
             </div>
 
