@@ -26,10 +26,12 @@ import ShopifyProductCard from '@/components/cards/shopify/ShopifyProductCard';
 import FilterButtonsHomeRopa from '@/components/buttons/filter/FilterButtonsHomeRopa';
 import FilterButtonsHomeSuplementos from '@/components/buttons/filter/FilterButtonsHomeSuplementos';
 import RevealOnScroll from '@/Styles/RevealOnScroll';
+import GeneralModal from '@/components/Feedback/Modals/GeneralModal';
 
 export default function ProductOpenView() {
   const pathname = usePathname();
   const { handle } = useParams();
+  const [showModal, setShowModal] = useState(false);
 
   const { products, isLoading, isError } = useShopifyProducts();
 
@@ -99,6 +101,7 @@ export default function ProductOpenView() {
   const isVitaminOrSupplement = productTags.some((tag) =>
     ['vitaminas', 'suplementos'].includes(tag)
   );
+  const isRopa = productTags.includes('ropa');
 
   if (isLoading) return <p className="p-10 text-white">Cargando producto…</p>;
   if (isError)
@@ -196,22 +199,51 @@ export default function ProductOpenView() {
         />
 
         <div className="flex gap-3">
-          <AddToCartButton
-            product={{
-              id: product.id,
-              variantId: product.variants.edges[0].node.id,
-              title: product.title,
-              selectedSize,
-              selectedColor: currentColor,
-              quantity,
-              price: parseFloat(product.variants.edges[0].node.price.amount),
-              image:
-                productImages[product.id] ||
-                product.variants.edges[0].node.image?.url,
-              handle: product.handle,
-              description: product.description,
-            }}
-          />
+          <>
+            <AddToCartButton
+              product={{
+                id: product.id,
+                variantId: product.variants.edges[0].node.id,
+                title: product.title,
+                selectedSize,
+                selectedColor: currentColor,
+                quantity,
+                price: parseFloat(product.variants.edges[0].node.price.amount),
+                image:
+                  productImages[product.id] ||
+                  product.variants.edges[0].node.image?.url,
+                handle: product.handle,
+                description: product.description,
+              }}
+              onBeforeAdd={() => {
+                if (
+                  productTags.includes('ropa') &&
+                  (!currentColor || !selectedSize)
+                ) {
+                  setShowModal(true);
+                  return false;
+                }
+                return true;
+              }}
+            />
+
+            <GeneralModal
+              isOpen={showModal}
+              onClose={() => setShowModal(false)}
+              title="Selecciona talla y color"
+            >
+              <p className="text-gray-300">
+                Este producto requiere que selecciones una talla y un color
+                antes de agregarlo al carrito.
+              </p>
+              <button
+                onClick={() => setShowModal(false)}
+                className="mt-6 cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition-all duration-300 ease-in-out hover:bg-blue-400 hover:text-white"
+              >
+                Entendido
+              </button>
+            </GeneralModal>
+          </>
 
           <button
             onClick={() => setIsWishlisted((w) => !w)}
