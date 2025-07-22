@@ -10,18 +10,11 @@ export function useSafeClerkAuth() {
       const hasValidClerkKey = clerkPublishableKey && clerkPublishableKey.startsWith('pk_') && !clerkPublishableKey.includes('dummy');
       
       if (hasValidClerkKey) {
-        // Dynamically import and use Clerk
-        import('@clerk/nextjs').then(({ useAuth }) => {
-          try {
-            const auth = useAuth();
-            setIsSignedIn(auth?.isSignedIn || false);
-          } catch (error) {
-            console.warn('Clerk auth error:', error.message);
-            setIsSignedIn(false);
-          }
-        }).catch(() => {
-          setIsSignedIn(false);
-        });
+        // For safe usage, we'll just return a default state
+        // Real Clerk authentication should be handled at the component level
+        setIsSignedIn(false);
+      } else {
+        setIsSignedIn(false);
       }
     } catch (error) {
       console.warn('Clerk not available:', error.message);
