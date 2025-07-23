@@ -1,5 +1,3 @@
-
-
 import '@/app/globals.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import I18nProvider from '@/providers/I18nProvider';
@@ -18,7 +16,7 @@ import Cart from '@/components/cart/Cart';
 import { AuthProvider } from '@/context/Auth/AuthContext';
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark, shadesOfPurple } from '@clerk/themes';
-import { esES } from '@clerk/localizations'
+import { esES } from '@clerk/localizations';
 
 export const metadata = {
   title: {
@@ -93,15 +91,14 @@ export const metadata = {
   manifest: '/site.webmanifest',
 };
 
-
 export default function RootLayout({ children }) {
-  // Check if Clerk keys are available
   const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  const hasValidClerkKey = clerkPublishableKey && clerkPublishableKey.startsWith('pk_') && !clerkPublishableKey.includes('dummy');
-  
+  const hasValidClerkKey =
+    clerkPublishableKey &&
+    clerkPublishableKey.startsWith('pk_') &&
+    !clerkPublishableKey.includes('dummy');
+
   if (!hasValidClerkKey) {
-    console.log('🔧 Rendering without Clerk - using fallback layout');
-    // Render without Clerk if keys are not available
     return (
       <html lang="es">
         <body>
