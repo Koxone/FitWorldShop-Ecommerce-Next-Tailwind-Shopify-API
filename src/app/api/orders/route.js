@@ -11,6 +11,7 @@ const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
 
 export async function GET(req) {
   try {
+    // const { userId } = await getAuth(req);
     const { userId } = getAuth(req);
 
     if (!userId) {

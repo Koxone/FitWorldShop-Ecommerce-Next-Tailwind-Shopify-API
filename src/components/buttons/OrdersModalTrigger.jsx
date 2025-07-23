@@ -29,7 +29,7 @@ export default function OrdersModalTrigger({ styles, showIcon = true }) {
     <div className="text-white">
       <button onClick={() => setOpen(true)} className={`${styles}`}>
         {showIcon && <span className="mr-2 text-xl">📦</span>}
-        <span className="text-sm">Órdenes</span>
+        <span>Ordenes</span>
       </button>
 
       {open && (
