@@ -1,0 +1,2 @@
+export const SHOPIFY_STORE_URL = process.env.SHOPIFY_STORE_URL;
+export const SHOPIFY_ADMIN_API_ACCESS_TOKEN = process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN;

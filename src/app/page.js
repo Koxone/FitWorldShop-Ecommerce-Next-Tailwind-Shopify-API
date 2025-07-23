@@ -7,11 +7,13 @@ import HomeProductCardsContainer from '@/components/containers/home/HomeProductC
 import PromoSectionContainer from '@/components/containers/general/PromoSectionContainer';
 import NewsLetter from '@/components/containers/home/newsletter/Newsletter';
 import RevealOnScroll from '@/Styles/RevealOnScroll';
+import LogUserEmailOnLogin from '@/components/LogUserEmailOnLogin';
 
 export default function Home() {
   const heroItems = MainBanner();
   return (
     <main className="flex min-h-screen flex-col items-center gap-6 md:gap-10">
+      <LogUserEmailOnLogin />
       <ImagesCarousel
         items={heroItems}
         autoPlay={true}

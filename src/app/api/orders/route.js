@@ -1,36 +1,48 @@
-// app/api/orders/route.js
-import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import { getAuth } from '@clerk/nextjs/server';
+import { createClerkClient } from '@clerk/backend';
+
+import { SHOPIFY_ADMIN_API_ACCESS_TOKEN, SHOPIFY_STORE_URL } from '@/lib/config';
+
+const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+
 
 export async function GET(req) {
-  const { userId } = auth();
-  if (!userId) {
-    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-  }
+  try {
+    const { userId } = getAuth(req);
 
-  // Obtener email del usuario desde Clerk
-  const user = await fetch(`https://api.clerk.com/v1/users/${userId}`, {
-    headers: {
-      Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
-    },
-  }).then((res) => res.json());
-
-  const email = user.email_addresses?.[0]?.email_address;
-  if (!email) {
-    return NextResponse.json({ error: 'Email not found' }, { status: 404 });
-  }
-
-  // Shopify Admin API: buscar órdenes por email
-  const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders.json?email=${email}`,
-    {
-      headers: {
-        'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
-        'Content-Type': 'application/json',
-      },
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-  );
 
-  const data = await response.json();
-  return NextResponse.json({ orders: data.orders || [] });
+    const user = await clerk.users.getUser(userId); // ✅ ahora sí existe
+    const email = user?.emailAddresses?.[0]?.emailAddress;
+
+    if (!email) {
+      return NextResponse.json({ error: 'Email not found' }, { status: 400 });
+    }
+console.log('➡️ Shopify URL:', SHOPIFY_STORE_URL);
+console.log('➡️ Admin Token:', SHOPIFY_ADMIN_API_ACCESS_TOKEN);
+console.log('➡️ Email Clerk:', email);
+
+    const shopifyRes = await fetch(
+      `${SHOPIFY_STORE_URL}/admin/api/2023-10/orders.json?email=${email}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_API_ACCESS_TOKEN,
+        },
+      }
+    );
+
+    if (!shopifyRes.ok) {
+      throw new Error(`Shopify Error: ${shopifyRes.statusText}`);
+    }
+
+    const data = await shopifyRes.json();
+    return NextResponse.json({ orders: data.orders || [] });
+  } catch (err) {
+    console.error('API Error:', err);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
 }
