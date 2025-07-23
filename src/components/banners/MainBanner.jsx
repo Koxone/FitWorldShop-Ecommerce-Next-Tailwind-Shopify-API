@@ -16,7 +16,7 @@ export default function MainBanner() {
       <img
         src={`${item.image}`}
         alt="Main Banner"
-        className="absolute inset-0 h-full w-full object-contain"
+        className="absolute inset-0 h-full w-full object-cover object-center"
         loading="lazy"
         fetchPriority="high"
       />

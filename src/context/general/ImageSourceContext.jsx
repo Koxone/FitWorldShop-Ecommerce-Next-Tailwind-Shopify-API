@@ -7,7 +7,7 @@ const ImageSourceContext = createContext();
 export function ImageSourceProvider({ children }) {
   const mainCarouselData = useMemo(() => [
     {
-      image: '/promoJulio.webp',
+      image: '/Julio.webp',
       title: '',
       description:
         '',
