@@ -7,10 +7,10 @@ const ImageSourceContext = createContext();
 export function ImageSourceProvider({ children }) {
   const mainCarouselData = useMemo(() => [
     {
-      image: '/promoJulio.jpg',
-      title: '8% DE DESCUENTO',
+      image: '/promoJulio.webp',
+      title: '',
       description:
-        'En la compra de Proteina, recibe 8% OFF en tu Creatina o Multivitaminico',
+        '',
       button: 'COMPRA AHORA',
     },
     {

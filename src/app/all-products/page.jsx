@@ -96,7 +96,7 @@ export default function ProductsView() {
               todos los productos
             </h1>
             <p className="font-inter mb-6 text-gray-400">
-              Descubre nuestra coleccion completa de Ropa y Accesorios.
+              Descubre nuestra coleccion completa de Suplementos, Vitaminas y Ropa Deportiva.
             </p>
             
             {/* Desktop Search Results Indicator */}

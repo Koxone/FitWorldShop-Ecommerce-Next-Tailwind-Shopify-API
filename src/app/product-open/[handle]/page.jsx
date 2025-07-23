@@ -311,8 +311,9 @@ export default function ProductOpenView() {
                   Podría Interesarte
                 </h2>
               </div>
-              <FilterButtonsHomeRopa viewScope="ropa" />
-              <ShopifyProductCard viewScope="ropa" />
+              {/* <FilterButtonsHomeRopa viewScope="ropa" /> */}
+              <FilterButtonsHomeSuplementos viewScope="salud" />
+              <ShopifyProductCard viewScope="lipoblue" />
             </div>
           ) : (
             <div className="flex flex-col gap-6">
