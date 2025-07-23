@@ -82,11 +82,14 @@ function MainHeader() {
               onClick={() => handleClick('Ofertas')}
               text="Ofertas"
             />
-            <OrdersModalTrigger showIcon={false} styles="font-poppins hover-lift cursor-pointer font-semibold tracking-wide text-gray-300 uppercase transition-all duration-300 hover:scale-125 hover:text-white" />
+            <OrdersModalTrigger
+              showIcon={false}
+              styles="font-poppins hover-lift cursor-pointer font-semibold tracking-wide text-gray-300 uppercase transition-all duration-300 hover:scale-125 hover:text-white"
+            />
           </nav>
 
           {/* Right Side - Search + Icons */}
-          <div className="flex items-center justify-end space-x-4">
+          <div className="flex items-center justify-end space-x-6">
             {/* Search Input */}
             <SearchInput />
 
@@ -140,7 +143,7 @@ function MainHeader() {
           <LogoButton />
 
           {/* Right Icons - Cart and Auth */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-4">
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
               {isLoggedIn && UserButtonComponent ? (

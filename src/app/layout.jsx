@@ -1,3 +1,5 @@
+
+
 import '@/app/globals.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import I18nProvider from '@/providers/I18nProvider';

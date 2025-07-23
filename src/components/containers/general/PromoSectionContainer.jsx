@@ -20,6 +20,8 @@ function PromoSectionContainer({ title, subtitle, type }) {
       router.push('/all-products');
     } else if (type === 'businesses' && section.url) {
       window.open(section.url, '_blank');
+    } else if (type === 'promo') {
+      setCategory();
     }
   };
 
@@ -79,7 +81,9 @@ function PromoSectionContainer({ title, subtitle, type }) {
                 <h3 className="text-base font-bold text-white uppercase sm:text-lg md:text-2xl">
                   {section.title}
                 </h3>
-                <h3 className="mb-3 text-sm text-white sm:text-base md:mb-4">{section.subtitle}</h3>
+                <h3 className="mb-3 text-sm text-white sm:text-base md:mb-4">
+                  {section.subtitle}
+                </h3>
                 <div className="cursor-pointer rounded-full bg-white px-6 py-1.5 text-center text-sm font-semibold text-black uppercase transition-all duration-300 ease-in-out hover:bg-neutral-300 sm:px-8 sm:py-2 md:px-10">
                   {section.buttonText || 'Shop Now'}
                 </div>

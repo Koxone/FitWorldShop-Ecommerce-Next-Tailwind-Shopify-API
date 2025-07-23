@@ -5,13 +5,12 @@ import { createContext, useContext, useMemo } from 'react';
 const ImageSourceContext = createContext();
 
 export function ImageSourceProvider({ children }) {
-  // MainCarousel - memoized to prevent re-creation on every render
   const mainCarouselData = useMemo(() => [
     {
-      image: '/Banner/Main-Banner-1.webp',
-      title: '10% DE DESCUENTO',
+      image: '/promoJulio.jpg',
+      title: '8% DE DESCUENTO',
       description:
-        '¡Nuestra nueva línea de ropa ha llegado! ¡Descuentos en toda la tienda!',
+        'En la compra de Proteina, recibe 8% OFF en tu Creatina o Multivitaminico',
       button: 'COMPRA AHORA',
     },
     {
@@ -37,7 +36,6 @@ export function ImageSourceProvider({ children }) {
     },
   ], []);
 
-  // Promo Container - memoized to prevent re-creation on every render
   const promoSectionData = useMemo(() => ({
     categories: [
       {

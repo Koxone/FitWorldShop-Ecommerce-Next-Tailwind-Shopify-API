@@ -65,6 +65,8 @@ export default function ShopifyProductCard({ viewScope }) {
           return tags.includes('new');
         case 'accesories':
           return tags.includes('accesories');
+        case 'lipoblue':
+          return tags.includes('lipoblue')
         case 'salud':
           return (
             tags.includes('salud') ||
