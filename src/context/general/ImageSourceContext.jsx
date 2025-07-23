@@ -39,22 +39,22 @@ export function ImageSourceProvider({ children }) {
   const promoSectionData = useMemo(() => ({
     categories: [
       {
-        title: 'Playeras',
+        title: 'Vitaminas',
         route: 'shirts',
         href: '/all-products/',
-        img: '/More/shirts.webp',
+        img: '/categories/vitaminas.webp',
       },
       {
-        title: 'Shorts',
+        title: 'Suplementos',
         route: 'shorts',
         href: '/all-products/',
-        img: '/More/shorts.webp',
+        img: '/categories/suplementos.webp',
       },
       {
-        title: 'Pants',
-        route: 'jogger',
+        title: 'Lipoblue',
+        route: 'lipoblue',
         href: '/all-products/',
-        img: '/More/pants.webp',
+        img: '/boost.jpg',
       },
     ],
     promos: [

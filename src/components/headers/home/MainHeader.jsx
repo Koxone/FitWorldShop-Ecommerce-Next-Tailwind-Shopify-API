@@ -72,7 +72,7 @@ function MainHeader() {
           {/* Desktop Navigation Buttons */}
           <nav className="hidden justify-center space-x-8 lg:flex">
             <HeaderButton onClick={() => handleClick(null)} text="Todos" />
-            <HeaderButton onClick={() => handleClick('Ropa')} text="Moda" />
+            {/* <HeaderButton onClick={() => handleClick('Ropa')} text="Moda" /> */}
             <HeaderButton onClick={() => handleClick('Salud')} text="Salud" />
             <HeaderButton
               onClick={() => handleClick('Novedades')}
