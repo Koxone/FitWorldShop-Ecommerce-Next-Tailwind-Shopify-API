@@ -15,6 +15,7 @@ import {
   UserButton,
 } from '@clerk/nextjs';
 import { useEffect } from 'react';
+import OrdersModalTrigger from '@/components/buttons/OrdersModalTrigger';
 
 function MainHeader() {
   const router = useRouter();
@@ -81,6 +82,7 @@ function MainHeader() {
               onClick={() => handleClick('Ofertas')}
               text="Ofertas"
             />
+            <OrdersModalTrigger showIcon={false} styles="font-poppins hover-lift cursor-pointer font-semibold tracking-wide text-gray-300 uppercase transition-all duration-300 hover:scale-125 hover:text-white" />
           </nav>
 
           {/* Right Side - Search + Icons */}
@@ -104,7 +106,7 @@ function MainHeader() {
                 />
               ) : SignInButtonComponent ? (
                 <SignInButtonComponent>
-                  <button className="absolute inset-0 lg:pl-4 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white">
+                  <button className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white lg:pl-4">
                     <UserIcon size={20} />
                   </button>
                 </SignInButtonComponent>
@@ -132,7 +134,7 @@ function MainHeader() {
       </header>
 
       {/* Mobile Header */}
-      <header className="sticky top-0 hidden z-50 border-b border-gray-700 bg-gray-900 px-4 py-3 lg:hidden">
+      <header className="sticky top-0 z-50 hidden border-b border-gray-700 bg-gray-900 px-4 py-3 lg:hidden">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <LogoButton />
