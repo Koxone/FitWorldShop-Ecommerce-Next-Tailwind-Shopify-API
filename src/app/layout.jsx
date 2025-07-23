@@ -26,24 +26,28 @@ export const metadata = {
     template: '%s | FitWorld Shop',
   },
   description:
-    'Tienda en línea moderna y responsiva de ropa deportiva y artículos fitness. Descubre calidad, estilo y rendimiento en FitWorld Shop.',
+    'Tienda en línea moderna y responsiva especializada en vitaminas, suplementos y ropa deportiva. Descubre productos de calidad para tu salud, rendimiento y estilo de vida activo en FitWorld Shop.',
   keywords: [
+    'vitaminas',
+    'suplementos',
     'ropa deportiva',
     'ropa de gimnasio',
+    'creatina',
+    'proteína',
+    'quemadores de grasa',
     'tienda fitness',
     'tienda online',
     'ecommerce méxico',
     'shopify méxico',
     'next.js tienda',
     'tailwind css ecommerce',
-    'ropa activa',
-    'ropa deportiva para hombre y mujer',
+    'ropa activa para hombre y mujer',
   ],
   metadataBase: new URL('https://fitworldshop.koxland.dev'),
   openGraph: {
     title: 'FitWorld Shop',
     description:
-      'Explora ropa deportiva de alto rendimiento y accesorios fitness en FitWorld Shop. Experiencia rápida y moderna en línea.',
+      'Explora vitaminas, suplementos de alto rendimiento y ropa deportiva en FitWorld Shop. Vive una experiencia moderna, rápida y enfocada en tu bienestar.',
     url: 'https://fitworldshop.koxland.dev',
     siteName: 'FitWorld Shop',
     images: [
@@ -51,7 +55,7 @@ export const metadata = {
         url: 'https://fitworldshop.koxland.dev/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'FitWorld Shop - Ropa deportiva premium',
+        alt: 'FitWorld Shop - Vitaminas, suplementos y ropa deportiva premium',
       },
     ],
     locale: 'es_MX',
@@ -88,6 +92,7 @@ export const metadata = {
   },
   manifest: '/site.webmanifest',
 };
+
 
 export default function RootLayout({ children }) {
   // Check if Clerk keys are available
