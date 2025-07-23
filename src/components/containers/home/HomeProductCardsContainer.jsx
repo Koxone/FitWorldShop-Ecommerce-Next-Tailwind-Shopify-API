@@ -18,7 +18,7 @@ function HomeProductCardsContainer({
     <div className={`${pathname === '/' ? 'px-4' : 'px-0'}`}>
       <div className="flex flex-col gap-6">
         <RevealOnScroll>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
             <div className="animate-fade-in text-left">
               <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
                 {subtitle1}
@@ -37,7 +37,7 @@ function HomeProductCardsContainer({
               <h2 className="text-lg font-bold tracking-wider text-neutral-400 uppercase">
                 {subtitle2}
               </h2>
-              <h2 className="mb-4 text-2xl font-bold tracking-wider text-white uppercase">
+              <h2 className="text-2xl font-bold tracking-wider text-white uppercase">
                 {title2}
               </h2>
             </div>
