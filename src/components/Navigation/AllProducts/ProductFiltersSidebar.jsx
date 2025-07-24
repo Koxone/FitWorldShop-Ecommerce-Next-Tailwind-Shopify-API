@@ -24,28 +24,28 @@ export default function ProductFiltersSidebar({
         {/* Overlay */}
         {isOpen && (
           <div
-            className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+            className="bg-opacity-50 fixed inset-0 z-40 bg-black/50 lg:hidden"
             onClick={onClose}
           />
         )}
 
         {/* Mobile Filter Sidebar */}
         <aside
-          className={`fixed left-0 top-0 z-50 h-full w-4/5 max-w-xs transform bg-[#0b1320] p-4 text-white transition-transform duration-300 lg:hidden ${
+          className={`fixed top-0 left-0 z-50 h-full w-4/5 max-w-xs transform border-r border-neutral-500/50 bg-[#0b1320] p-4 pb-12 text-white transition-transform duration-300 lg:hidden ${
             isOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
-          <div className="flex items-center justify-between mb-4">
+          <div className="mb-4 flex items-center justify-between border-b pb-4">
             <h2 className="text-lg font-semibold">Filtros</h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-white"
+              className="cursor-pointer text-gray-400 hover:text-white"
             >
               ✕
             </button>
           </div>
-          
-          <div className="overflow-y-auto h-full pb-20">
+
+          <div className="h-full overflow-y-auto pb-25">
             <FilterContent
               categoryLabels={categoryLabels}
               currentCategory={currentCategory}
@@ -64,7 +64,7 @@ export default function ProductFiltersSidebar({
 
   // Desktop sidebar
   return (
-    <aside className="sticky top-0 hidden h-fit w-full max-w-[220px] flex-col overflow-y-auto rounded-lg border border-neutral-600 bg-[#0b1320] p-4 pr-4 text-white lg:flex">
+    <aside className="hidden h-fit w-full max-w-[220px] flex-col overflow-y-auto rounded-lg border border-neutral-600 bg-[#0b1320] p-4 pr-4 text-white lg:flex">
       <FilterContent
         categoryLabels={categoryLabels}
         currentCategory={currentCategory}

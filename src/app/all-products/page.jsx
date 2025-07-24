@@ -37,7 +37,7 @@ export default function ProductsView() {
           </div>
           <button
             onClick={() => setIsMobileFilterOpen(true)}
-            className="flex items-center cursor-pointer gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            className="flex cursor-pointer items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
             <svg
               className="h-4 w-4"
@@ -90,14 +90,16 @@ export default function ProductsView() {
 
       <div className="lg:grid lg:grid-cols-[auto_1fr] lg:gap-6 lg:px-6">
         {/* Desktop Sidebar */}
-        <ProductFiltersSidebar
-          categoryLabels={categoryLabels}
-          currentCategory={currentCategory}
-          setCategory={setCategory}
-          setMinPrice={setMinPrice}
-          setMaxPrice={setMaxPrice}
-          setMinRating={setMinRating}
-        />
+        <div className='pt-10'>
+          <ProductFiltersSidebar
+            categoryLabels={categoryLabels}
+            currentCategory={currentCategory}
+            setCategory={setCategory}
+            setMinPrice={setMinPrice}
+            setMaxPrice={setMaxPrice}
+            setMinRating={setMinRating}
+          />
+        </div>
 
         {/* Mobile Filter Sidebar */}
         <ProductFiltersSidebar
