@@ -9,12 +9,9 @@ import {
   useCartToggle,
   useCartTotals,
 } from '@/context/Cart/PurchaseContextOptimized';
-
-// Animations from Library
 import { AnimatePresence, motion } from 'framer-motion';
 
-// Componente memoizado para cada item del carrito
-const CartItem = memo(({ item, onUpdateQuantity, onRemove }) => {
+const CartItem = memo(({ item, onUpdateQuantity, onRemove, onNavigate }) => {
   const handleIncrement = useCallback(() => {
     onUpdateQuantity(
       item.id,
@@ -22,13 +19,7 @@ const CartItem = memo(({ item, onUpdateQuantity, onRemove }) => {
       item.selectedColor,
       item.quantity + 1
     );
-  }, [
-    item.id,
-    item.selectedSize,
-    item.selectedColor,
-    item.quantity,
-    onUpdateQuantity,
-  ]);
+  }, [item, onUpdateQuantity]);
 
   const handleDecrement = useCallback(() => {
     if (item.quantity > 1) {
@@ -39,112 +30,91 @@ const CartItem = memo(({ item, onUpdateQuantity, onRemove }) => {
         item.quantity - 1
       );
     }
-  }, [
-    item.id,
-    item.selectedSize,
-    item.selectedColor,
-    item.quantity,
-    onUpdateQuantity,
-  ]);
+  }, [item, onUpdateQuantity]);
 
   const handleRemove = useCallback(() => {
     onRemove(item.id, item.selectedSize, item.selectedColor);
-  }, [item.id, item.selectedSize, item.selectedColor, onRemove]);
+  }, [item, onRemove]);
 
   const itemTotal = useMemo(() => {
     return (item.price * item.quantity).toFixed(2);
   }, [item.price, item.quantity]);
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -50 }}
-      className="flex items-center space-x-4 border-b border-gray-700 pb-4"
+    <div
+      className="group flex cursor-pointer items-center gap-4 rounded-lg bg-gray-800 p-3 transition hover:bg-gray-700"
+      onClick={() => onNavigate(item.handle)}
     >
-      <div className="h-16 w-16 overflow-hidden rounded bg-gray-700">
-        {item.image && (
-          <img
-            src={item.image}
-            alt={item.title}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-        )}
-      </div>
+      <img
+        src={item.image}
+        alt={item.title}
+        className="h-20 w-20 flex-shrink-0 rounded-lg object-cover ring-1 ring-gray-700"
+      />
+      <div className="flex flex-1 flex-col justify-between">
+        <div>
+          <h3 className="text-sm font-semibold text-white">{item.title}</h3>
+          <p className="mt-0.5 line-clamp-2 text-xs text-gray-400">
+            {item.description}
+          </p>
+          {(item.selectedColor || item.selectedSize) && (
+            <div className="mt-1 flex items-center gap-2">
+              {item.selectedColor && (
+                <div
+                  className="h-4 w-4 rounded-full border border-gray-600"
+                  style={{ backgroundColor: item.selectedColor }}
+                />
+              )}
+              {item.selectedSize && (
+                <span className="rounded bg-gray-700 px-2 py-0.5 text-xs text-gray-300">
+                  {item.selectedSize}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
 
-      <div className="flex-1">
-        <h4 className="font-medium text-white">{item.title}</h4>
-        <p className="text-sm text-gray-400">
-          {item.selectedSize && `Talla: ${item.selectedSize}`}
-          {item.selectedColor && ` • Color: ${item.selectedColor}`}
-        </p>
-        <p className="font-semibold text-green-400">${itemTotal}</p>
-      </div>
+        <div className="mt-2 flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDecrement();
+              }}
+              className="rounded p-1 text-gray-400 hover:bg-gray-700 hover:text-white"
+            >
+              <MinusIcon size={16} />
+            </button>
+            <span className="w-6 text-center text-white">{item.quantity}</span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleIncrement();
+              }}
+              className="rounded p-1 text-gray-400 hover:bg-gray-700 hover:text-white"
+            >
+              <PlusIcon size={16} />
+            </button>
+          </div>
 
-      <div className="flex items-center space-x-2">
-        <button
-          onClick={handleDecrement}
-          className="rounded bg-gray-700 p-1 text-white hover:bg-gray-600"
-          disabled={item.quantity <= 1}
-        >
-          <MinusIcon className="h-4 w-4" />
-        </button>
-
-        <span className="w-8 text-center text-white">{item.quantity}</span>
-
-        <button
-          onClick={handleIncrement}
-          className="rounded bg-gray-700 p-1 text-white hover:bg-gray-600"
-        >
-          <PlusIcon className="h-4 w-4" />
-        </button>
-
-        <button
-          onClick={handleRemove}
-          className="ml-2 rounded bg-red-600 p-1 text-white hover:bg-red-700"
-        >
-          <TrashIcon className="h-4 w-4" />
-        </button>
-      </div>
-    </motion.div>
-  );
-});
-
-CartItem.displayName = 'CartItem';
-
-// Componente memoizado para el resumen del carrito
-const CartSummary = memo(
-  ({ totalPrice, onCheckout, onClearCart, itemCount }) => (
-    <div className="border-t border-gray-700 pt-4">
-      <div className="mb-4 flex justify-between text-lg font-semibold text-white">
-        <span>Total:</span>
-        <span className="text-green-400">${totalPrice}</span>
-      </div>
-
-      <div className="space-y-2">
-        <button
-          onClick={onCheckout}
-          className="w-full rounded bg-green-600 py-3 text-white transition hover:bg-green-700"
-        >
-          Proceder al Checkout
-        </button>
-
-        <button
-          onClick={onClearCart}
-          className="w-full rounded bg-red-600 py-2 text-white transition hover:bg-red-700"
-        >
-          Vaciar Carrito
-        </button>
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-white">${itemTotal}</span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemove();
+              }}
+              className="rounded p-1 text-red-400 hover:bg-red-500/20 hover:text-red-300"
+            >
+              <TrashIcon size={16} />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  )
-);
+  );
+});
+CartItem.displayName = 'CartItem';
 
-CartSummary.displayName = 'CartSummary';
-
-// Componente principal del carrito optimizado
 const Cart = memo(() => {
   const router = useRouter();
   const cartItems = useCartItems();
@@ -160,25 +130,12 @@ const Cart = memo(() => {
         body: JSON.stringify({ cartItems }),
       });
       const data = await response.json();
-      if (data.url) {
-        window.location.href = data.url;
-      }
+      if (data.url) window.location.href = data.url;
     } catch (error) {
       console.error('Error al iniciar checkout:', error);
     }
   }, [cartItems]);
 
-  // Memoizar la función de overlay click
-  const handleOverlayClick = useCallback(
-    (e) => {
-      if (e.target === e.currentTarget) {
-        closeCart();
-      }
-    },
-    [closeCart]
-  );
-
-  // No renderizar si el carrito está cerrado
   if (!isCartOpen) return null;
 
   return (
@@ -188,77 +145,98 @@ const Cart = memo(() => {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4"
-        onClick={handleOverlayClick}
+        className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm transition-opacity"
+        onClick={closeCart}
       >
-        <motion.div
-          initial={{ y: -20 }}
-          animate={{ y: 0 }}
-          exit={{ y: -20 }}
-          className="relative max-h-[90vh] w-full max-w-md overflow-hidden rounded-lg bg-gray-800 shadow-xl"
+        <div
           onClick={(e) => e.stopPropagation()}
+          className="flex h-full w-full flex-col border-l border-neutral-700 bg-gray-900 shadow-2xl sm:max-w-md"
         >
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-gray-700 p-4">
-            <h2 className="text-xl font-bold text-white">
-              Carrito ({itemCount} {itemCount === 1 ? 'artículo' : 'artículos'})
+          <div className="flex items-center justify-between border-b border-neutral-700 p-4">
+            <h2 className="text-lg font-semibold tracking-wide text-white">
+              Tu Carrito ({itemCount})
             </h2>
             <button
-              onClick={closeCart}
-              className="rounded p-2 text-gray-400 transition hover:bg-gray-700 hover:text-white"
+              onClick={(e) => {
+                e.stopPropagation();
+                closeCart();
+              }}
+              className="rounded p-1 text-gray-400 transition hover:bg-gray-800 hover:text-white"
             >
-              <CloseIcon className="h-6 w-6" />
+              <CloseIcon size={22} />
             </button>
           </div>
 
           {/* Content */}
-          <div className="flex max-h-[calc(90vh-140px)] flex-col">
+          <div className="flex-1 space-y-4 overflow-y-auto p-4">
             {cartItems.length === 0 ? (
-              <div className="flex flex-1 flex-col items-center justify-center p-8 text-center">
-                <p className="mb-4 text-gray-400">Tu carrito está vacío</p>
+              <div className="flex flex-col items-center justify-center py-16 text-center text-gray-400">
+                <p>Your cart is empty.</p>
                 <button
-                  onClick={closeCart}
-                  className="rounded bg-green-600 px-6 py-2 text-white transition hover:bg-green-700"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    closeCart();
+                  }}
+                  className="mt-4 rounded bg-white px-5 py-2 text-sm font-semibold text-gray-900 transition hover:bg-gray-200"
                 >
-                  Seguir Comprando
+                  Continue Shopping
                 </button>
               </div>
             ) : (
-              <>
-                {/* Cart Items */}
-                <div className="flex-1 overflow-y-auto p-4">
-                  <div className="space-y-4">
-                    <AnimatePresence>
-                      {cartItems.map((item, index) => (
-                        <CartItem
-                          key={`${item.id}-${item.selectedSize}-${item.selectedColor}-${index}`}
-                          item={item}
-                          onUpdateQuantity={updateQuantity}
-                          onRemove={removeItem}
-                        />
-                      ))}
-                    </AnimatePresence>
-                  </div>
-                </div>
-
-                {/* Summary */}
-                <div className="p-4">
-                  <CartSummary
-                    totalPrice={totalPrice}
-                    onCheckout={proceedToCheckout}
-                    onClearCart={clearCart}
-                    itemCount={itemCount}
-                  />
-                </div>
-              </>
+              cartItems.map((item, idx) => (
+                <CartItem
+                  key={`${item.id}-${item.selectedSize}-${item.selectedColor}-${idx}`}
+                  item={item}
+                  onUpdateQuantity={updateQuantity}
+                  onRemove={removeItem}
+                  onNavigate={(handle) => {
+                    closeCart();
+                    router.push(`/product-open/${handle}`);
+                  }}
+                />
+              ))
             )}
           </div>
-        </motion.div>
+
+          {/* Footer */}
+          {cartItems.length > 0 && (
+            <div className="space-y-3 border-t border-neutral-700 p-4">
+              <div className="flex justify-between text-white">
+                <span className="font-medium">Subtotal</span>
+                <span className="font-bold">${totalPrice}</span>
+              </div>
+              <p className="text-xs text-gray-400">
+                Envio e Impuestos son calculados al momento de pagar.
+              </p>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  proceedToCheckout();
+                }}
+                className="group relative w-full cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition hover:text-white"
+              >
+                <span className="relative z-10">Pagar</span>
+                <span className="absolute inset-0 z-0 origin-left scale-x-0 rounded bg-green-500 transition-transform duration-700 ease-out group-hover:scale-x-100"></span>
+              </button>
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  clearCart();
+                }}
+                className="group relative w-full cursor-pointer rounded border border-gray-600 px-4 py-2 text-gray-300 transition hover:border-white hover:text-white"
+              >
+                <span className="relative z-10">Limpiar Carrito</span>
+                <span className="absolute inset-0 z-0 origin-right scale-x-0 rounded bg-red-500 transition-transform duration-700 ease-out group-hover:scale-x-100"></span>
+              </button>
+            </div>
+          )}
+        </div>
       </motion.div>
     </AnimatePresence>
   );
 });
-
 Cart.displayName = 'Cart';
 
 export default Cart;

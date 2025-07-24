@@ -4,7 +4,7 @@ import React, { memo, useCallback, useEffect } from 'react';
 import generalTextData from '@/data/generalText/generalTextData';
 import LogoButton from '../../buttons/header/LogoButton';
 import HeaderButton from '../../buttons/header/HeaderButton';
-import { ShoppingBagIcon, UserIcon } from '../../icons/Icons';
+import { ShoppingBagIcon, UserIcon, UsersIcon } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/Auth/AuthContextOptimized';
 import {
@@ -70,16 +70,16 @@ const UserActions = memo(
           <>
             {SignInButtonComponent ? (
               <SignInButtonComponent mode="modal">
-                <button className="rounded px-4 py-2 text-gray-300 transition hover:text-white">
-                  Iniciar sesión
+                <button className="rounded cursor-pointer px-4 py-2 text-gray-300 transition hover:text-white">
+                  <UserIcon />
                 </button>
               </SignInButtonComponent>
             ) : (
               <button
                 onClick={onLoginClick}
-                className="rounded px-4 py-2 text-gray-300 transition hover:text-white"
+                className="rounded px-4 py-2 cursor-pointer text-gray-300 transition hover:text-white"
               >
-                Iniciar sesión
+                <UserIcon />
               </button>
             )}
           </>
