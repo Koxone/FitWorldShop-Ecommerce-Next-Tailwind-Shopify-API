@@ -7,9 +7,27 @@ import HomeProductCardsContainer from '@/components/containers/home/HomeProductC
 import PromoSectionContainer from '@/components/containers/general/PromoSectionContainer';
 import NewsLetter from '@/components/containers/home/newsletter/Newsletter';
 import RevealOnScroll from '@/Styles/RevealOnScroll';
-import LogUserEmailOnLogin from '@/components/LogUserEmailOnLogin';
+import dynamic from 'next/dynamic';
+import HomeContextProvider from '@/providers/HomeContextProvider';
+import ProductContextProvider from '@/providers/ProductContextProvider';
+
+// Dynamically import Clerk component to prevent SSR issues
+const LogUserEmailOnLogin = dynamic(
+  () => import('@/components/LogUserEmailOnLogin'),
+  { ssr: false }
+);
 
 export default function Home() {
+  return (
+    <HomeContextProvider>
+      <ProductContextProvider>
+        <HomeContent />
+      </ProductContextProvider>
+    </HomeContextProvider>
+  );
+}
+
+function HomeContent() {
   const heroItems = MainBanner();
   return (
     <main className="flex min-h-screen flex-col items-center gap-6 md:gap-10">

@@ -9,35 +9,61 @@ import { useCategoryFilter } from '../../../context/filters/CategoryFilterContex
 import { usePurchase } from '@/context/Cart/PurchaseContext';
 import { useAuth } from '@/context/Auth/AuthContext';
 import SearchInput from '../../Navigation/SearchInput';
-import {
-  SignInButton,
-  useAuth as useClerkAuth,
-  UserButton,
-} from '@clerk/nextjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import OrdersModalTrigger from '@/components/buttons/OrdersModalTrigger';
+import dynamic from 'next/dynamic';
+
+// Dynamically import Clerk components to prevent SSR issues
+const ClerkAuthComponents = dynamic(
+  () => import('@clerk/nextjs').then(mod => ({
+    SignInButton: mod.SignInButton,
+    UserButton: mod.UserButton,
+    useAuth: mod.useAuth
+  })),
+  { 
+    ssr: false,
+    loading: () => null
+  }
+);
 
 function MainHeader() {
   const router = useRouter();
   const { getScopeState } = useCategoryFilter();
   const { setCategory } = getScopeState('all-products');
+  const [clerkComponents, setClerkComponents] = useState(null);
 
   const handleClick = (category) => {
     setCategory(category);
     router.push('/all-products');
   };
 
-  // Safe Clerk integration fallback
-  let clerkAuth = { isSignedIn: false };
-  let UserButtonComponent = null;
-  let SignInButtonComponent = null;
+  // Load Clerk components safely on client side
+  useEffect(() => {
+    const loadClerkComponents = async () => {
+      try {
+        const clerkModule = await import('@clerk/nextjs');
+        setClerkComponents({
+          SignInButton: clerkModule.SignInButton,
+          UserButton: clerkModule.UserButton,
+          useAuth: clerkModule.useAuth
+        });
+      } catch (error) {
+        console.warn('Clerk not available:', error);
+      }
+    };
+    
+    loadClerkComponents();
+  }, []);
 
-  try {
-    clerkAuth = useClerkAuth();
-    UserButtonComponent = UserButton;
-    SignInButtonComponent = SignInButton;
-  } catch (error) {
-    console.warn('Clerk auth not available in MainHeader:', error.message);
+  // Safe Clerk integration
+  let clerkAuth = { isSignedIn: false };
+  
+  if (clerkComponents?.useAuth) {
+    try {
+      clerkAuth = clerkComponents.useAuth();
+    } catch (error) {
+      console.warn('Clerk auth not available:', error);
+    }
   }
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
@@ -95,8 +121,8 @@ function MainHeader() {
 
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
-              {isLoggedIn && UserButtonComponent ? (
-                <UserButtonComponent
+              {isLoggedIn && clerkComponents?.UserButton ? (
+                <clerkComponents.UserButton
                   afterSignInUrl="/user-profile"
                   afterSignOutUrl="/"
                   className="z-10 h-8 w-8 overflow-hidden rounded-full"
@@ -107,12 +133,12 @@ function MainHeader() {
                     },
                   }}
                 />
-              ) : SignInButtonComponent ? (
-                <SignInButtonComponent>
+              ) : clerkComponents?.SignInButton ? (
+                <clerkComponents.SignInButton>
                   <button className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white lg:pl-4">
                     <UserIcon size={20} />
                   </button>
-                </SignInButtonComponent>
+                </clerkComponents.SignInButton>
               ) : (
                 <button
                   onClick={() => router.push('/auth/login')}
@@ -146,8 +172,8 @@ function MainHeader() {
           <div className="flex items-center space-x-4">
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
-              {isLoggedIn && UserButtonComponent ? (
-                <UserButtonComponent
+              {isLoggedIn && clerkComponents?.UserButton ? (
+                <clerkComponents.UserButton
                   afterSignInUrl="/user-profile"
                   afterSignOutUrl="/"
                   className="z-10 h-7 w-7 overflow-hidden rounded-full"
@@ -158,12 +184,12 @@ function MainHeader() {
                     },
                   }}
                 />
-              ) : SignInButtonComponent ? (
-                <SignInButtonComponent>
+              ) : clerkComponents?.SignInButton ? (
+                <clerkComponents.SignInButton>
                   <button className="cursor-pointer p-2 text-gray-300 hover:text-white">
                     <UserIcon size={18} />
                   </button>
-                </SignInButtonComponent>
+                </clerkComponents.SignInButton>
               ) : (
                 <button
                   onClick={() => router.push('/auth/login')}

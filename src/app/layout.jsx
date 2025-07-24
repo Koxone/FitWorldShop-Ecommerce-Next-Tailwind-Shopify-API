@@ -3,15 +3,11 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import I18nProvider from '@/providers/I18nProvider';
 import PageTransitionWrapper from '@/components/wrappers/PageTransitionWrapper';
 import MainHeader from '@/components/headers/home/MainHeader';
-import { ImageSourceProvider } from '@/context/general/ImageSourceContext';
 import Footer from '@/components/footers/desktop/Footer';
-import { WishlistProvider } from '@/context/product-card/WishlistContext';
-import { BadgeProvider } from '@/context/product-card/BadgeContext';
+import { PurchaseProvider } from '@/context/Cart/PurchaseContext';
 import { CategoryFilterProvider } from '@/context/filters/CategoryFilterContext';
-import { ProductViewProvider } from '@/context/productView/ProductViewContext';
 import SplashScreen from '@/components/PWA/Splash';
 import BottomNavBar from '@/components/footers/mobile/BottomNavBar';
-import { PurchaseProvider } from '@/context/Cart/PurchaseContext';
 import Cart from '@/components/cart/Cart';
 import { AuthProvider } from '@/context/Auth/AuthContext';
 import { ClerkProvider } from '@clerk/nextjs';
@@ -106,24 +102,16 @@ export default function RootLayout({ children }) {
           <AuthProvider>
             <PurchaseProvider>
               <CategoryFilterProvider>
-                <ProductViewProvider>
-                  <WishlistProvider>
-                    <BadgeProvider>
-                      <ImageSourceProvider>
-                        <I18nProvider>
-                          <MainHeader />
-                          <PageTransitionWrapper>
-                            {children}
-                          </PageTransitionWrapper>
-                          <Footer />
-                          <BottomNavBar />
-                          <Cart />
-                        </I18nProvider>
-                        <SpeedInsights />
-                      </ImageSourceProvider>
-                    </BadgeProvider>
-                  </WishlistProvider>
-                </ProductViewProvider>
+                <I18nProvider>
+                  <MainHeader />
+                  <PageTransitionWrapper>
+                    {children}
+                  </PageTransitionWrapper>
+                  <Footer />
+                  <BottomNavBar />
+                  <Cart />
+                </I18nProvider>
+                <SpeedInsights />
               </CategoryFilterProvider>
             </PurchaseProvider>
           </AuthProvider>
@@ -151,24 +139,16 @@ export default function RootLayout({ children }) {
           <AuthProvider>
             <PurchaseProvider>
               <CategoryFilterProvider>
-                <ProductViewProvider>
-                  <WishlistProvider>
-                    <BadgeProvider>
-                      <ImageSourceProvider>
-                        <I18nProvider>
-                          <MainHeader />
-                          <PageTransitionWrapper>
-                            {children}
-                          </PageTransitionWrapper>
-                          <Footer />
-                          <BottomNavBar />
-                          <Cart />
-                        </I18nProvider>
-                        <SpeedInsights />
-                      </ImageSourceProvider>
-                    </BadgeProvider>
-                  </WishlistProvider>
-                </ProductViewProvider>
+                <I18nProvider>
+                  <MainHeader />
+                  <PageTransitionWrapper>
+                    {children}
+                  </PageTransitionWrapper>
+                  <Footer />
+                  <BottomNavBar />
+                  <Cart />
+                </I18nProvider>
+                <SpeedInsights />
               </CategoryFilterProvider>
             </PurchaseProvider>
           </AuthProvider>
