@@ -5,4 +5,7 @@
 // Re-exportamos desde allí para mantener compatibilidad con imports existentes
 
 export * from './ProductViewContextOptimized';
-export { useProductView, ProductViewProvider } from './ProductViewContextOptimized';
+export {
+  useProductView,
+  ProductViewProvider,
+} from './ProductViewContextOptimized';

@@ -5,4 +5,7 @@
 // Re-exportamos desde allí para mantener compatibilidad con imports existentes
 
 export * from './CategoryFilterContextOptimized';
-export { useCategoryFilter, CategoryFilterProvider } from './CategoryFilterContextOptimized';
+export {
+  useCategoryFilter,
+  CategoryFilterProvider,
+} from './CategoryFilterContextOptimized';
