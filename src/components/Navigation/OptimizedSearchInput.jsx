@@ -44,6 +44,11 @@ function SearchInput({ className = '' }) {
   const inputRef = useRef(null);
   const resultsRef = useRef(null);
 
+  // Sync inputValue with searchQuery from context
+  useEffect(() => {
+    setInputValue(searchQuery || '');
+  }, [searchQuery]);
+
   // Debounced search effect
   useEffect(() => {
     if (debounceRef.current) {

@@ -32,7 +32,7 @@ export const ProductDataProvider = ({ children }) => {
       Crops: 'crops',
       Hoodies: 'hoodies',
       Pants: 'jogger',
-      Leggings: 'legging',
+      Leggings: 'leggings',
       Novedades: 'new',
       Ofertas: 'sale',
       Playeras: 'shirts',
