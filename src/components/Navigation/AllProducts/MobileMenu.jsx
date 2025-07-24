@@ -180,7 +180,7 @@ export default function MobileMenu({ onClose }) {
                   }`}
                 >
                   <span className="text-xl">{getCategoryIcon(category)}</span>
-                  <span className="text-sm font-medium">{category}</span>
+                  <span className="text-base">{category}</span>
                 </button>
               ))}
             </div>

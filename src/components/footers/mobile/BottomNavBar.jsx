@@ -26,6 +26,7 @@ function BottomNavBar() {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [mobileSearchValue, setMobileSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const debounceRef = useRef(null);
 
@@ -74,7 +75,7 @@ function BottomNavBar() {
       icon: MenuIcon,
       label: 'Menu',
       path: '/menu',
-      action: () => setShowMobileMenu(true),
+      action: () => setShowMobileMenu((prev) => !prev),
     },
   ];
 
@@ -113,6 +114,10 @@ function BottomNavBar() {
     setSearchResults([]);
     setShowMobileSearch(false);
     router.push(`/product-open/${product.handle}`);
+  };
+
+  const handleMenuClick = () => {
+    setIsMenuOpen((prev) => !prev);
   };
 
   return (

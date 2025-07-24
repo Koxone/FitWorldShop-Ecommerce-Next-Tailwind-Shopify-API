@@ -28,9 +28,17 @@ export default function OrdersModalTrigger({ styles, showIcon = true }) {
 
   return (
     <div className="text-white">
-      <button onClick={() => setOpen(true)} className={`${styles} cursor-pointer`}>
+      <button
+        onClick={() => setOpen(true)}
+        className={`${styles} cursor-pointer`}
+      >
         {showIcon && <span className="mr-2 text-xl">📦</span>}
-        <ShoppingBagIcon />
+
+        {/* Mostrar texto "Órdenes" en móviles, ícono en pantallas grandes */}
+        <span className="block text-base  lg:hidden">Ordenes</span>
+        <span className="hidden lg:block">
+          <ShoppingBagIcon />
+        </span>
       </button>
 
       {open && (
