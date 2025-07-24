@@ -13,6 +13,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
 import { UserButton } from '@clerk/nextjs';
 import { useAuth } from '@/context/Auth/AuthContext';
+import MobileMenu from '@/components/Navigation/AllProducts/MobileMenu';
 
 function BottomNavBar() {
   const isPWA = useIsPWA();
@@ -21,9 +22,12 @@ function BottomNavBar() {
   const { isLoggedIn } = useAuth();
   const { setIsCartOpen } = usePurchase();
   const { setSearchQuery, searchProducts } = useCategoryFilter();
+
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [mobileSearchValue, setMobileSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const debounceRef = useRef(null);
 
   const SearchIcon = ({ className }) => (
@@ -71,7 +75,7 @@ function BottomNavBar() {
       icon: MenuIcon,
       label: 'Menu',
       path: '/menu',
-      action: () => router.push('/menu'),
+      action: () => setShowMobileMenu((prev) => !prev),
     },
   ];
 
@@ -112,8 +116,13 @@ function BottomNavBar() {
     router.push(`/product-open/${product.handle}`);
   };
 
+  const handleMenuClick = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
   return (
     <>
+      {/* Search Panel */}
       {showMobileSearch && (
         <div className="bg-opacity-50 fixed inset-0 z-50 bg-black lg:hidden">
           <div className="flex h-full flex-col bg-gray-900">
@@ -245,6 +254,14 @@ function BottomNavBar() {
         </div>
       )}
 
+      {/* Mobile Menu Panel */}
+      {showMobileMenu && (
+        <div className="bg-opacity-50 fixed inset-0 z-50 bg-black lg:hidden">
+          <MobileMenu onClose={() => setShowMobileMenu(false)} />
+        </div>
+      )}
+
+      {/* Bottom NavBar */}
       <div
         className={`fixed bottom-0 left-0 z-50 flex h-[70px] w-full justify-between border-t border-gray-700 bg-[#101833] px-6 pt-2 ${
           isPWA ? 'pb-20' : 'pb-8'
@@ -283,9 +300,7 @@ function BottomNavBar() {
                     <UserButton
                       afterSignOutUrl="/"
                       appearance={{
-                        elements: {
-                          userButtonAvatarBox: 'h-6 w-6',
-                        },
+                        elements: { userButtonAvatarBox: 'h-6 w-6' },
                       }}
                     />
                     <span className="mt-1 text-xs">Cuenta</span>

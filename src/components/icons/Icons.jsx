@@ -62,6 +62,18 @@ export const CheckIcon = (props) => (
   </IconBase>
 );
 
+export const ShoppingCartIconNew = (props) => (
+  <IconBase {...props}>
+    <path d="M7.2998 5H22L20 12H8.37675" />
+    <path d="M21 16H9L7 3H4" />
+    <path d="M4 8H2" />
+    <path d="M5 11H2" />
+    <path d="M6 14H2" />
+    <circle cx="9" cy="20" r="1" />
+    <circle cx="20" cy="20" r="1" />
+  </IconBase>
+);
+
 export const XIcon = (props) => (
   <IconBase {...props}>
     <line x1="18" y1="6" x2="6" y2="18" />
@@ -80,7 +92,6 @@ export const CheckIconCart = (props) => (
     />
   </IconBase>
 );
-
 
 export const InfoIcon = (props) => (
   <IconBase {...props}>

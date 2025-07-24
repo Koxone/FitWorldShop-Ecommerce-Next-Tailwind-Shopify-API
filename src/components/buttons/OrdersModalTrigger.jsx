@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
+import { ShoppingBagIcon } from '../icons/Icons';
 
 const UserOrders = dynamic(
   () => import('@/components/Feedback/UserOrders/UserOrders'),
@@ -27,9 +28,17 @@ export default function OrdersModalTrigger({ styles, showIcon = true }) {
 
   return (
     <div className="text-white">
-      <button onClick={() => setOpen(true)} className={`${styles}`}>
+      <button
+        onClick={() => setOpen(true)}
+        className={`${styles} cursor-pointer`}
+      >
         {showIcon && <span className="mr-2 text-xl">📦</span>}
-        <span>Ordenes</span>
+
+        {/* Mostrar texto "Órdenes" en móviles, ícono en pantallas grandes */}
+        <span className="block text-base  lg:hidden">Ordenes</span>
+        <span className="hidden lg:block">
+          <ShoppingBagIcon />
+        </span>
       </button>
 
       {open && (
