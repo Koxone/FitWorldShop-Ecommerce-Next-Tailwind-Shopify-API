@@ -4,7 +4,12 @@ import React, { memo, useCallback, useEffect } from 'react';
 import generalTextData from '@/data/generalText/generalTextData';
 import LogoButton from '../../buttons/header/LogoButton';
 import HeaderButton from '../../buttons/header/HeaderButton';
-import { ShoppingBagIcon, UserIcon, UsersIcon } from '../../icons/Icons';
+import {
+  ShoppingBagIcon,
+  ShoppingCartIconNew,
+  UserIcon,
+  UsersIcon,
+} from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/Auth/AuthContextOptimized';
 import {
@@ -87,10 +92,10 @@ const UserActions = memo(
 
         <button
           onClick={toggleCart}
-          className="relative rounded cursor-pointer p-2 text-gray-300 transition hover:text-white"
+          className="relative cursor-pointer rounded p-2 text-gray-300 transition hover:text-white"
           aria-label="Abrir carrito"
         >
-          <ShoppingBagIcon className="h-6 w-6" />
+          <ShoppingCartIconNew className="h-6 w-6" />
           {totalItems > 0 && (
             <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500 text-xs font-bold text-white">
               {totalItems > 99 ? '99+' : totalItems}

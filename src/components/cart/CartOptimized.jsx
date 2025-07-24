@@ -2,7 +2,7 @@
 
 import React, { memo, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { CloseIcon, MinusIcon, PlusIcon, TrashIcon } from '../icons/Icons';
+import { CloseIcon, MinusIcon, PlusIcon, ShoppingBagIcon, TrashIcon } from '../icons/Icons';
 import {
   useCartItems,
   useCartActions,
