@@ -52,7 +52,7 @@ export default function ProductOpenView() {
   const images = product?.images?.edges || [];
 
   const sizes =
-    product?.options.find((o) => o.name.toLowerCase() === 'talla')?.values ||
+    product?.options?.find((o) => o.name.toLowerCase() === 'talla')?.values ||
     [];
 
   const { getBadges } = useBadge();
@@ -81,7 +81,7 @@ export default function ProductOpenView() {
     setQuantity((q) => Math.min(10, Math.max(1, q + delta)));
 
   const changeColor = (color) => {
-    const variant = product.variants.edges.find((v) =>
+    const variant = product?.variants?.edges?.find((v) =>
       v.node.selectedOptions.some(
         (opt) => opt.name.toLowerCase() === 'color' && opt.value === color
       )

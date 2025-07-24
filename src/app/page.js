@@ -10,6 +10,7 @@ import RevealOnScroll from '@/Styles/RevealOnScroll';
 import dynamic from 'next/dynamic';
 import HomeContextProvider from '@/providers/HomeContextProvider';
 import ProductContextProvider from '@/providers/ProductContextProvider';
+import { useEffect, useState } from 'react';
 
 // Dynamically import Clerk component to prevent SSR issues
 const LogUserEmailOnLogin = dynamic(
@@ -29,9 +30,22 @@ export default function Home() {
 
 function HomeContent() {
   const heroItems = MainBanner();
+  const [isClerkAvailable, setIsClerkAvailable] = useState(false);
+
+  useEffect(() => {
+    // Check if Clerk is properly configured
+    const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+    const hasValidClerkKey =
+      clerkPublishableKey &&
+      clerkPublishableKey.startsWith('pk_') &&
+      !clerkPublishableKey.includes('dummy');
+    
+    setIsClerkAvailable(hasValidClerkKey);
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center gap-6 md:gap-10">
-      <LogUserEmailOnLogin />
+      {isClerkAvailable && <LogUserEmailOnLogin />}
       <ImagesCarousel
         items={heroItems}
         autoPlay={true}

@@ -19,20 +19,38 @@ function MainHeader() {
   const { isLoggedIn } = useAuth();
   const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
   const [clerkComponents, setClerkComponents] = useState({ SignInButton: null, UserButton: null });
+  const [isClerkAvailable, setIsClerkAvailable] = useState(false);
 
   const handleClick = (category) => {
     setCategory(category);
     router.push('/all-products');
   };
 
-  // Load Clerk components safely
+  // Check if Clerk is available and load components safely
   useEffect(() => {
+    const checkClerkAvailability = () => {
+      const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+      const hasValidClerkKey =
+        clerkPublishableKey &&
+        clerkPublishableKey.startsWith('pk_') &&
+        !clerkPublishableKey.includes('dummy');
+      
+      return hasValidClerkKey;
+    };
+
     const loadClerkComponents = async () => {
       try {
-        const { SignInButton, UserButton } = await import('@clerk/nextjs');
-        setClerkComponents({ SignInButton, UserButton });
+        // Only load Clerk components if Clerk is properly configured
+        if (checkClerkAvailability()) {
+          const { SignInButton, UserButton } = await import('@clerk/nextjs');
+          setClerkComponents({ SignInButton, UserButton });
+          setIsClerkAvailable(true);
+        } else {
+          setIsClerkAvailable(false);
+        }
       } catch (error) {
         console.warn('Clerk components not available:', error);
+        setIsClerkAvailable(false);
       }
     };
     
@@ -84,7 +102,7 @@ function MainHeader() {
 
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
-              {isLoggedIn && clerkComponents.UserButton ? (
+              {isClerkAvailable && isLoggedIn && clerkComponents.UserButton ? (
                 <clerkComponents.UserButton
                   afterSignInUrl="/user-profile"
                   afterSignOutUrl="/"
@@ -96,7 +114,7 @@ function MainHeader() {
                     },
                   }}
                 />
-              ) : clerkComponents.SignInButton ? (
+              ) : isClerkAvailable && !isLoggedIn && clerkComponents.SignInButton ? (
                 <clerkComponents.SignInButton>
                   <button className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white lg:pl-4">
                     <UserIcon size={20} />
@@ -135,7 +153,7 @@ function MainHeader() {
           <div className="flex items-center space-x-4">
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
-              {isLoggedIn && clerkComponents.UserButton ? (
+              {isClerkAvailable && isLoggedIn && clerkComponents.UserButton ? (
                 <clerkComponents.UserButton
                   afterSignInUrl="/user-profile"
                   afterSignOutUrl="/"
@@ -147,7 +165,7 @@ function MainHeader() {
                     },
                   }}
                 />
-              ) : clerkComponents.SignInButton ? (
+              ) : isClerkAvailable && !isLoggedIn && clerkComponents.SignInButton ? (
                 <clerkComponents.SignInButton>
                   <button className="cursor-pointer p-2 text-gray-300 hover:text-white">
                     <UserIcon size={18} />
