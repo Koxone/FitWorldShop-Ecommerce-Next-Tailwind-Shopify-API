@@ -63,45 +63,66 @@ const UserActions = memo(
     totalItems,
     onLoginClick,
   }) => (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center space-x-5">
       <SearchInput className="hidden lg:block" />
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-10">
         {isLoggedIn ? (
           <>
-            <OrdersModalTrigger showIcon={false} styles="" />
-            {UserButtonComponent && <UserButtonComponent />}
+            <div className="flex flex-col items-center">
+              <OrdersModalTrigger
+                showIcon={false}
+                styles="text-gray-300 hover:text-white"
+              />
+              <span className="text-xs text-gray-400">Ordenes</span>
+            </div>
+
+            {UserButtonComponent && (
+              <div className="flex flex-col items-center">
+                <UserButtonComponent />
+                <span className="text-xs text-gray-400">Cuenta</span>
+              </div>
+            )}
           </>
         ) : (
           <>
             {SignInButtonComponent ? (
               <SignInButtonComponent mode="modal">
-                <button className="cursor-pointer rounded px-4 py-2 text-gray-300 transition hover:text-white">
-                  <UserIcon />
-                </button>
+                <div className="flex flex-col items-center">
+                  <button className="cursor-pointer rounded text-gray-300 transition hover:text-white">
+                    <UserIcon />
+                  </button>
+                  <span className="mt-1 text-xs text-gray-400">Cuenta</span>
+                </div>
               </SignInButtonComponent>
             ) : (
-              <button
-                onClick={onLoginClick}
-                className="cursor-pointer rounded px-4 py-2 text-gray-300 transition hover:text-white"
-              >
-                <UserIcon />
-              </button>
+              <div className="flex flex-col items-center">
+                <button
+                  onClick={onLoginClick}
+                  className="cursor-pointer rounded text-gray-300 transition hover:text-white"
+                >
+                  <UserIcon />
+                </button>
+                <span className="mt-1 text-xs text-gray-400">Cuenta</span>
+              </div>
             )}
           </>
         )}
 
-        <button
-          onClick={toggleCart}
-          className="relative cursor-pointer rounded p-2 text-gray-300 transition hover:text-white"
-          aria-label="Abrir carrito"
-        >
-          <ShoppingCartIconNew className="h-6 w-6" />
-          {totalItems > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500 text-xs font-bold text-white">
-              {totalItems > 99 ? '99+' : totalItems}
-            </span>
-          )}
-        </button>
+        <div className="flex flex-col items-center">
+          <button
+            onClick={toggleCart}
+            className="relative cursor-pointer rounded text-gray-300 transition hover:text-white"
+            aria-label="Abrir carrito"
+          >
+            <ShoppingCartIconNew className="h-6 w-6" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500 text-xs font-bold text-white">
+                {totalItems > 99 ? '99+' : totalItems}
+              </span>
+            )}
+          </button>
+          <span className="mt-1 text-xs text-gray-400">Carrito</span>
+        </div>
       </div>
     </div>
   )
@@ -152,7 +173,7 @@ function MainHeader() {
       <TopBanner />
 
       {/* Desktop Header */}
-      <header className="sticky top-0 z-50 hidden border-b border-gray-700 bg-gray-900 px-4 lg:block">
+      <header className="sticky top-0 z-50 hidden border-b border-gray-700 bg-gray-900 px-20 lg:block">
         <div className="grid h-16 w-full grid-cols-[auto_1fr_auto] items-center justify-between pl-5">
           <LogoButton />
           <DesktopNavigation onCategoryClick={handleCategoryClick} />
