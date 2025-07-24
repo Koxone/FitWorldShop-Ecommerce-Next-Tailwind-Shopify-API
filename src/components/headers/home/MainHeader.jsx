@@ -9,72 +9,35 @@ import { useCategoryFilter } from '../../../context/filters/CategoryFilterContex
 import { usePurchase } from '@/context/Cart/PurchaseContext';
 import { useAuth } from '@/context/Auth/AuthContext';
 import SearchInput from '../../Navigation/SearchInput';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import OrdersModalTrigger from '@/components/buttons/OrdersModalTrigger';
-import dynamic from 'next/dynamic';
-
-// Dynamically import Clerk components to prevent SSR issues
-const ClerkAuthComponents = dynamic(
-  () => import('@clerk/nextjs').then(mod => ({
-    SignInButton: mod.SignInButton,
-    UserButton: mod.UserButton,
-    useAuth: mod.useAuth
-  })),
-  { 
-    ssr: false,
-    loading: () => null
-  }
-);
 
 function MainHeader() {
   const router = useRouter();
   const { getScopeState } = useCategoryFilter();
   const { setCategory } = getScopeState('all-products');
-  const [clerkComponents, setClerkComponents] = useState(null);
+  const { isLoggedIn } = useAuth();
+  const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
+  const [clerkComponents, setClerkComponents] = useState({ SignInButton: null, UserButton: null });
 
   const handleClick = (category) => {
     setCategory(category);
     router.push('/all-products');
   };
 
-  // Load Clerk components safely on client side
+  // Load Clerk components safely
   useEffect(() => {
     const loadClerkComponents = async () => {
       try {
-        const clerkModule = await import('@clerk/nextjs');
-        setClerkComponents({
-          SignInButton: clerkModule.SignInButton,
-          UserButton: clerkModule.UserButton,
-          useAuth: clerkModule.useAuth
-        });
+        const { SignInButton, UserButton } = await import('@clerk/nextjs');
+        setClerkComponents({ SignInButton, UserButton });
       } catch (error) {
-        console.warn('Clerk not available:', error);
+        console.warn('Clerk components not available:', error);
       }
     };
     
     loadClerkComponents();
   }, []);
-
-  // Safe Clerk integration
-  let clerkAuth = { isSignedIn: false };
-  
-  if (clerkComponents?.useAuth) {
-    try {
-      clerkAuth = clerkComponents.useAuth();
-    } catch (error) {
-      console.warn('Clerk auth not available:', error);
-    }
-  }
-
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-  useEffect(() => {
-    if (clerkAuth.isSignedIn !== undefined) {
-      setIsLoggedIn(clerkAuth.isSignedIn);
-    }
-  }, [clerkAuth.isSignedIn, setIsLoggedIn]);
-
-  const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
 
   return (
     <>
@@ -121,7 +84,7 @@ function MainHeader() {
 
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
-              {isLoggedIn && clerkComponents?.UserButton ? (
+              {isLoggedIn && clerkComponents.UserButton ? (
                 <clerkComponents.UserButton
                   afterSignInUrl="/user-profile"
                   afterSignOutUrl="/"
@@ -133,7 +96,7 @@ function MainHeader() {
                     },
                   }}
                 />
-              ) : clerkComponents?.SignInButton ? (
+              ) : clerkComponents.SignInButton ? (
                 <clerkComponents.SignInButton>
                   <button className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white lg:pl-4">
                     <UserIcon size={20} />
@@ -172,7 +135,7 @@ function MainHeader() {
           <div className="flex items-center space-x-4">
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
-              {isLoggedIn && clerkComponents?.UserButton ? (
+              {isLoggedIn && clerkComponents.UserButton ? (
                 <clerkComponents.UserButton
                   afterSignInUrl="/user-profile"
                   afterSignOutUrl="/"
@@ -184,7 +147,7 @@ function MainHeader() {
                     },
                   }}
                 />
-              ) : clerkComponents?.SignInButton ? (
+              ) : clerkComponents.SignInButton ? (
                 <clerkComponents.SignInButton>
                   <button className="cursor-pointer p-2 text-gray-300 hover:text-white">
                     <UserIcon size={18} />

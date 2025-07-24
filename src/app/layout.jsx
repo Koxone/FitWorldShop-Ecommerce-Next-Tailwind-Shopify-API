@@ -13,6 +13,7 @@ import { AuthProvider } from '@/context/Auth/AuthContext';
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark, shadesOfPurple } from '@clerk/themes';
 import { esES } from '@clerk/localizations';
+import ClerkAuthSync from '@/components/auth/ClerkAuthSync';
 
 export const metadata = {
   title: {
@@ -137,6 +138,7 @@ export default function RootLayout({ children }) {
         <body>
           <SplashScreen />
           <AuthProvider>
+            <ClerkAuthSync />
             <PurchaseProvider>
               <CategoryFilterProvider>
                 <I18nProvider>
