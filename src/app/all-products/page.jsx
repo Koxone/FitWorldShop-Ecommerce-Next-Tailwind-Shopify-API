@@ -37,7 +37,7 @@ export default function ProductsView() {
           </div>
           <button
             onClick={() => setIsMobileFilterOpen(true)}
-            className="flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            className="flex items-center cursor-pointer gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
             <svg
               className="h-4 w-4"
