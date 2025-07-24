@@ -24,9 +24,6 @@ export async function GET(req) {
     if (!email) {
       return NextResponse.json({ error: 'Email not found' }, { status: 400 });
     }
-    console.log('➡️ Shopify URL:', SHOPIFY_STORE_URL);
-    console.log('➡️ Admin Token:', SHOPIFY_ADMIN_API_ACCESS_TOKEN);
-    console.log('➡️ Email Clerk:', email);
 
     const shopifyRes = await fetch(
       `${SHOPIFY_STORE_URL}/admin/api/2023-10/orders.json?email=${email}`,

@@ -39,7 +39,6 @@ export async function POST(req) {
     );
 
     const json = await response.json();
-    console.log(JSON.stringify(json, null, 2));
 
     const userErrors = json.data.customerCreate.customerUserErrors;
     if (userErrors.length > 0) {

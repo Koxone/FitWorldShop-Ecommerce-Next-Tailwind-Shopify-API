@@ -162,7 +162,7 @@ const Cart = memo(() => {
                 e.stopPropagation();
                 closeCart();
               }}
-              className="rounded p-1 text-gray-400 transition hover:bg-gray-800 hover:text-white"
+              className="rounded p-1 cursor-pointer text-gray-400 transition hover:bg-gray-800 hover:text-white"
             >
               <CloseIcon size={22} />
             </button>
@@ -178,7 +178,7 @@ const Cart = memo(() => {
                     e.stopPropagation();
                     closeCart();
                   }}
-                  className="mt-4 rounded bg-white px-5 py-2 text-sm font-semibold text-gray-900 transition hover:bg-gray-200"
+                  className="mt-4 rounded cursor-pointer bg-white px-5 py-2 text-sm font-semibold text-gray-900 transition hover:bg-gray-200"
                 >
                   Continue Shopping
                 </button>

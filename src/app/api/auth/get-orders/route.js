@@ -52,7 +52,6 @@ export async function POST(req) {
     );
 
     const json = await response.json();
-    console.log(JSON.stringify(json, null, 2));
 
     if (json.errors) {
       console.error(json.errors);

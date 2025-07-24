@@ -63,21 +63,21 @@ const UserActions = memo(
       <div className="flex items-center space-x-2">
         {isLoggedIn ? (
           <>
-            <OrdersModalTrigger />
+            <OrdersModalTrigger showIcon={false} styles="" />
             {UserButtonComponent && <UserButtonComponent />}
           </>
         ) : (
           <>
             {SignInButtonComponent ? (
               <SignInButtonComponent mode="modal">
-                <button className="rounded cursor-pointer px-4 py-2 text-gray-300 transition hover:text-white">
+                <button className="cursor-pointer rounded px-4 py-2 text-gray-300 transition hover:text-white">
                   <UserIcon />
                 </button>
               </SignInButtonComponent>
             ) : (
               <button
                 onClick={onLoginClick}
-                className="rounded px-4 py-2 cursor-pointer text-gray-300 transition hover:text-white"
+                className="cursor-pointer rounded px-4 py-2 text-gray-300 transition hover:text-white"
               >
                 <UserIcon />
               </button>
@@ -87,7 +87,7 @@ const UserActions = memo(
 
         <button
           onClick={toggleCart}
-          className="relative rounded p-2 text-gray-300 transition hover:text-white"
+          className="relative rounded cursor-pointer p-2 text-gray-300 transition hover:text-white"
           aria-label="Abrir carrito"
         >
           <ShoppingBagIcon className="h-6 w-6" />
@@ -163,7 +163,7 @@ function MainHeader() {
       </header>
 
       {/* Mobile Header */}
-      <header className="sticky top-0 z-50 block border-b border-gray-700 bg-gray-900 lg:hidden">
+      {/* <header className="sticky top-0 z-50 block border-b border-gray-700 bg-gray-900 lg:hidden">
         <div className="flex h-16 items-center justify-between px-4">
           <LogoButton />
           <UserActions
@@ -175,7 +175,7 @@ function MainHeader() {
             onLoginClick={handleLoginClick}
           />
         </div>
-      </header>
+      </header> */}
     </>
   );
 }

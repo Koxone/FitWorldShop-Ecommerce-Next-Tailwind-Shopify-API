@@ -27,7 +27,7 @@ export default function OrdersModalTrigger({ styles, showIcon = true }) {
 
   return (
     <div className="text-white">
-      <button onClick={() => setOpen(true)} className={`${styles}`}>
+      <button onClick={() => setOpen(true)} className={`${styles} border rounded-lg p-1 bg-blue-900 border-transparent cursor-pointer hover:bg-blue-700`}>
         {showIcon && <span className="mr-2 text-xl">📦</span>}
         <span>Ordenes</span>
       </button>
