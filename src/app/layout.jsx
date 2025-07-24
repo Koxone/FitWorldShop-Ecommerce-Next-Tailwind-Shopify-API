@@ -2,7 +2,7 @@ import '@/app/globals.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import I18nProvider from '@/providers/I18nProvider';
 import PageTransitionWrapper from '@/components/wrappers/PageTransitionWrapper';
-import MainHeader from '@/components/headers/home/MainHeader';
+import OptimizedMainHeader from '@/components/headers/home/OptimizedMainHeader';
 import Footer from '@/components/footers/desktop/Footer';
 import { PurchaseProvider } from '@/context/Cart/PurchaseContext';
 import { CategoryFilterProvider } from '@/context/filters/CategoryFilterContext';
@@ -104,7 +104,7 @@ export default function RootLayout({ children }) {
             <PurchaseProvider>
               <CategoryFilterProvider>
                 <I18nProvider>
-                  <MainHeader />
+                  <OptimizedMainHeader />
                   <PageTransitionWrapper>
                     {children}
                   </PageTransitionWrapper>
@@ -142,7 +142,7 @@ export default function RootLayout({ children }) {
             <PurchaseProvider>
               <CategoryFilterProvider>
                 <I18nProvider>
-                  <MainHeader />
+                  <OptimizedMainHeader />
                   <PageTransitionWrapper>
                     {children}
                   </PageTransitionWrapper>

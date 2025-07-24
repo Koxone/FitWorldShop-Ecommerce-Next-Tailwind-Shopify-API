@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import ShopifyProductCard from '../../cards/shopify/ShopifyProductCard';
+import OptimizedShopifyProductCard from '../../cards/shopify/OptimizedShopifyProductCard';
 import FilterButtonsHomeRopa from '@/components/buttons/filter/FilterButtonsHomeRopa';
 import FilterButtonsHomeSuplementos from '@/components/buttons/filter/FilterButtonsHomeSuplementos';
 import RevealOnScroll from '@/Styles/RevealOnScroll';
@@ -28,7 +28,7 @@ function HomeProductCardsContainer({
               </h2>
             </div>
             <FilterButtonsHomeRopa viewScope={viewScope1} />
-            <ShopifyProductCard viewScope={viewScope1} />
+            <OptimizedShopifyProductCard viewScope={viewScope1} />
           </div>
         </RevealOnScroll>
         <RevealOnScroll>
@@ -42,7 +42,7 @@ function HomeProductCardsContainer({
               </h2>
             </div>
             <FilterButtonsHomeSuplementos viewScope={viewScope2} />
-            <ShopifyProductCard viewScope={viewScope2} />
+            <OptimizedShopifyProductCard viewScope={viewScope2} />
           </div>
         </RevealOnScroll>
       </div>
