@@ -1,89 +1,120 @@
-# Koxland Ecommerce
+# 🛒 Koxland Ecommerce
 
-A modern, responsive **Ecommerce Storefront** built with:
+A modern, fully responsive **E-commerce Storefront** built with cutting-edge technologies for performance, scalability, and seamless Shopify integration.
 
-- **Next.js 15** (App Router)
-- **Tailwind CSS v4** for styling
-- **Framer Motion** (optional animations)
-- **Shopify Storefront Faceless API** integration
-- **Fully responsive** across desktop, tablet, and mobile
+🔗 **Live Demo:** [https://www.fitworldshop.com/](https://www.fitworldshop.com/)
 
-🚀 **Live demo:** [https://www.fitworldshop.com/](https://www.fitworldshop.com/)
+---
 
-## Features
+## 🚀 Features
 
-✅ Modern, fast, clean ecommerce frontend  
-✅ Product listing and detail views  
-✅ Dynamic shopping cart with persistent local storage  
-✅ Checkout process integration ready  
-✅ Product filtering and color/size selection  
-✅ Wishlist functionality (local persistence)  
-✅ Internationalization-ready  
-✅ Page transitions and optional animations  
-✅ Fully responsive with mobile-first design
+✅ Lightning-fast, SEO-friendly Next.js 15 (App Router)  
+✅ Fully responsive design for desktop, tablet, and mobile  
+✅ Dynamic product listing and detail pages  
+✅ Persistent shopping cart with local storage  
+✅ Shopify Storefront API integration (ready for real checkout)  
+✅ Product filtering, color/size variants, and wishlist support  
+✅ Internationalization-ready (i18n support)  
+✅ Smooth page transitions and animations (Framer Motion)  
+✅ Clean, modular, and scalable architecture
 
-## Tech Stack
+---
 
-- **Framework:** Next.js 15 (App Router)
-- **Styling:** Tailwind CSS v4
-- **State Management:** Context API
-- **Animations:** Framer Motion (optional)
-- **API:** Shopify Storefront Faceless API
-- **Deployment:** Vercel
+## 🛠 Tech Stack
 
-## Setup
+| Category             | Technology                      |
+| -------------------- | ------------------------------- |
+| **Framework**        | Next.js 15 (App Router)         |
+| **Styling**          | Tailwind CSS v4                 |
+| **State Management** | React Context API               |
+| **Animations**       | Framer Motion (optional)        |
+| **API**              | Shopify Storefront Faceless API |
+| **Deployment**       | Vercel                          |
 
-1️⃣ Clone the repository:
+---
+
+## 📂 Project Structure
+
+```
+src/
+├── app/           # Next.js App Router pages and layouts
+├── components/    # Reusable UI components
+├── context/       # Global state management (Auth, Cart, etc.)
+├── data/          # Static data (can be replaced with API)
+├── styles/        # Global CSS and Tailwind configuration
+```
+
+---
+
+## ⚡ Getting Started
+
+### 1️⃣ Clone the repository
 
 ```bash
 git clone https://github.com/Koxone/FitWorldShop-Next-Tailwind-Shopify-API.git
-cd Ecommerce-Next-Tailwind
+cd FitWorldShop-Next-Tailwind-Shopify-API
 ```
 
-2️⃣ Install dependencies:
+### 2️⃣ Install dependencies
 
 ```bash
 npm install
 ```
 
-3️⃣ Configure environment variables in `.env.local`:
+### 3️⃣ Configure environment variables
+
+Create a `.env.local` file and add:
 
 ```env
 SHOPIFY_STORE_DOMAIN=your-shopify-store.myshopify.com
 SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_storefront_access_token
 ```
 
-4️⃣ Run the development server:
+### 4️⃣ Run the development server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Go to 👉 [http://localhost:3000](http://localhost:3000)
 
-5️⃣ Build for production:
+### 5️⃣ Build for production
 
 ```bash
 npm run build
 npm start
 ```
 
-## Folder Structure
+---
 
-- `src/app/` - Next.js App Router structure
-- `src/components/` - Reusable components
-- `src/context/` - Global state management (MainContext, PurchaseContext)
-- `src/data/` - Static product data (can be replaced by API)
-- `src/styles/` - Global styles
+## 📦 Features in Development
 
-## Contributing
-
-PRs and issues are welcome! Please open an issue first to discuss proposed changes.
-
-## License
-
-MIT License © 2025 [Kox](https://github.com/Koxone)
+🔹 Advanced checkout flow with Shopify API  
+🔹 Multi-language support (English/Spanish)  
+🔹 Enhanced filtering and search system  
+🔹 Performance improvements and Lighthouse optimizations
 
 ---
 
-**Enjoy building scalable ecommerce experiences with this modern Next.js stack!**
+## 🤝 Contributing
+
+Contributions are welcome!  
+Open an **issue** to suggest improvements or a **PR** to collaborate.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.  
+© 2025 [Kox](https://github.com/Koxone)
+
+---
+
+### 💡 Why This Stack?
+
+This project is designed as a **scalable, production-ready Next.js e-commerce template**. It follows best practices for:
+
+✅ Modular and maintainable architecture  
+✅ High-performance, SEO-optimized frontend  
+✅ Smooth animations and UI/UX best practices  
+✅ Easy integration with Shopify and other APIs
