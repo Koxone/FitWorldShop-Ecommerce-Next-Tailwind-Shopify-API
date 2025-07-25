@@ -8,6 +8,7 @@ import PromoSectionContainer from '@/components/containers/general/PromoSectionC
 import NewsLetter from '@/components/containers/home/newsletter/Newsletter';
 import RevealOnScroll from '@/Styles/RevealOnScroll';
 import LogUserEmailOnLogin from '@/components/LogUserEmailOnLogin';
+import GeneralModal from '@/components/Feedback/Modals/GeneralModal';
 
 export default function Home() {
   const heroItems = MainBanner();

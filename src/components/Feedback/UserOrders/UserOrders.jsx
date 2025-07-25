@@ -78,7 +78,7 @@ export default function UserOrders() {
             <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
               <div className="space-y-1">
                 <h3 className="text-base font-semibold text-white">
-                  Orden {order.name || order.id}
+                  Orden {order.customer.id}
                 </h3>
                 <p className="text-sm text-gray-400">
                   {new Date(order.created_at).toLocaleString('es-ES', {

@@ -3,7 +3,7 @@
 // Re-exports de los contextos optimizados para mantener compatibilidad
 
 // Exports originales que mantienen los nombres existentes
-export { useAuth } from '@/context/Auth/AuthContextOptimized';
+export { useAuth } from '@/context/AuthDEPRECATED/AuthContextOptimized';
 
 export { usePurchase } from '@/context/Cart/PurchaseContextOptimized';
 

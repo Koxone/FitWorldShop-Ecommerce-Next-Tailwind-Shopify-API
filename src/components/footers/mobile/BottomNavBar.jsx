@@ -12,7 +12,7 @@ import { usePurchase } from '@/context/Cart/PurchaseContext';
 import { useState, useEffect, useRef } from 'react';
 import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
 import { UserButton } from '@clerk/nextjs';
-import { useAuth } from '@/context/Auth/AuthContext';
+import { useAuth } from '@/context/AuthDEPRECATED/AuthContext';
 import MobileMenu from '@/components/Navigation/AllProducts/MobileMenu';
 
 function BottomNavBar() {

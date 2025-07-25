@@ -16,8 +16,13 @@ import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
 
 export default function ShopifyProductCard({ viewScope }) {
   const pathname = usePathname();
-  const { getScopeState, isLoading, isError, mapTextToShopifyCategory, searchQuery } =
-    useCategoryFilter();
+  const {
+    getScopeState,
+    isLoading,
+    isError,
+    mapTextToShopifyCategory,
+    searchQuery,
+  } = useCategoryFilter();
 
   const [productImages, setProductImages] = useState({});
   const { products } = useShopifyProducts();
@@ -39,12 +44,12 @@ export default function ShopifyProductCard({ viewScope }) {
         const searchTerm = searchQuery.toLowerCase().trim();
         const title = product.title?.toLowerCase() || '';
         const description = product.description?.toLowerCase() || '';
-        
-        const matchesSearch = 
+
+        const matchesSearch =
           title.includes(searchTerm) ||
-          tags.some(tag => tag.includes(searchTerm)) ||
+          tags.some((tag) => tag.includes(searchTerm)) ||
           description.includes(searchTerm);
-        
+
         if (!matchesSearch) return false;
       }
 
@@ -66,7 +71,7 @@ export default function ShopifyProductCard({ viewScope }) {
         case 'accesories':
           return tags.includes('accesories');
         case 'lipoblue':
-          return tags.includes('lipoblue')
+          return tags.includes('lipoblue');
         case 'salud':
           return (
             tags.includes('salud') ||
@@ -79,7 +84,6 @@ export default function ShopifyProductCard({ viewScope }) {
       }
     });
 
-    // Only randomize if there's no search query
     if (!hasSearchQuery || viewScope !== 'all-products') {
       return [...result].sort(() => Math.random() - 0.5);
     }
@@ -103,8 +107,8 @@ export default function ShopifyProductCard({ viewScope }) {
     <div
       className={`${
         pathname === '/' || pathname.startsWith('/product-open')
-          ? 'mx-auto flex w-full flex-nowrap gap-3 sm:gap-4 md:gap-5 overflow-x-auto'
-          : 'grid grid-cols-1 gap-3 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-4 lg:gap-5'
+          ? 'mx-auto flex w-full flex-nowrap gap-3 overflow-x-auto sm:gap-4 md:gap-5'
+          : 'grid grid-cols-1 gap-3 px-2 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-5 xl:grid-cols-4'
       }`}
     >
       {filteredProducts.map((product) => (
@@ -116,7 +120,8 @@ export default function ShopifyProductCard({ viewScope }) {
               : 'w-full'
           }`}
         >
-          <WishlistButton productId={product.id} />
+          <WishlistButton productId={product.id} product={product} />
+
           <Badges product={product} />
           <ImageRender product={product} productImages={productImages} />
 

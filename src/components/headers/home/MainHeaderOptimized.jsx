@@ -1,17 +1,12 @@
 'use client';
 
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import generalTextData from '@/data/generalText/generalTextData';
 import LogoButton from '../../buttons/header/LogoButton';
 import HeaderButton from '../../buttons/header/HeaderButton';
-import {
-  ShoppingBagIcon,
-  ShoppingCartIconNew,
-  UserIcon,
-  UsersIcon,
-} from '../../icons/Icons';
+import { HeartIcon, ShoppingCartIconNew } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/Auth/AuthContextOptimized';
+import { useAuth } from '@/context/AuthDEPRECATED/AuthContextOptimized';
 import {
   useCartToggle,
   useCartTotals,
@@ -24,10 +19,11 @@ import {
   UserButton,
 } from '@clerk/nextjs';
 import OrdersModalTrigger from '@/components/buttons/OrdersModalTrigger';
+import UserAccountButton from '@/components/buttons/UserAccountButton';
+import WishlistModal from '@/components/Feedback/Modals/WishlistProductsModal';
 
-// Componente memoizado para la navegación desktop
 const DesktopNavigation = memo(({ onCategoryClick }) => (
-  <nav className="hidden justify-center space-x-8 lg:flex">
+  <nav className="justify-center space-x-8 lg:flex">
     <HeaderButton onClick={() => onCategoryClick(null)} text="Todos" />
     <HeaderButton onClick={() => onCategoryClick('Salud')} text="Salud" />
     <HeaderButton
@@ -39,7 +35,6 @@ const DesktopNavigation = memo(({ onCategoryClick }) => (
 ));
 DesktopNavigation.displayName = 'DesktopNavigation';
 
-// Componente memoizado para el banner superior
 const TopBanner = memo(() => (
   <div className="relative overflow-hidden bg-gray-800 py-2">
     <div className="animate-marquee text-center text-xs whitespace-nowrap text-gray-300 md:text-sm">
@@ -53,7 +48,6 @@ const TopBanner = memo(() => (
 ));
 TopBanner.displayName = 'TopBanner';
 
-// Componente memoizado para los iconos de usuario
 const UserActions = memo(
   ({
     isLoggedIn,
@@ -62,52 +56,30 @@ const UserActions = memo(
     toggleCart,
     totalItems,
     onLoginClick,
+    onWishlistClick,
   }) => (
     <div className="flex items-center space-x-5">
-      <SearchInput className="hidden lg:block" />
-      <div className="flex items-center space-x-10">
-        {isLoggedIn ? (
-          <>
-            <div className="flex flex-col items-center">
-              <OrdersModalTrigger
-                showIcon={false}
-                styles="text-gray-300 hover:text-white"
-              />
-              <span className="text-xs text-gray-400">Ordenes</span>
-            </div>
+      <SearchInput className="lg:block" />
 
-            {UserButtonComponent && (
-              <div className="flex flex-col items-center">
-                <UserButtonComponent />
-                <span className="text-xs text-gray-400">Cuenta</span>
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            {SignInButtonComponent ? (
-              <SignInButtonComponent mode="modal">
-                <div className="flex flex-col items-center">
-                  <button className="cursor-pointer rounded text-gray-300 transition hover:text-white">
-                    <UserIcon />
-                  </button>
-                  <span className="mt-1 text-xs text-gray-400">Cuenta</span>
-                </div>
-              </SignInButtonComponent>
-            ) : (
-              <div className="flex flex-col items-center">
-                <button
-                  onClick={onLoginClick}
-                  className="cursor-pointer rounded text-gray-300 transition hover:text-white"
-                >
-                  <UserIcon />
-                </button>
-                <span className="mt-1 text-xs text-gray-400">Cuenta</span>
-              </div>
-            )}
-          </>
-        )}
+      <div className="flex items-center space-x-5">
+        {/* Cuenta */}
+        <div className="flex flex-col items-center gap-1">
+          <UserAccountButton />
+          <span className="text-xs text-gray-400">Cuenta</span>
+        </div>
 
+        {/* Wishlist */}
+        <div className="flex flex-col items-center gap-1">
+          <button
+            className="cursor-pointer rounded text-gray-300 transition hover:text-white"
+            onClick={onWishlistClick}
+          >
+            <HeartIcon className="transition-all duration-300 ease-in-out hover:fill-red-500" />
+          </button>
+          <span className="text-xs text-gray-400">Wishlist</span>
+        </div>
+
+        {/* Carrito */}
         <div className="flex flex-col items-center">
           <button
             onClick={toggleCart}
@@ -121,7 +93,7 @@ const UserActions = memo(
               </span>
             )}
           </button>
-          <span className="mt-1 text-xs text-gray-400">Carrito</span>
+          <span className="text-xs text-gray-400">Carrito</span>
         </div>
       </div>
     </div>
@@ -135,6 +107,8 @@ function MainHeader() {
   const { toggleCart } = useCartToggle();
   const { totalItems } = useCartTotals();
 
+  const [wishlistModalOpen, setWishlistModalOpen] = useState(false);
+
   const handleCategoryClick = useCallback(
     (category) => {
       setCategory(category);
@@ -147,7 +121,6 @@ function MainHeader() {
     router.push('/auth/login');
   }, [router]);
 
-  // Safe Clerk integration fallback
   let clerkAuth = { isSignedIn: false };
   let UserButtonComponent = null;
   let SignInButtonComponent = null;
@@ -172,7 +145,6 @@ function MainHeader() {
     <>
       <TopBanner />
 
-      {/* Desktop Header */}
       <header className="sticky top-0 z-50 hidden border-b border-gray-700 bg-gray-900 px-20 lg:block">
         <div className="grid h-16 w-full grid-cols-[auto_1fr_auto] items-center justify-between pl-5">
           <LogoButton />
@@ -184,24 +156,16 @@ function MainHeader() {
             toggleCart={toggleCart}
             totalItems={totalItems}
             onLoginClick={handleLoginClick}
+            onWishlistClick={() => setWishlistModalOpen(true)}
           />
         </div>
       </header>
 
-      {/* Mobile Header */}
-      {/* <header className="sticky top-0 z-50 block border-b border-gray-700 bg-gray-900 lg:hidden">
-        <div className="flex h-16 items-center justify-between px-4">
-          <LogoButton />
-          <UserActions
-            isLoggedIn={isLoggedIn}
-            UserButtonComponent={UserButtonComponent}
-            SignInButtonComponent={SignInButtonComponent}
-            toggleCart={toggleCart}
-            totalItems={totalItems}
-            onLoginClick={handleLoginClick}
-          />
-        </div>
-      </header> */}
+      {/* Modal de wishlist */}
+      <WishlistModal
+        isOpen={wishlistModalOpen}
+        onClose={() => setWishlistModalOpen(false)}
+      />
     </>
   );
 }

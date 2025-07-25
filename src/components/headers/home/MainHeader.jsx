@@ -7,7 +7,7 @@ import { ShoppingBagIcon, UserIcon } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
 import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
 import { usePurchase } from '@/context/Cart/PurchaseContext';
-import { useAuth } from '@/context/Auth/AuthContext';
+import { useAuth } from '@/context/AuthDEPRECATED/AuthContext';
 import SearchInput from '../../Navigation/SearchInput';
 import {
   SignInButton,
