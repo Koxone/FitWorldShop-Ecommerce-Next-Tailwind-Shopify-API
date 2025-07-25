@@ -44,22 +44,32 @@ const Footer = () => {
 
             {/* Shop Links */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Shop</h2>
+              <h2 className="text-lg font-semibold text-white">
+                Nuestras Marcas
+              </h2>
               <ul className="space-y-2">
                 {[
-                  "Women's",
-                  "Men's",
-                  'Accessories',
-                  'All Products',
-                  'Sale',
-                  'New Arrivals',
+                  {
+                    label: 'Perfumes Arabes',
+                    href: 'https://www.etereah.com/',
+                  },
+                  {
+                    label: 'Ropa Deportiva',
+                    href: 'https://www.fitworldshop.com.mx/',
+                  },
+                  {
+                    label: 'Desarrollo Web',
+                    href: 'https://koxland.dev/',
+                  },
                 ].map((item, idx) => (
                   <li key={idx}>
                     <a
-                      href="#"
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-gray-400 transition-colors duration-200 hover:text-white"
                     >
-                      {item}
+                      {item.label}
                     </a>
                   </li>
                 ))}
@@ -68,30 +78,27 @@ const Footer = () => {
 
             {/* Support Links */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Support</h2>
+              <h2 className="text-lg font-semibold text-white">
+                Atencion al Cliente
+              </h2>
               <ul className="space-y-2">
-                {[
-                  'Contact Us',
-                  'Size Guide',
-                  'Shipping Info',
-                  'Returns & Exchanges',
-                  'FAQ',
-                  'Track Your Order',
-                ].map((item, idx) => (
-                  <li key={idx}>
-                    <a
-                      href="#"
-                      className="text-gray-400 transition-colors duration-200 hover:text-white"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
+                {['Contactanos', 'Envio', 'Cambios y Devoluciones'].map(
+                  (item, idx) => (
+                    <li key={idx}>
+                      <a
+                        href="#"
+                        className="text-gray-400 transition-colors duration-200 hover:text-white"
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  )
+                )}
               </ul>
             </div>
 
             {/* Company Links */}
-            <div className="space-y-4">
+            {/* <div className="space-y-4">
               <h2 className="text-lg font-semibold text-white">Company</h2>
               <ul className="space-y-2">
                 {[
@@ -112,7 +119,7 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -128,37 +135,38 @@ const Footer = () => {
 
             {/* Legal Links */}
             <div className="flex space-x-6">
-              {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(
-                (item, idx) => (
-                  <a
-                    key={idx}
-                    href="#"
-                    className="text-sm text-gray-400 transition-colors duration-200 hover:text-white"
-                  >
-                    {item}
-                  </a>
-                )
-              )}
+              <div className="text-sm text-gray-400">
+                © Developed by{' '}
+                <a
+                  href="https://koxland.dev/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  Koxland.Inc
+                </a>
+              </div>
             </div>
 
             {/* Payment Methods */}
             <div className="flex items-center space-x-3">
-              <span className="text-sm text-gray-400">We accept:</span>
+              <span className="text-sm text-gray-400">Metodos de Pago:</span>
               <div className="flex space-x-2">
-                {['VISA', 'MC', 'PP', '🍎'].map((method, idx) => (
+                {[
+                  { src: '/visa.svg', alt: 'Visa' },
+                  { src: '/amex.svg', alt: 'American Express' },
+                  { src: '/mastercard.svg', alt: 'Mastercard' },
+                  { src: '/paypal.svg', alt: 'PayPal' },
+                ].map((method, idx) => (
                   <div
                     key={idx}
-                    className={`flex h-5 w-8 items-center justify-center rounded text-xs font-bold text-white ${
-                      method === 'VISA'
-                        ? 'bg-blue-600'
-                        : method === 'MC'
-                          ? 'bg-red-600'
-                          : method === 'PP'
-                            ? 'bg-blue-500'
-                            : 'bg-black'
-                    }`}
+                    className="flex h-5 w-8 items-center justify-center rounded"
                   >
-                    {method}
+                    <img
+                      src={method.src}
+                      alt={method.alt}
+                      className="h-8 w-auto object-contain"
+                    />
                   </div>
                 ))}
               </div>
