@@ -8,26 +8,12 @@ export default function MenuPage() {
   const router = useRouter();
   const { categoryLabels, getScopeState } = useCategoryFilter();
 
-  // Safely get auth state, fallback to false if Clerk is not properly configured
-  let isSignedIn = false;
-  try {
-    const { useAuth } = require('@clerk/nextjs');
-    const auth = useAuth();
-    isSignedIn = auth?.isSignedIn || false;
-  } catch (error) {
-    // Clerk not properly configured, continue with isSignedIn = false
-    console.warn('Clerk auth not available:', error.message);
-  }
+  // No authentication for now - removed Clerk dependency
+  const isSignedIn = false;
 
   const menuItems = [
     { label: 'Inicio', path: '/', icon: '🏠' },
     { label: 'Todos los Productos', path: '/all-products', icon: '🛍️' },
-    {
-      label: 'Mi Perfil',
-      path: '/user-profile',
-      icon: '👤',
-      requireAuth: true,
-    },
   ];
 
   // Organize categories by type for better UX
@@ -103,21 +89,8 @@ export default function MenuPage() {
   };
 
   const handleAuthAction = () => {
-    if (isSignedIn) {
-      // If signed in, try to sign out
-      try {
-        const { useClerk } = require('@clerk/nextjs');
-        const clerk = useClerk();
-        clerk.signOut();
-      } catch (error) {
-        console.warn('Clerk signout not available:', error.message);
-        // Fallback to navigate to home
-        router.push('/');
-      }
-    } else {
-      // If not signed in, navigate to login
-      router.push('/auth/login');
-    }
+    // Simple redirect to external account page
+    window.location.href = 'https://account.fitworldshop.com';
   };
 
   return (
@@ -254,16 +227,10 @@ export default function MenuPage() {
         <div className="mx-auto max-w-md border-t border-slate-700 pt-6">
           <button
             onClick={handleAuthAction}
-            className={`flex w-full items-center gap-4 rounded-lg p-4 transition-colors duration-200 ${
-              isSignedIn
-                ? 'bg-red-600 hover:bg-red-700'
-                : 'bg-blue-600 hover:bg-blue-700'
-            }`}
+            className="flex w-full items-center gap-4 rounded-lg bg-blue-600 p-4 transition-colors duration-200 hover:bg-blue-700"
           >
-            <span className="text-2xl">{isSignedIn ? '🚪' : '🔑'}</span>
-            <span className="text-lg">
-              {isSignedIn ? 'Cerrar Sesión' : 'Iniciar Sesión'}
-            </span>
+            <span className="text-2xl">🔑</span>
+            <span className="text-lg">Cuenta Externa</span>
           </button>
         </div>
       </div>

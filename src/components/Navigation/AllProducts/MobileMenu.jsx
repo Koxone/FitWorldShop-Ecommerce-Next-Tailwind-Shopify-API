@@ -11,24 +11,11 @@ export default function MobileMenu({ onClose }) {
   const [wishlistOpen, setWishlistOpen] = useState(false);
   const { categoryLabels, getScopeState } = useCategoryFilter();
 
-  let isSignedIn = false;
-  try {
-    const { useAuth } = require('@clerk/nextjs');
-    const auth = useAuth();
-    isSignedIn = auth?.isSignedIn || false;
-  } catch {
-    isSignedIn = false;
-  }
+  let isSignedIn = false; // Removed Clerk dependency
 
   const menuItems = [
     { label: 'Inicio', path: '/', icon: '🏠' },
     { label: 'Todos los Productos', path: '/all-products', icon: '🛍️' },
-    {
-      label: 'Mi Perfil',
-      path: '/user-profile',
-      icon: '👤',
-      requireAuth: true,
-    },
   ];
 
   const organizedCategories = {

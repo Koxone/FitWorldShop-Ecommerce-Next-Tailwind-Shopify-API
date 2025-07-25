@@ -1,23 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@clerk/nextjs';
 
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const { getToken } = useAuth();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const token = await getToken();
-        const res = await fetch('/api/orders', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        // Since Clerk auth was removed, we'll fetch without auth tokens
+        const res = await fetch('/api/orders');
 
         const data = await res.json();
         if (res.ok) {
@@ -34,7 +28,7 @@ export default function UserOrders() {
     };
 
     fetchOrders();
-  }, [getToken]);
+  }, []);
 
   if (loading)
     return (

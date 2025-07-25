@@ -13,11 +13,6 @@ import {
 } from '@/context/Cart/PurchaseContextOptimized';
 import { useCategoryState } from '@/context/filters/CategoryFilterContextOptimized';
 import SearchInput from '../../Navigation/SearchInput';
-import {
-  SignInButton,
-  useAuth as useClerkAuth,
-  UserButton,
-} from '@clerk/nextjs';
 import UserAccountButton from '@/components/buttons/UserAccountButton';
 import WishlistModal from '@/components/Feedback/Modals/WishlistProductsModal';
 
