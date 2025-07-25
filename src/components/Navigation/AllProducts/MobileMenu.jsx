@@ -1,24 +1,17 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContextOptimized';
 import OrdersModalTrigger from '@/components/buttons/OrdersModalTrigger';
 import WishlistModal from '@/components/Feedback/Modals/WishlistProductsModal';
 import { useState } from 'react';
+import { useShopifyAuthContext } from '@/context/Auth/ShopifyAuthContext';
 
 export default function MobileMenu({ onClose }) {
   const router = useRouter();
   const [wishlistOpen, setWishlistOpen] = useState(false);
   const { categoryLabels, getScopeState } = useCategoryFilter();
-
-  let isSignedIn = false;
-  try {
-    const { useAuth } = require('@clerk/nextjs');
-    const auth = useAuth();
-    isSignedIn = auth?.isSignedIn || false;
-  } catch {
-    isSignedIn = false;
-  }
+  const { isLoggedIn } = useShopifyAuthContext();
 
   const menuItems = [
     { label: 'Inicio', path: '/', icon: '🏠' },
@@ -124,7 +117,7 @@ export default function MobileMenu({ onClose }) {
         {/* Main Options */}
         <div className="space-y-3">
           {menuItems.map((item, index) =>
-            item.requireAuth && !isSignedIn ? null : (
+            item.requireAuth && !isLoggedIn ? null : (
               <button
                 key={index}
                 onClick={() => handleNavigation(item.path)}

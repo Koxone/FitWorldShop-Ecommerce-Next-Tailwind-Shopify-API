@@ -12,7 +12,7 @@ import ColorSelector from './Components/ColorSelector/ColorSelector';
 import ImageRender from './Components/ImageRender/ImageRender';
 import WishlistButton from './Components/Wishlist/WishlistButton';
 import Badges from './Components/Badges/Badges';
-import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContextOptimized';
 
 export default function ShopifyProductCard({ viewScope }) {
   const pathname = usePathname();
@@ -39,7 +39,6 @@ export default function ShopifyProductCard({ viewScope }) {
     let result = products.filter((product) => {
       const tags = product.tags?.map((t) => t.toLowerCase()) || [];
 
-      // If there's a search query, filter by search first
       if (hasSearchQuery && viewScope === 'all-products') {
         const searchTerm = searchQuery.toLowerCase().trim();
         const title = product.title?.toLowerCase() || '';
@@ -53,7 +52,6 @@ export default function ShopifyProductCard({ viewScope }) {
         if (!matchesSearch) return false;
       }
 
-      // Then apply category filters
       if (tagLower) return tags.includes(tagLower);
 
       switch (viewScope) {

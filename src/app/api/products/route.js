@@ -5,7 +5,6 @@ export async function GET() {
   const storefrontAccessToken =
     process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 
-  // If no proper Shopify credentials, return mock data for testing
   if (!domain || !storefrontAccessToken || domain.includes('dummy') || storefrontAccessToken.includes('dummy')) {
     console.log('🔧 Using mock data for testing');
     return new Response(JSON.stringify({

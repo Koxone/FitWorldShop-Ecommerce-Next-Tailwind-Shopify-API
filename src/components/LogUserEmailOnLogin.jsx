@@ -1,17 +1,16 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useShopifyAuthContext } from '@/context/Auth/ShopifyAuthContext';
 
 export default function LogUserEmailOnLogin() {
-  const { isSignedIn, user } = useUser();
+  const { isLoggedIn, clientNumber } = useShopifyAuthContext();
 
   useEffect(() => {
-    if (isSignedIn && user) {
-      const email = user.emailAddresses?.[0]?.emailAddress;
-      console.log('📧 Usuario autenticado con email:', email);
+    if (isLoggedIn && clientNumber) {
+      console.log('📧 Usuario autenticado con Shopify ID:', clientNumber);
     }
-  }, [isSignedIn, user]);
+  }, [isLoggedIn, clientNumber]);
 
-  return null; // No renderiza nada visible
+  return null;
 }

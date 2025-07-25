@@ -1,6 +1,6 @@
 'use client';
 
-import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContextOptimized';
 import ShopifyProductCard from '@/components/cards/shopify/ShopifyProductCard';
 import { useState } from 'react';
 import ProductFiltersSidebar from '@/components/Navigation/AllProducts/ProductFiltersSidebar';
@@ -90,7 +90,7 @@ export default function ProductsView() {
 
       <div className="lg:grid lg:grid-cols-[auto_1fr] lg:gap-6 lg:px-6">
         {/* Desktop Sidebar */}
-        <div className='pt-10'>
+        <div className="pt-10">
           <ProductFiltersSidebar
             categoryLabels={categoryLabels}
             currentCategory={currentCategory}

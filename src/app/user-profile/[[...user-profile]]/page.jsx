@@ -1,30 +1,53 @@
-// app/user-profile/[[...user-profile]]/page.jsx
 'use client';
 
-import { UserProfile, SignOutButton } from '@clerk/nextjs';
+import { useShopifyAuthContext } from '@/context/Auth/ShopifyAuthContext';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function UserProfilePage() {
+  const { isLoggedIn, logout } = useShopifyAuthContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/auth/login');
+    }
+  }, [isLoggedIn, router]);
+
+  if (!isLoggedIn) {
+    return <div>Redirecting...</div>;
+  }
+
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black text-white px-4 pb-20 md:pb-10">
-      {/* Tu UserProfile embebido */}
+    <main className="flex min-h-screen items-center justify-center bg-black px-4 pb-20 text-white md:pb-10">
       <div className="relative w-full max-w-4xl">
-        <UserProfile
-          routing="path"
-          path="/user-profile"
-          appearance={{
-            elements: {
-              card: 'bg-neutral-900 relative text-white border border-neutral-700 shadow-lg',
-              rootBox: 'w-full',
-            },
-          }}
-        />
-        {/* Botón de Cerrar sesión */}
-        <div className="absolute bottom-4 left-1/2 mt-6 flex translate-x-[-50%] justify-center md:bottom-5 md:left-28">
-          <SignOutButton>
-            <button className="cursor-pointer rounded bg-blue-600 px-4 py-3 text-white transition-all duration-400 ease-in-out hover:bg-red-700 md:py-3.5">
-              Cerrar sesión
-            </button>
-          </SignOutButton>
+        <div className="relative rounded-lg border border-neutral-700 bg-neutral-900 p-8 text-white shadow-lg">
+          <h1 className="mb-6 text-center text-3xl font-bold">
+            Perfil de Usuario
+          </h1>
+
+          <div className="text-center">
+            <p className="mb-6">
+              El perfil de usuario ahora se maneja a través de Shopify Customer
+              Account.
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => {
+                  window.location.href = 'https://account.fitworldshop.com/';
+                }}
+                className="rounded bg-green-500 px-6 py-3 text-white transition hover:bg-green-600"
+              >
+                Ir a Mi Cuenta en Shopify
+              </button>
+              <button
+                onClick={logout}
+                className="rounded bg-red-600 px-6 py-3 text-white transition hover:bg-red-700"
+              >
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </main>

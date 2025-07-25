@@ -1,6 +1,6 @@
 'use client';
 
-import { usePurchase } from '@/context/Cart/PurchaseContext';
+import { usePurchase } from '@/context/Cart/PurchaseContextOptimized';
 import { CheckIconCart } from '@/components/icons/Icons';
 import Image from 'next/image';
 import { useState } from 'react';

@@ -1,6 +1,5 @@
 import React from 'react';
 import { UserIcon } from '../icons/Icons';
-import { User } from '@clerk/backend';
 
 function UserAccountButton() {
   return (

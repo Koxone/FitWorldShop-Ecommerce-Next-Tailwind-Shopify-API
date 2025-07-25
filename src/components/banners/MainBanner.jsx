@@ -1,6 +1,6 @@
 'use client';
 
-import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContextOptimized';
 import { useImageSourceContext } from '@/context/general/ImageSourceContext';
 import { useRouter } from 'next/navigation';
 
@@ -11,7 +11,7 @@ export default function MainBanner() {
   return mainCarouselData.map((item, index) => (
     <div
       key={index}
-      className="relative flex h-[50vh] bg-black items-center justify-center bg-cover bg-center text-center lg:h-[70vh]"
+      className="relative flex h-[50vh] items-center justify-center bg-black bg-cover bg-center text-center lg:h-[70vh]"
     >
       <img
         src={`${item.image}`}

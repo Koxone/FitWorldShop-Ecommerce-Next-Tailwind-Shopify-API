@@ -1,6 +1,6 @@
 'use client';
 
-import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContextOptimized';
 
 export default function FilterButtonsHomeSuplementos({ viewScope }) {
   const { getScopeState, categoryLabels } = useCategoryFilter();

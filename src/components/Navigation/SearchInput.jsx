@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContextOptimized';
 
 export default function SearchInput({ className = '' }) {
   const [inputValue, setInputValue] = useState('');
@@ -15,7 +15,6 @@ export default function SearchInput({ className = '' }) {
   const inputRef = useRef(null);
   const resultsRef = useRef(null);
 
-  // Debounced search effect
   useEffect(() => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
@@ -78,11 +77,11 @@ export default function SearchInput({ className = '' }) {
       {/* Search Button (Mobile/Desktop toggle) */}
       <button
         onClick={() => setIsVisible(!isVisible)}
-        className="flex items-center justify-center p-2 text-gray-300 hover:text-white transition-colors lg:hidden"
+        className="flex items-center justify-center p-2 text-gray-300 transition-colors hover:text-white lg:hidden"
         aria-label="Abrir búsqueda"
       >
         <svg
-          className="w-5 h-5"
+          className="h-5 w-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -101,7 +100,7 @@ export default function SearchInput({ className = '' }) {
         onSubmit={handleSearch}
         className={`${
           isVisible ? 'block' : 'hidden'
-        } lg:block absolute lg:relative top-full lg:top-0 left-0 right-0 lg:left-auto lg:right-auto bg-gray-800 lg:bg-transparent border lg:border-0 border-gray-600 rounded-lg lg:rounded-none p-2 lg:p-0 z-50`}
+        } absolute top-full right-0 left-0 z-50 rounded-lg border border-gray-600 bg-gray-800 p-2 lg:relative lg:top-0 lg:right-auto lg:left-auto lg:block lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0`}
       >
         <div className="relative">
           <input
@@ -110,15 +109,15 @@ export default function SearchInput({ className = '' }) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Buscar productos..."
-            className="w-full lg:w-64 xl:w-80 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+            className="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-2 text-white placeholder-gray-400 focus:border-gray-500 focus:ring-1 focus:ring-gray-500 focus:outline-none lg:w-64 xl:w-80"
             autoComplete="off"
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+            className="absolute top-1/2 right-2 -translate-y-1/2 transform text-gray-400 hover:text-white"
           >
             <svg
-              className="w-4 h-4"
+              className="h-4 w-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -137,26 +136,26 @@ export default function SearchInput({ className = '' }) {
         {showResults && searchResults.length > 0 && (
           <div
             ref={resultsRef}
-            className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg shadow-lg max-h-80 overflow-y-auto z-50"
+            className="absolute top-full right-0 left-0 z-50 mt-1 max-h-80 overflow-y-auto rounded-lg border border-gray-600 bg-gray-800 shadow-lg"
           >
             {searchResults.map((product) => (
               <button
                 key={product.id}
                 onClick={() => handleResultClick(product)}
-                className="w-full flex items-center p-3 hover:bg-gray-700 transition-colors text-left border-b border-gray-700 last:border-b-0"
+                className="flex w-full items-center border-b border-gray-700 p-3 text-left transition-colors last:border-b-0 hover:bg-gray-700"
               >
                 {product.featuredImage && (
                   <img
                     src={product.featuredImage.url}
                     alt={product.title}
-                    className="w-10 h-10 object-cover rounded mr-3 flex-shrink-0"
+                    className="mr-3 h-10 w-10 flex-shrink-0 rounded object-cover"
                   />
                 )}
-                <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm font-medium truncate">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-white">
                     {product.title}
                   </p>
-                  <p className="text-gray-400 text-xs">
+                  <p className="text-xs text-gray-400">
                     ${product.priceRange.minVariantPrice.amount}
                   </p>
                 </div>
@@ -168,9 +167,10 @@ export default function SearchInput({ className = '' }) {
                 setShowResults(false);
                 router.push('/all-products');
               }}
-              className="w-full p-3 text-center text-gray-300 hover:text-white hover:bg-gray-700 transition-colors border-t border-gray-600"
+              className="w-full border-t border-gray-600 p-3 text-center text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
             >
-              Ver todos los resultados ({searchResults.length > 5 ? 'más de 5' : searchResults.length})
+              Ver todos los resultados (
+              {searchResults.length > 5 ? 'más de 5' : searchResults.length})
             </button>
           </div>
         )}

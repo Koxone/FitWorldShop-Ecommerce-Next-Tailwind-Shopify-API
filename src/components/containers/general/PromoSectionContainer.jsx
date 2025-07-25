@@ -3,7 +3,7 @@
 import { useImageSourceContext } from '@/context/general/ImageSourceContext';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
-import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
+import { useCategoryFilter } from '../../../context/filters/CategoryFilterContextOptimized';
 
 function PromoSectionContainer({ title, subtitle, type }) {
   const pathname = usePathname();

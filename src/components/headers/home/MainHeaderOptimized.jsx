@@ -6,20 +6,16 @@ import LogoButton from '../../buttons/header/LogoButton';
 import HeaderButton from '../../buttons/header/HeaderButton';
 import { HeartIcon, ShoppingCartIconNew } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthDEPRECATED/AuthContextOptimized';
+import { useAuth } from '@/context/Auth/AuthContextOptimized';
 import {
   useCartToggle,
   useCartTotals,
 } from '@/context/Cart/PurchaseContextOptimized';
 import { useCategoryState } from '@/context/filters/CategoryFilterContextOptimized';
 import SearchInput from '../../Navigation/SearchInput';
-import {
-  SignInButton,
-  useAuth as useClerkAuth,
-  UserButton,
-} from '@clerk/nextjs';
 import UserAccountButton from '@/components/buttons/UserAccountButton';
 import WishlistModal from '@/components/Feedback/Modals/WishlistProductsModal';
+import { useShopifyAuthContext } from '@/context/Auth/ShopifyAuthContext';
 
 const DesktopNavigation = memo(({ onCategoryClick }) => (
   <nav className="justify-center space-x-8 lg:flex">
@@ -47,53 +43,47 @@ const TopBanner = memo(() => (
 ));
 TopBanner.displayName = 'TopBanner';
 
-const UserActions = memo(
-  ({
-    toggleCart,
-    totalItems,
-    onWishlistClick,
-  }) => (
+const UserActions = memo(({ toggleCart, totalItems, onWishlistClick }) => (
+  <div className="flex items-center space-x-5">
+    <SearchInput className="lg:block" />
+
     <div className="flex items-center space-x-5">
-      <SearchInput className="lg:block" />
+      {/* Cuenta */}
+      <div className="flex flex-col items-center gap-1">
+        <UserAccountButton />
+        <span className="text-xs text-gray-400">Cuenta</span>
+      </div>
 
-      <div className="flex items-center space-x-5">
-        {/* Cuenta */}
-        <div className="flex flex-col items-center gap-1">
-          <UserAccountButton />
-          <span className="text-xs text-gray-400">Cuenta</span>
-        </div>
+      {/* Wishlist */}
+      <div className="flex flex-col items-center gap-1">
+        <button
+          className="cursor-pointer rounded text-gray-300 transition hover:text-white"
+          onClick={onWishlistClick}
+        >
+          <HeartIcon className="transition-all duration-300 ease-in-out hover:fill-red-500" />
+        </button>
+        <span className="text-xs text-gray-400">Wishlist</span>
+      </div>
 
-        {/* Wishlist */}
-        <div className="flex flex-col items-center gap-1">
-          <button
-            className="cursor-pointer rounded text-gray-300 transition hover:text-white"
-            onClick={onWishlistClick}
-          >
-            <HeartIcon className="transition-all duration-300 ease-in-out hover:fill-red-500" />
-          </button>
-          <span className="text-xs text-gray-400">Wishlist</span>
-        </div>
-
-        {/* Carrito */}
-        <div className="flex flex-col items-center">
-          <button
-            onClick={toggleCart}
-            className="relative cursor-pointer rounded text-gray-300 transition hover:text-white"
-            aria-label="Abrir carrito"
-          >
-            <ShoppingCartIconNew className="h-6 w-6" />
-            {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500 text-xs font-bold text-white">
-                {totalItems > 99 ? '99+' : totalItems}
-              </span>
-            )}
-          </button>
-          <span className="text-xs text-gray-400">Carrito</span>
-        </div>
+      {/* Carrito */}
+      <div className="flex flex-col items-center">
+        <button
+          onClick={toggleCart}
+          className="relative cursor-pointer rounded text-gray-300 transition hover:text-white"
+          aria-label="Abrir carrito"
+        >
+          <ShoppingCartIconNew className="h-6 w-6" />
+          {totalItems > 0 && (
+            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500 text-xs font-bold text-white">
+              {totalItems > 99 ? '99+' : totalItems}
+            </span>
+          )}
+        </button>
+        <span className="text-xs text-gray-400">Carrito</span>
       </div>
     </div>
-  )
-);
+  </div>
+));
 UserActions.displayName = 'UserActions';
 
 function MainHeader() {
@@ -101,6 +91,7 @@ function MainHeader() {
   const { setCategory } = useCategoryState('all-products');
   const { toggleCart } = useCartToggle();
   const { totalItems } = useCartTotals();
+  const { isLoggedIn } = useShopifyAuthContext();
 
   const [wishlistModalOpen, setWishlistModalOpen] = useState(false);
 
@@ -116,26 +107,6 @@ function MainHeader() {
     router.push('/auth/login');
   }, [router]);
 
-  let clerkAuth = { isSignedIn: false };
-  let UserButtonComponent = null;
-  let SignInButtonComponent = null;
-
-  try {
-    clerkAuth = useClerkAuth();
-    UserButtonComponent = UserButton;
-    SignInButtonComponent = SignInButton;
-  } catch (error) {
-    console.warn('Clerk auth not available in MainHeader:', error.message);
-  }
-
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-  useEffect(() => {
-    if (clerkAuth.isSignedIn !== undefined) {
-      setIsLoggedIn(clerkAuth.isSignedIn);
-    }
-  }, [clerkAuth.isSignedIn, setIsLoggedIn]);
-
   return (
     <>
       <TopBanner />
@@ -145,12 +116,8 @@ function MainHeader() {
           <LogoButton />
           <DesktopNavigation onCategoryClick={handleCategoryClick} />
           <UserActions
-            isLoggedIn={isLoggedIn}
-            UserButtonComponent={UserButtonComponent}
-            SignInButtonComponent={SignInButtonComponent}
             toggleCart={toggleCart}
             totalItems={totalItems}
-            onLoginClick={handleLoginClick}
             onWishlistClick={() => setWishlistModalOpen(true)}
           />
         </div>

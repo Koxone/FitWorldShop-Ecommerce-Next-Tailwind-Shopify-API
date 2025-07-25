@@ -1,23 +1,14 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContextOptimized';
 import OrdersModalTrigger from '@/components/buttons/OrdersModalTrigger';
+import { useShopifyAuthContext } from '@/context/Auth/ShopifyAuthContext';
 
 export default function MenuPage() {
   const router = useRouter();
   const { categoryLabels, getScopeState } = useCategoryFilter();
-
-  // Safely get auth state, fallback to false if Clerk is not properly configured
-  let isSignedIn = false;
-  try {
-    const { useAuth } = require('@clerk/nextjs');
-    const auth = useAuth();
-    isSignedIn = auth?.isSignedIn || false;
-  } catch (error) {
-    // Clerk not properly configured, continue with isSignedIn = false
-    console.warn('Clerk auth not available:', error.message);
-  }
+  const { isLoggedIn, logout } = useShopifyAuthContext();
 
   const menuItems = [
     { label: 'Inicio', path: '/', icon: '🏠' },
@@ -30,7 +21,6 @@ export default function MenuPage() {
     },
   ];
 
-  // Organize categories by type for better UX
   const organizedCategories = {
     main: ['Ropa', 'Suplementos', 'Vitaminas', 'Salud', 'Accesorios'],
     gender: ['Mujer', 'Hombre'],
@@ -56,7 +46,6 @@ export default function MenuPage() {
     special: ['Novedades', 'Ofertas'],
   };
 
-  // Get category icons for better visual representation
   const getCategoryIcon = (category) => {
     const iconMap = {
       Ropa: '👕',
@@ -92,30 +81,18 @@ export default function MenuPage() {
   };
 
   const handleCategoryNavigation = (category) => {
-    // Get the setCategory function for all-products scope
     const { setCategory } = getScopeState('all-products');
 
-    // Set the category for the all-products page
     setCategory(category);
 
-    // Navigate to all-products page
     router.push('/all-products');
   };
 
   const handleAuthAction = () => {
-    if (isSignedIn) {
-      // If signed in, try to sign out
-      try {
-        const { useClerk } = require('@clerk/nextjs');
-        const clerk = useClerk();
-        clerk.signOut();
-      } catch (error) {
-        console.warn('Clerk signout not available:', error.message);
-        // Fallback to navigate to home
-        router.push('/');
-      }
+    if (isLoggedIn) {
+      logout();
+      router.push('/');
     } else {
-      // If not signed in, navigate to login
       router.push('/auth/login');
     }
   };
@@ -129,7 +106,7 @@ export default function MenuPage() {
         <div className="mx-auto mb-8 max-w-md space-y-4">
           {menuItems.map((item, index) => (
             <div key={index}>
-              {item.requireAuth && !isSignedIn ? null : (
+              {item.requireAuth && !isLoggedIn ? null : (
                 <button
                   onClick={() => handleNavigation(item.path)}
                   className="flex w-full cursor-pointer items-center gap-4 rounded-lg bg-slate-800 p-4 transition-colors duration-200 hover:bg-slate-700"
@@ -255,14 +232,14 @@ export default function MenuPage() {
           <button
             onClick={handleAuthAction}
             className={`flex w-full items-center gap-4 rounded-lg p-4 transition-colors duration-200 ${
-              isSignedIn
+              isLoggedIn
                 ? 'bg-red-600 hover:bg-red-700'
                 : 'bg-blue-600 hover:bg-blue-700'
             }`}
           >
-            <span className="text-2xl">{isSignedIn ? '🚪' : '🔑'}</span>
+            <span className="text-2xl">{isLoggedIn ? '🚪' : '🔑'}</span>
             <span className="text-lg">
-              {isSignedIn ? 'Cerrar Sesión' : 'Iniciar Sesión'}
+              {isLoggedIn ? 'Cerrar Sesión' : 'Iniciar Sesión'}
             </span>
           </button>
         </div>

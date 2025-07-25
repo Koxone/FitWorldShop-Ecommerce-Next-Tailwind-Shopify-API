@@ -5,48 +5,23 @@ import LogoButton from '../../buttons/header/LogoButton';
 import HeaderButton from '../../buttons/header/HeaderButton';
 import { ShoppingBagIcon, UserIcon } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
-import { useCategoryFilter } from '../../../context/filters/CategoryFilterContext';
-import { usePurchase } from '@/context/Cart/PurchaseContext';
-import { useAuth } from '@/context/AuthDEPRECATED/AuthContext';
+import { useCategoryFilter } from '../../../context/filters/CategoryFilterContextOptimized';
+import { usePurchase } from '@/context/Cart/PurchaseContextOptimized';
+import { useAuth } from '@/context/Auth/AuthContextOptimized';
 import SearchInput from '../../Navigation/SearchInput';
-import {
-  SignInButton,
-  useAuth as useClerkAuth,
-  UserButton,
-} from '@clerk/nextjs';
-import { useEffect } from 'react';
+import { useShopifyAuthContext } from '@/context/Auth/ShopifyAuthContext';
 import OrdersModalTrigger from '@/components/buttons/OrdersModalTrigger';
 
 function MainHeader() {
   const router = useRouter();
   const { getScopeState } = useCategoryFilter();
   const { setCategory } = getScopeState('all-products');
+  const { isLoggedIn } = useShopifyAuthContext();
 
   const handleClick = (category) => {
     setCategory(category);
     router.push('/all-products');
   };
-
-  // Safe Clerk integration fallback
-  let clerkAuth = { isSignedIn: false };
-  let UserButtonComponent = null;
-  let SignInButtonComponent = null;
-
-  try {
-    clerkAuth = useClerkAuth();
-    UserButtonComponent = UserButton;
-    SignInButtonComponent = SignInButton;
-  } catch (error) {
-    console.warn('Clerk auth not available in MainHeader:', error.message);
-  }
-
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-  useEffect(() => {
-    if (clerkAuth.isSignedIn !== undefined) {
-      setIsLoggedIn(clerkAuth.isSignedIn);
-    }
-  }, [clerkAuth.isSignedIn, setIsLoggedIn]);
 
   const { cartItems, isCartOpen, setIsCartOpen } = usePurchase();
 
@@ -95,24 +70,13 @@ function MainHeader() {
 
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
-              {isLoggedIn && UserButtonComponent ? (
-                <UserButtonComponent
-                  afterSignInUrl="/user-profile"
-                  afterSignOutUrl="/"
-                  className="z-10 h-8 w-8 overflow-hidden rounded-full"
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox:
-                        'h-8 w-8 rounded-full overflow-hidden',
-                    },
-                  }}
-                />
-              ) : SignInButtonComponent ? (
-                <SignInButtonComponent>
-                  <button className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white lg:pl-4">
-                    <UserIcon size={20} />
-                  </button>
-                </SignInButtonComponent>
+              {isLoggedIn ? (
+                <button
+                  onClick={() => router.push('/user-profile')}
+                  className="absolute inset-0 -top-4.5 -left-5 z-0 cursor-pointer p-2 text-gray-300 hover:text-white"
+                >
+                  <UserIcon size={20} />
+                </button>
               ) : (
                 <button
                   onClick={() => router.push('/auth/login')}
@@ -146,24 +110,13 @@ function MainHeader() {
           <div className="flex items-center space-x-4">
             {/* Auth Button */}
             <div className="relative flex items-center justify-center">
-              {isLoggedIn && UserButtonComponent ? (
-                <UserButtonComponent
-                  afterSignInUrl="/user-profile"
-                  afterSignOutUrl="/"
-                  className="z-10 h-7 w-7 overflow-hidden rounded-full"
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox:
-                        'h-7 w-7 rounded-full overflow-hidden',
-                    },
-                  }}
-                />
-              ) : SignInButtonComponent ? (
-                <SignInButtonComponent>
-                  <button className="cursor-pointer p-2 text-gray-300 hover:text-white">
-                    <UserIcon size={18} />
-                  </button>
-                </SignInButtonComponent>
+              {isLoggedIn ? (
+                <button
+                  onClick={() => router.push('/user-profile')}
+                  className="cursor-pointer p-2 text-gray-300 hover:text-white"
+                >
+                  <UserIcon size={18} />
+                </button>
               ) : (
                 <button
                   onClick={() => router.push('/auth/login')}

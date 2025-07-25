@@ -1,7 +1,7 @@
 'use client';
 
 import React, { memo } from 'react';
-import { AuthProvider } from '@/context/AuthDEPRECATED/AuthContextOptimized';
+import { AuthProvider } from '@/context/Auth/AuthContextOptimized';
 import { CategoryFilterProvider } from '@/context/filters/CategoryFilterContextOptimized';
 import { ImageSourceProvider } from '@/context/general/ImageSourceContext';
 import I18nProvider from '@/providers/I18nProvider';

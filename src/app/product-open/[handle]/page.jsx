@@ -6,8 +6,8 @@ import { useParams, usePathname } from 'next/navigation';
 
 // Hooks & Contexts
 import useShopifyProducts from '@/hooks/useShopifyProducts';
-import { useProductView } from '@/context/productView/ProductViewContext';
-import { useBadge } from '@/context/product-card/BadgeContext';
+import { useProductView } from '@/context/productView/ProductViewContextOptimized';
+import { useBadge } from '@/context/product-card/BadgeContextOptimized';
 
 // Icons & UI Components
 import { HeartIcon, ShareIcon } from '@/components/icons/Icons';
@@ -110,192 +110,195 @@ export default function ProductOpenView() {
     return <p className="p-10 text-white">Producto no encontrado.</p>;
 
   return (
-    <div className="w-full max-w-[1200px] mx-auto p-4 md:p-10">
+    <div className="mx-auto w-full max-w-[1200px] p-4 md:p-10">
       {/* Main Product Container */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-12">
-      {/* Product Gallery Column */}
-      <div className="space-y-4">
-        {/* Galería */}
-        <RevealOnScroll>
-          <ProductGallery
+        {/* Product Gallery Column */}
+        <div className="space-y-4">
+          {/* Galería */}
+          <RevealOnScroll>
+            <ProductGallery
+              product={product}
+              images={images}
+              overrideImage={productImages[product.id]}
+            />
+          </RevealOnScroll>
+
+          {/* Selector de color (mobile) */}
+          <ColorSelectorMobile
             product={product}
-            images={images}
-            overrideImage={productImages[product.id]}
+            onColorChange={changeColor}
+            isHidden={isVitaminOrSupplement}
           />
-        </RevealOnScroll>
-
-        {/* Selector de color (mobile) */}
-        <ColorSelectorMobile
-          product={product}
-          onColorChange={changeColor}
-          isHidden={isVitaminOrSupplement}
-        />
-      </div>
-
-      {/* Product Info Column */}
-      <div className="space-y-6">
-        {/* Información y variantes */}
-        <div className="animate-slide-in-right flex w-full flex-col gap-6 text-white md:max-w-[500px]">
-        <div className="flex flex-wrap gap-2">
-          {isNew && (
-            <span className="inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
-              NEW
-            </span>
-          )}
-          {isDiscount && (
-            <span className="inline-block rounded bg-red-500 px-3 py-1 text-xs font-semibold text-white">
-              SALE
-            </span>
-          )}
         </div>
 
-        <div className="flex flex-col gap-6">
-          <h1 className="font-montserrat text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
-            {product.title}
-          </h1>
-          <h2>
-            <ExpandableText text={`${product.description}`} />
-          </h2>
-        </div>
-
-        <Rating product={product} />
-
-        {/* Price */}
-        <div className="flex items-center gap-3">
-          <span className="text-2xl font-bold text-white">
-            ${product.variants.edges[0].node.price.amount}{' '}
-            {product.variants.edges[0].node.price.currencyCode}
-          </span>
-
-          {product.compareAtPriceRange?.maxVariantPrice?.amount &&
-            parseFloat(product.compareAtPriceRange.maxVariantPrice.amount) >
-              parseFloat(product.variants.edges[0].node.price.amount) && (
-              <>
-                <span className="text-lg text-gray-500 line-through">
-                  ${product.compareAtPriceRange.maxVariantPrice.amount}
+        {/* Product Info Column */}
+        <div className="space-y-6">
+          {/* Información y variantes */}
+          <div className="animate-slide-in-right flex w-full flex-col gap-6 text-white md:max-w-[500px]">
+            <div className="flex flex-wrap gap-2">
+              {isNew && (
+                <span className="inline-block rounded bg-white px-3 py-1 text-xs font-semibold text-gray-900">
+                  NEW
                 </span>
-                <span className="rounded bg-red-500 px-2 py-1 text-xs font-bold text-white">
-                  Ahorro $
-                  {(
-                    parseFloat(
-                      product.compareAtPriceRange.maxVariantPrice.amount
-                    ) - parseFloat(product.variants.edges[0].node.price.amount)
-                  ).toFixed(2)}
+              )}
+              {isDiscount && (
+                <span className="inline-block rounded bg-red-500 px-3 py-1 text-xs font-semibold text-white">
+                  SALE
                 </span>
-              </>
-            )}
-        </div>
+              )}
+            </div>
 
-        <ProductColorSelectorDesktop
-          isVitaminOrSupplement={isVitaminOrSupplement}
-          product={product}
-          currentColor={currentColor}
-          changeColor={changeColor}
-        />
+            <div className="flex flex-col gap-6">
+              <h1 className="font-montserrat text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
+                {product.title}
+              </h1>
+              <h2>
+                <ExpandableText text={`${product.description}`} />
+              </h2>
+            </div>
 
-        <ProductSizeSelector
-          isVitaminOrSupplement={isVitaminOrSupplement}
-          sizes={sizes}
-          selectedSize={selectedSize}
-          setSelectedSize={setSelectedSize}
-        />
+            <Rating product={product} />
 
-        <ProductQuantitySelector
-          quantity={quantity}
-          changeQuantity={changeQuantity}
-        />
+            {/* Price */}
+            <div className="flex items-center gap-3">
+              <span className="text-2xl font-bold text-white">
+                ${product.variants.edges[0].node.price.amount}{' '}
+                {product.variants.edges[0].node.price.currencyCode}
+              </span>
 
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <>
-            <AddToCartButton
-              product={{
-                id: product.id,
-                variantId: product.variants.edges[0].node.id,
-                title: product.title,
-                selectedSize,
-                selectedColor: currentColor,
-                quantity,
-                price: parseFloat(product.variants.edges[0].node.price.amount),
-                image:
-                  productImages[product.id] ||
-                  product.variants.edges[0].node.image?.url,
-                handle: product.handle,
-                description: product.description,
-              }}
-              onBeforeAdd={() => {
-                if (
-                  productTags.includes('ropa') &&
-                  (!currentColor || !selectedSize)
-                ) {
-                  setShowModal(true);
-                  return false;
-                }
-                return true;
-              }}
+              {product.compareAtPriceRange?.maxVariantPrice?.amount &&
+                parseFloat(product.compareAtPriceRange.maxVariantPrice.amount) >
+                  parseFloat(product.variants.edges[0].node.price.amount) && (
+                  <>
+                    <span className="text-lg text-gray-500 line-through">
+                      ${product.compareAtPriceRange.maxVariantPrice.amount}
+                    </span>
+                    <span className="rounded bg-red-500 px-2 py-1 text-xs font-bold text-white">
+                      Ahorro $
+                      {(
+                        parseFloat(
+                          product.compareAtPriceRange.maxVariantPrice.amount
+                        ) -
+                        parseFloat(product.variants.edges[0].node.price.amount)
+                      ).toFixed(2)}
+                    </span>
+                  </>
+                )}
+            </div>
+
+            <ProductColorSelectorDesktop
+              isVitaminOrSupplement={isVitaminOrSupplement}
+              product={product}
+              currentColor={currentColor}
+              changeColor={changeColor}
             />
 
-            <GeneralModal
-              isOpen={showModal}
-              onClose={() => setShowModal(false)}
-              title="Selecciona talla y color"
-            >
-              <p className="text-gray-300">
-                Este producto requiere que selecciones una talla y un color
-                antes de agregarlo al carrito.
-              </p>
-              <button
-                onClick={() => setShowModal(false)}
-                className="mt-6 cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition-all duration-300 ease-in-out hover:bg-blue-400 hover:text-white"
-              >
-                Entendido
-              </button>
-            </GeneralModal>
-          </>
+            <ProductSizeSelector
+              isVitaminOrSupplement={isVitaminOrSupplement}
+              sizes={sizes}
+              selectedSize={selectedSize}
+              setSelectedSize={setSelectedSize}
+            />
 
-          <div className="flex gap-3 sm:ml-auto">
-            <button
-              onClick={() => setIsWishlisted((w) => !w)}
-              className={`rounded-lg border p-3 ${
-                isWishlisted
-                  ? 'border-red-500 bg-red-500 text-white'
-                  : 'border-gray-600 text-gray-300 hover:border-white hover:text-white'
-              }`}
-            >
-              <HeartIcon size={18} filled={isWishlisted} />
-            </button>
-            <button className="rounded-lg border border-gray-600 p-3 text-gray-300 hover:border-white hover:text-white">
-              <ShareIcon size={18} />
-            </button>
+            <ProductQuantitySelector
+              quantity={quantity}
+              changeQuantity={changeQuantity}
+            />
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <>
+                <AddToCartButton
+                  product={{
+                    id: product.id,
+                    variantId: product.variants.edges[0].node.id,
+                    title: product.title,
+                    selectedSize,
+                    selectedColor: currentColor,
+                    quantity,
+                    price: parseFloat(
+                      product.variants.edges[0].node.price.amount
+                    ),
+                    image:
+                      productImages[product.id] ||
+                      product.variants.edges[0].node.image?.url,
+                    handle: product.handle,
+                    description: product.description,
+                  }}
+                  onBeforeAdd={() => {
+                    if (
+                      productTags.includes('ropa') &&
+                      (!currentColor || !selectedSize)
+                    ) {
+                      setShowModal(true);
+                      return false;
+                    }
+                    return true;
+                  }}
+                />
+
+                <GeneralModal
+                  isOpen={showModal}
+                  onClose={() => setShowModal(false)}
+                  title="Selecciona talla y color"
+                >
+                  <p className="text-gray-300">
+                    Este producto requiere que selecciones una talla y un color
+                    antes de agregarlo al carrito.
+                  </p>
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="mt-6 cursor-pointer rounded bg-white px-4 py-2 font-semibold text-gray-900 transition-all duration-300 ease-in-out hover:bg-blue-400 hover:text-white"
+                  >
+                    Entendido
+                  </button>
+                </GeneralModal>
+              </>
+
+              <div className="flex gap-3 sm:ml-auto">
+                <button
+                  onClick={() => setIsWishlisted((w) => !w)}
+                  className={`rounded-lg border p-3 ${
+                    isWishlisted
+                      ? 'border-red-500 bg-red-500 text-white'
+                      : 'border-gray-600 text-gray-300 hover:border-white hover:text-white'
+                  }`}
+                >
+                  <HeartIcon size={18} filled={isWishlisted} />
+                </button>
+                <button className="rounded-lg border border-gray-600 p-3 text-gray-300 hover:border-white hover:text-white">
+                  <ShareIcon size={18} />
+                </button>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-700 pt-6">
+              {['Description', 'Features', 'Care'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setCurrentTab(tab)}
+                  className={`mr-4 text-sm capitalize ${
+                    currentTab === tab
+                      ? 'text-white'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+
+              <div className="mt-4 text-sm whitespace-pre-line text-gray-300">
+                {currentTab === 'Description' ? (
+                  <ExpandableText text={product.description} />
+                ) : currentTab === 'Features' ? (
+                  product.metafield?.value || 'No features available.'
+                ) : (
+                  'Care instructions here.'
+                )}
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="border-t border-gray-700 pt-6">
-          {['Description', 'Features', 'Care'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setCurrentTab(tab)}
-              className={`mr-4 text-sm capitalize ${
-                currentTab === tab
-                  ? 'text-white'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-
-          <div className="mt-4 text-sm whitespace-pre-line text-gray-300">
-            {currentTab === 'Description' ? (
-              <ExpandableText text={product.description} />
-            ) : currentTab === 'Features' ? (
-              product.metafield?.value || 'No features available.'
-            ) : (
-              'Care instructions here.'
-            )}
-          </div>
-          </div>
-        </div>
-      </div>
       </div>
 
       {/* Sección inferior de productos relacionados */}

@@ -8,9 +8,9 @@ import {
   UserIcon,
 } from '../../icons/Icons';
 import { useRouter, usePathname } from 'next/navigation';
-import { usePurchase } from '@/context/Cart/PurchaseContext';
+import { usePurchase } from '@/context/Cart/PurchaseContextOptimized';
 import { useState, useEffect, useRef } from 'react';
-import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
+import { useCategoryFilter } from '@/context/filters/CategoryFilterContextOptimized';
 import MobileMenu from '@/components/Navigation/AllProducts/MobileMenu';
 import UserAccountButton from '@/components/buttons/UserAccountButton';
 

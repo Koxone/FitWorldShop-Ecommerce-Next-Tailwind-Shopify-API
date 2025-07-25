@@ -2,173 +2,119 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useShopifyAuthContext } from '@/context/Auth/ShopifyAuthContext';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [clerkLoaded, setClerkLoaded] = useState(false);
-  
+  const { isLoggedIn, clientNumber, username, logout } =
+    useShopifyAuthContext();
+
   useEffect(() => {
-    // Check if Clerk is available
-    const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-    const hasValidClerkKey = clerkPublishableKey && clerkPublishableKey.startsWith('pk_') && !clerkPublishableKey.includes('dummy');
-    
-    if (hasValidClerkKey) {
-      try {
-        // Dynamically import Clerk to avoid build issues
-        import('@clerk/nextjs').then(({ useUser, useClerk }) => {
-          setClerkLoaded(true);
-          // Note: This is still problematic because we're calling hooks in a callback
-          // For now, we'll just set a default user
-          setUser({
-            firstName: 'Demo',
-            lastName: 'User',
-            emailAddresses: [{ emailAddress: 'demo@example.com' }],
-            phoneNumbers: []
-          });
-        }).catch(() => {
-          setClerkLoaded(true);
-          setUser(null);
-        });
-      } catch (error) {
-        setClerkLoaded(true);
-        setUser(null);
-      }
-    } else {
-      setClerkLoaded(true);
-      setUser({
-        firstName: 'Demo',
-        lastName: 'User',
-        emailAddresses: [{ emailAddress: 'demo@example.com' }],
-        phoneNumbers: []
-      });
+    if (!isLoggedIn) {
+      router.push('/auth/login');
     }
-  }, []);
+  }, [isLoggedIn, router]);
 
   const [activeTab, setActiveTab] = useState('profile');
-  const [isEditing, setIsEditing] = useState(false);
-  const [showChangePassword, setShowChangePassword] = useState(false);
 
   const handleSignOut = () => {
-    // For demo purposes, just redirect
+    logout();
     router.push('/');
   };
 
-  if (!clerkLoaded) {
+  if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+      <div className="flex min-h-screen items-center justify-center bg-gray-900">
+        <div className="text-white">Redirecting to login...</div>
       </div>
     );
   }
-
-  const [formData, setFormData] = useState({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    email: user?.emailAddresses?.[0]?.emailAddress || '',
-    phone: user?.phoneNumbers?.[0]?.phoneNumber || '',
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSaveProfile = () => {
-    setIsEditing(false);
-    alert('Profile updated (mock).');
-  };
 
   const renderProfileTab = () => (
     <div className="space-y-6">
       <div className="flex items-center space-x-6">
         <div className="flex h-24 w-24 items-center justify-center rounded-full bg-blue-600 text-2xl font-bold text-white">
-          {formData.firstName[0] || ''}
-          {formData.lastName[0] || ''}
+          {username?.[0]?.toUpperCase() || 'U'}
         </div>
         <div>
           <h2 className="text-2xl font-bold text-white">
-            {formData.firstName} {formData.lastName}
+            {username || 'Usuario de Shopify'}
           </h2>
-          <p className="text-gray-400">{formData.email}</p>
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="mt-2 cursor-pointer text-blue-400 transition hover:text-blue-300"
-          >
-            {isEditing ? 'Cancel' : 'Edit Profile'}
-          </button>
+          <p className="text-gray-400">ID de Cliente: {clientNumber}</p>
+          <div className="mt-2 flex gap-2">
+            <button
+              onClick={() => {
+                window.location.href = 'https://account.fitworldshop.com/';
+              }}
+              className="rounded bg-green-500 px-4 py-2 text-sm text-white transition hover:bg-green-600"
+            >
+              Editar en Shopify
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {['firstName', 'lastName', 'email', 'phone'].map((field, idx) => (
-          <div key={idx}>
-            <label className="mb-1 block text-sm text-gray-300 capitalize">
-              {field.replace(/([A-Z])/g, ' $1')}
-            </label>
-            <input
-              type={field === 'email' ? 'email' : 'text'}
-              name={field}
-              value={formData[field]}
-              onChange={handleInputChange}
-              disabled={!isEditing}
-              className="w-full rounded border border-gray-600 bg-gray-800 p-3 text-white focus:ring focus:ring-white focus:outline-none disabled:opacity-50"
-            />
-          </div>
-        ))}
+      <div className="space-y-4">
+        <p className="text-gray-400">
+          Para actualizar tu información personal completa, incluyendo
+          dirección, teléfono y otros datos, utiliza tu cuenta de Shopify.
+        </p>
+        <button
+          onClick={() => {
+            window.location.href = 'https://account.fitworldshop.com/';
+          }}
+          className="rounded bg-green-500 px-6 py-2 text-white transition hover:bg-green-600"
+        >
+          Administrar Cuenta en Shopify
+        </button>
       </div>
 
-      {isEditing && (
-        <button
-          onClick={handleSaveProfile}
-          className="cursor-pointer rounded bg-white px-6 py-2 text-gray-900 transition hover:bg-gray-200"
-        >
-          Save Changes
-        </button>
-      )}
-
       <div className="border-t border-gray-700 pt-4">
+        <h3 className="mb-2 text-lg font-semibold text-white">
+          Cambiar Contraseña
+        </h3>
+        <p className="mb-4 text-gray-400">
+          Para cambiar tu contraseña, debes usar tu cuenta de Shopify.
+        </p>
         <button
-          onClick={() => setShowChangePassword(!showChangePassword)}
-          className="mt-2 cursor-pointer text-blue-400 transition hover:text-blue-300"
+          onClick={() => {
+            window.location.href =
+              'https://account.fitworldshop.com/account/login';
+          }}
+          className="rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
         >
-          Change Password
+          Cambiar Contraseña en Shopify
         </button>
-
-        {showChangePassword && (
-          <div className="mt-4 space-y-2">
-            {['currentPassword', 'newPassword', 'confirmPassword'].map(
-              (field, idx) => (
-                <input
-                  key={idx}
-                  type="password"
-                  name={field}
-                  value={formData[field] || ''}
-                  onChange={handleInputChange}
-                  placeholder={field.replace(/([A-Z])/g, ' $1')}
-                  className="w-full rounded border border-gray-600 bg-gray-800 p-3 text-white focus:ring focus:ring-white focus:outline-none"
-                />
-              )
-            )}
-            <button className="cursor-pointer rounded bg-white px-6 py-2 text-gray-900 transition hover:bg-gray-200">
-              Update Password
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
 
   const renderOrdersTab = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-bold text-white">Order History</h3>
-      <p className="text-gray-400">You have no orders yet.</p>
+      <h3 className="text-xl font-bold text-white">Historial de Pedidos</h3>
+      <div className="rounded-lg bg-gray-800 p-6">
+        <p className="mb-4 text-gray-400">
+          Para ver tu historial completo de pedidos, visita tu cuenta de
+          Shopify.
+        </p>
+        <button
+          onClick={() => {
+            window.location.href = 'https://account.fitworldshop.com/account';
+          }}
+          className="rounded bg-green-500 px-6 py-2 text-white transition hover:bg-green-600"
+        >
+          Ver Pedidos en Shopify
+        </button>
+      </div>
     </div>
   );
 
   const renderWishlistTab = () => (
     <div className="py-12 text-center text-gray-400">
-      Your wishlist is empty.
+      <p>Tu wishlist se maneja localmente en la aplicación.</p>
+      <p className="mt-2">
+        Los productos se guardan automáticamente cuando los agregas a favoritos.
+      </p>
     </div>
   );
 
@@ -176,12 +122,12 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gray-900 p-6">
       <div className="mx-auto max-w-3xl space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-white">My Account</h1>
+          <h1 className="text-2xl font-bold text-white">Mi Cuenta</h1>
           <button
             onClick={handleSignOut}
             className="flex cursor-pointer items-center gap-2 text-red-400 transition hover:text-red-300"
           >
-            Sign Out
+            Cerrar Sesión
           </button>
         </div>
 
@@ -196,7 +142,11 @@ export default function DashboardPage() {
                   : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {tab === 'profile'
+                ? 'Perfil'
+                : tab === 'orders'
+                  ? 'Pedidos'
+                  : 'Wishlist'}
             </button>
           ))}
         </div>

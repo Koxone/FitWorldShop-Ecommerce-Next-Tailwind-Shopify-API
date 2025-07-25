@@ -9,9 +9,6 @@ import {
   MemoizedCart,
 } from '@/components/optimized/MemoizedComponents';
 import SplashScreen from '@/components/PWA/Splash';
-import { ClerkProvider } from '@clerk/nextjs';
-import { dark } from '@clerk/themes';
-import { esES } from '@clerk/localizations';
 
 export const metadata = {
   title: {
@@ -87,56 +84,19 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  const hasValidClerkKey =
-    clerkPublishableKey &&
-    clerkPublishableKey.startsWith('pk_') &&
-    !clerkPublishableKey.includes('dummy');
-
-  if (!hasValidClerkKey) {
-    return (
-      <html lang="es">
-        <body>
-          <SplashScreen />
-          <OptimizedProviders>
-            <MemoizedHeader />
-            <OptimizedPageTransition>{children}</OptimizedPageTransition>
-            <MemoizedFooter />
-            <MemoizedBottomNav />
-            <MemoizedCart />
-          </OptimizedProviders>
-          <SpeedInsights />
-        </body>
-      </html>
-    );
-  }
-
   return (
-    <ClerkProvider
-      localization={esES}
-      appearance={{
-        baseTheme: dark,
-        variables: {
-          colorPrimary: '#22c55e',
-          colorBackground: '#0f172a',
-          colorText: '#ffffff',
-          borderRadius: '0.5rem',
-        },
-      }}
-    >
-      <html lang="es">
-        <body>
-          <SplashScreen />
-          <OptimizedProviders>
-            <MemoizedHeader />
-            <OptimizedPageTransition>{children}</OptimizedPageTransition>
-            <MemoizedFooter />
-            <MemoizedBottomNav />
-            <MemoizedCart />
-          </OptimizedProviders>
-          <SpeedInsights />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="es">
+      <body>
+        <SplashScreen />
+        <OptimizedProviders>
+          <MemoizedHeader />
+          <OptimizedPageTransition>{children}</OptimizedPageTransition>
+          <MemoizedFooter />
+          <MemoizedBottomNav />
+          <MemoizedCart />
+        </OptimizedProviders>
+        <SpeedInsights />
+      </body>
+    </html>
   );
 }

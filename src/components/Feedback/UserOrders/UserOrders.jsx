@@ -1,25 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@clerk/nextjs';
+import { useShopifyAuthContext } from '@/context/Auth/ShopifyAuthContext';
 
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const { getToken } = useAuth();
+  const { isLoggedIn, clientNumber } = useShopifyAuthContext();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const token = await getToken();
-        const res = await fetch('/api/orders', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        if (!isLoggedIn) {
+          setError('Debes iniciar sesión para ver tus órdenes.');
+          setLoading(false);
+          return;
+        }
 
+        const res = await fetch('/api/orders');
         const data = await res.json();
+
         if (res.ok) {
           setOrders(data.orders || []);
         } else {
@@ -34,7 +35,7 @@ export default function UserOrders() {
     };
 
     fetchOrders();
-  }, [getToken]);
+  }, [isLoggedIn, clientNumber]);
 
   if (loading)
     return (
@@ -58,7 +59,7 @@ export default function UserOrders() {
     );
 
   return (
-    <div className="max-h-[90vh] pb-10 lg:pb-4 overflow-y-auto p-4 md:p-6">
+    <div className="max-h-[90vh] overflow-y-auto p-4 pb-10 md:p-6 lg:pb-4">
       <div className="mx-auto max-w-4xl space-y-6">
         <header>
           <h2 className="text-xl font-bold text-white md:text-2xl">

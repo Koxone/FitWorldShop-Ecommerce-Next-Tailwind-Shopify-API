@@ -17,7 +17,6 @@ function shuffleArray(array) {
 export default function ProductCarousel() {
   const { products, isLoading, isError } = useShopifyProducts();
 
-  // Aplica shuffle solo si hay productos
   const randomizedProducts = shuffleArray(products);
   const duplicatedProducts = [...randomizedProducts, ...randomizedProducts];
 
