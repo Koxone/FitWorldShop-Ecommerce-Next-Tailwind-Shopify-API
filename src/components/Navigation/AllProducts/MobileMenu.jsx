@@ -3,9 +3,12 @@
 import { useRouter } from 'next/navigation';
 import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
 import OrdersModalTrigger from '@/components/buttons/OrdersModalTrigger';
+import WishlistModal from '@/components/Feedback/Modals/WishlistProductsModal';
+import { useState } from 'react';
 
 export default function MobileMenu({ onClose }) {
   const router = useRouter();
+  const [wishlistOpen, setWishlistOpen] = useState(false);
   const { categoryLabels, getScopeState } = useCategoryFilter();
 
   let isSignedIn = false;
@@ -95,21 +98,6 @@ export default function MobileMenu({ onClose }) {
     router.push('/all-products');
   };
 
-  const handleAuthAction = () => {
-    onClose();
-    if (isSignedIn) {
-      try {
-        const { useClerk } = require('@clerk/nextjs');
-        const clerk = useClerk();
-        clerk.signOut();
-      } catch {
-        router.push('/');
-      }
-    } else {
-      router.push('/auth/login');
-    }
-  };
-
   return (
     <div className="flex h-full flex-col bg-slate-900 pb-20">
       {/* Header */}
@@ -147,12 +135,14 @@ export default function MobileMenu({ onClose }) {
               </button>
             )
           )}
-          <OrdersModalTrigger styles="flex w-full text-white cursor-pointer items-center gap-4 rounded-lg bg-slate-800 p-4 transition-colors hover:bg-slate-700">
-            <div className="flex items-center gap-4 rounded-lg bg-slate-800 p-4 hover:bg-slate-700">
-              <span className="text-xl">📦</span>
-              <span className="text-sm text-white">Órdenes</span>
-            </div>
-          </OrdersModalTrigger>
+          {/* Wishlist Button */}
+          <button
+            onClick={() => setWishlistOpen(true)}
+            className="flex w-full cursor-pointer items-center gap-4 rounded-lg bg-slate-800 p-4 text-white transition-colors hover:bg-slate-700"
+          >
+            <span className="text-xl">❤️</span>
+            <span className="text-sm text-white">Wishlist</span>
+          </button>
         </div>
 
         {Object.entries(organizedCategories).map(([section, categories]) => (
@@ -187,6 +177,10 @@ export default function MobileMenu({ onClose }) {
           </div>
         ))}
       </div>
+      <WishlistModal
+        isOpen={wishlistOpen}
+        onClose={() => setWishlistOpen(false)}
+      />
     </div>
   );
 }

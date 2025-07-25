@@ -11,22 +11,19 @@ import { useRouter, usePathname } from 'next/navigation';
 import { usePurchase } from '@/context/Cart/PurchaseContext';
 import { useState, useEffect, useRef } from 'react';
 import { useCategoryFilter } from '@/context/filters/CategoryFilterContext';
-import { UserButton } from '@clerk/nextjs';
-import { useAuth } from '@/context/AuthDEPRECATED/AuthContext';
 import MobileMenu from '@/components/Navigation/AllProducts/MobileMenu';
+import UserAccountButton from '@/components/buttons/UserAccountButton';
 
 function BottomNavBar() {
   const isPWA = useIsPWA();
   const router = useRouter();
   const pathname = usePathname();
-  const { isLoggedIn } = useAuth();
   const { setIsCartOpen } = usePurchase();
   const { setSearchQuery, searchProducts } = useCategoryFilter();
 
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [mobileSearchValue, setMobileSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const debounceRef = useRef(null);
 
@@ -114,10 +111,6 @@ function BottomNavBar() {
     setSearchResults([]);
     setShowMobileSearch(false);
     router.push(`/product-open/${product.handle}`);
-  };
-
-  const handleMenuClick = () => {
-    setIsMenuOpen((prev) => !prev);
   };
 
   return (
@@ -277,35 +270,15 @@ function BottomNavBar() {
                 key={index}
                 className="flex h-fit w-fit flex-col items-center justify-center"
               >
-                {!isLoggedIn ? (
-                  <button
-                    onClick={action}
-                    className={`flex h-fit w-fit cursor-pointer flex-col items-center justify-center gap-1 text-xs transition-all duration-200 ${
-                      active
-                        ? 'scale-105 text-blue-400'
-                        : 'text-white hover:scale-105 hover:text-blue-400'
-                    }`}
+                <div className="flex flex-col items-center justify-center text-xs text-white">
+                  <div
+                    className={`flex h-fit w-fit cursor-pointer flex-col items-center justify-center gap-1 text-xs text-white transition-all duration-200 hover:scale-105 hover:text-blue-400`}
                   >
-                    <Icon
-                      className={`h-5 w-5 transition-transform duration-200 ${active ? 'scale-110' : ''}`}
-                    />
-                    <span
-                      className={`transition-colors duration-200 ${active ? 'font-semibold' : ''}`}
-                    >
-                      {label}
-                    </span>
-                  </button>
-                ) : (
-                  <div className="flex flex-col items-center justify-center text-xs text-white">
-                    <UserButton
-                      afterSignOutUrl="/"
-                      appearance={{
-                        elements: { userButtonAvatarBox: 'h-6 w-6' },
-                      }}
-                    />
-                    <span className="mt-1 text-xs">Cuenta</span>
+                    <UserAccountButton />
                   </div>
-                )}
+
+                  <span className="mt-1 text-xs">Cuenta</span>
+                </div>
               </div>
             );
           }

@@ -18,7 +18,6 @@ import {
   useAuth as useClerkAuth,
   UserButton,
 } from '@clerk/nextjs';
-import OrdersModalTrigger from '@/components/buttons/OrdersModalTrigger';
 import UserAccountButton from '@/components/buttons/UserAccountButton';
 import WishlistModal from '@/components/Feedback/Modals/WishlistProductsModal';
 
@@ -50,12 +49,8 @@ TopBanner.displayName = 'TopBanner';
 
 const UserActions = memo(
   ({
-    isLoggedIn,
-    UserButtonComponent,
-    SignInButtonComponent,
     toggleCart,
     totalItems,
-    onLoginClick,
     onWishlistClick,
   }) => (
     <div className="flex items-center space-x-5">
