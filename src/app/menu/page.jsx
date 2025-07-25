@@ -143,7 +143,7 @@ export default function MenuPage() {
           <OrdersModalTrigger styles="flex w-full cursor-pointer items-center gap-4 rounded-lg bg-slate-800 p-4 transition-colors duration-200 hover:bg-slate-700">
             <div className="flex items-center gap-4 rounded-lg bg-slate-800 p-4 transition-colors duration-200 hover:bg-slate-700">
               <span className="text-xl">📦</span>
-              <span className="text-sm text-white">Órdenes</span>
+              <span className="text-sm text-white">Ordenes</span>
             </div>
           </OrdersModalTrigger>
         </div>
