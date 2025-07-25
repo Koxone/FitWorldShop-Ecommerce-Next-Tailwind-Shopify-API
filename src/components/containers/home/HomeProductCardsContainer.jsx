@@ -27,7 +27,7 @@ function HomeProductCardsContainer({
                 {title1}
               </h2>
             </div>
-            <FilterButtonsHomeRopa viewScope={viewScope1} />
+            {/* <FilterButtonsHomeRopa viewScope={viewScope1} /> */}
             <ShopifyProductCard viewScope={viewScope1} />
           </div>
         </RevealOnScroll>

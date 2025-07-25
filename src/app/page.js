@@ -27,8 +27,8 @@ export default function Home() {
         <RevealOnScroll>
           <div className="flex flex-col gap-4 md:gap-6">
             <HomeProductCardsContainer
-              title1="Quemadores"
-              subtitle1="Para Hombre y Mujer"
+              title1="lipoblue!"
+              subtitle1="Promociones de verano"
               title2="Vitaminas y Suplementos"
               subtitle2="Para tu salud"
               viewScope1="lipoblue"
