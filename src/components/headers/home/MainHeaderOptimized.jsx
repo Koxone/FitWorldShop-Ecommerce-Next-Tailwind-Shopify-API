@@ -1,12 +1,11 @@
 'use client';
 
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import generalTextData from '@/data/generalText/generalTextData';
 import LogoButton from '../../buttons/header/LogoButton';
 import HeaderButton from '../../buttons/header/HeaderButton';
 import { HeartIcon, ShoppingCartIconNew } from '../../icons/Icons';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthDEPRECATED/AuthContextOptimized';
 import {
   useCartToggle,
   useCartTotals,
@@ -107,30 +106,6 @@ function MainHeader() {
     [setCategory, router]
   );
 
-  const handleLoginClick = useCallback(() => {
-    router.push('/auth/login');
-  }, [router]);
-
-  let clerkAuth = { isSignedIn: false };
-  let UserButtonComponent = null;
-  let SignInButtonComponent = null;
-
-  try {
-    clerkAuth = useClerkAuth();
-    UserButtonComponent = UserButton;
-    SignInButtonComponent = SignInButton;
-  } catch (error) {
-    console.warn('Clerk auth not available in MainHeader:', error.message);
-  }
-
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-  useEffect(() => {
-    if (clerkAuth.isSignedIn !== undefined) {
-      setIsLoggedIn(clerkAuth.isSignedIn);
-    }
-  }, [clerkAuth.isSignedIn, setIsLoggedIn]);
-
   return (
     <>
       <TopBanner />
@@ -140,12 +115,8 @@ function MainHeader() {
           <LogoButton />
           <DesktopNavigation onCategoryClick={handleCategoryClick} />
           <UserActions
-            isLoggedIn={isLoggedIn}
-            UserButtonComponent={UserButtonComponent}
-            SignInButtonComponent={SignInButtonComponent}
             toggleCart={toggleCart}
             totalItems={totalItems}
-            onLoginClick={handleLoginClick}
             onWishlistClick={() => setWishlistModalOpen(true)}
           />
         </div>
