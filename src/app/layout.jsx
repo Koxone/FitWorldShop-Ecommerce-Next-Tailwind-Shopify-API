@@ -89,6 +89,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <head>
+        {/* Google Tag Manager */}
         <Script id="gtm-head" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -98,8 +99,10 @@ export default function RootLayout({ children }) {
             })(window,document,'script','dataLayer','GTM-TVFJBCR8');
           `}
         </Script>
+        {/* End Google Tag Manager */}
       </head>
       <body>
+        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-TVFJBCR8"
@@ -108,6 +111,7 @@ export default function RootLayout({ children }) {
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
         </noscript>
+        {/* End Google Tag Manager (noscript) */}
 
         <SplashScreen />
         <OptimizedProviders>
@@ -117,6 +121,7 @@ export default function RootLayout({ children }) {
           <MemoizedBottomNav />
           <MemoizedCart />
         </OptimizedProviders>
+
         <SpeedInsights />
         <Analytics />
       </body>
