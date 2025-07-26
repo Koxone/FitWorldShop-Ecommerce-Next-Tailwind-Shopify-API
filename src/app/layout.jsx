@@ -1,3 +1,5 @@
+'use client';
+import { useEffect } from 'react';
 import '@/app/globals.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import OptimizedProviders from '@/providers/optimized/OptimizedProviders';
@@ -86,10 +88,24 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // ✅ Detectar parámetros y enviar evento
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const discount = params.get('discount');
+    const campaign = params.get('utm_campaign');
+
+    if (discount || campaign) {
+      window.gtag?.('event', 'influencer_visit', {
+        discount_code: discount || 'N/A',
+        campaign: campaign || 'N/A',
+      });
+    }
+  }, []);
+
   return (
     <html lang="es">
       <head>
-        {/* Google Analytics (gtag.js) */}
+        {/* Google Analytics base */}
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-HFW3LSSHEY"
@@ -102,7 +118,6 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-HFW3LSSHEY');
           `}
         </Script>
-        {/* Fin Google Analytics */}
       </head>
       <body>
         <SplashScreen />
