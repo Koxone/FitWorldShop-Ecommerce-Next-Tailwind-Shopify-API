@@ -8,6 +8,7 @@ import {
   MemoizedBottomNav,
   MemoizedCart,
 } from '@/components/optimized/MemoizedComponents';
+import { Analytics } from '@vercel/analytics/next';
 import SplashScreen from '@/components/PWA/Splash';
 
 export const metadata = {
@@ -96,6 +97,7 @@ export default function RootLayout({ children }) {
           <MemoizedCart />
         </OptimizedProviders>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
