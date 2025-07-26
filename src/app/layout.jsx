@@ -10,7 +10,7 @@ import {
 } from '@/components/optimized/MemoizedComponents';
 import { Analytics } from '@vercel/analytics/next';
 import SplashScreen from '@/components/PWA/Splash';
-import Script from 'next/script';
+import GoogleAnalytics from '@/components/Analytics/GoogleAnalytics';
 
 export const metadata = {
   title: {
@@ -88,21 +88,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <head>
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-HFW3LSSHEY"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-HFW3LSSHEY');
-          `}
-        </Script>
-      </head>
+      <head />
       <body>
+        <GoogleAnalytics />
         <SplashScreen />
         <OptimizedProviders>
           <MemoizedHeader />
@@ -111,7 +99,6 @@ export default function RootLayout({ children }) {
           <MemoizedBottomNav />
           <MemoizedCart />
         </OptimizedProviders>
-
         <SpeedInsights />
         <Analytics />
       </body>
