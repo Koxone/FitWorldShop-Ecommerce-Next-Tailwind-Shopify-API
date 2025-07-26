@@ -13,6 +13,9 @@
 # testing
 /coverage
 
+# Campaings
+Influencers.md
+
 # next.js
 /.next/
 /out/
