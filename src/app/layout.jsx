@@ -11,6 +11,7 @@ import {
 import { Analytics } from '@vercel/analytics/next';
 import SplashScreen from '@/components/PWA/Splash';
 import GoogleAnalytics from '@/components/Analytics/GoogleAnalytics';
+import UTMTracker from '@/components/Analytics/UTMTracker';
 
 export const metadata = {
   title: {
@@ -90,6 +91,7 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <head />
       <body>
+        <UTMTracker />
         <GoogleAnalytics />
         <SplashScreen />
         <OptimizedProviders>
